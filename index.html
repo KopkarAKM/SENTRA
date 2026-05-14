@@ -432,13 +432,13 @@
             if (!input || !results || !list || !wrapper) return;
 
             function render(items) {
-                list.innerHTML = ''; 
+                list.innerHTML = ''; // Bersihkan hasil sebelumnya
+                
                 if (items.length === 0) {
                     list.innerHTML = `
-                        <div class="p-6 text-center text-slate-500">
+                        <div class="p-4 text-center text-slate-500">
                             <i class="ph ph-magnifying-glass text-3xl mb-2 text-slate-300"></i>
-                            <p class="text-sm font-medium">Tidak ada aplikasi ditemukan.</p>
-                            <p class="text-xs mt-1 text-slate-400">Coba gunakan kata kunci lain.</p>
+                            <p class="text-sm">Tidak ada aplikasi ditemukan.</p>
                         </div>`;
                     return;
                 }
@@ -446,17 +446,18 @@
                 items.forEach(app => {
                     const item = document.createElement('a');
                     item.href = app.url;
-                    item.className = 'flex items-start gap-3 p-3 hover:bg-slate-50 active:bg-slate-100 rounded-xl transition-colors border border-transparent hover:border-slate-100 group';
+                    item.className = 'flex items-start gap-3 p-3 hover:bg-slate-50 rounded-xl transition-colors border border-transparent hover:border-slate-100 group';
                     item.innerHTML = `
                         <div class="w-10 h-10 rounded-lg ${app.bgColor} ${app.iconColor} flex items-center justify-center shrink-0">
                             <i class="ph ${app.icon} text-xl"></i>
                         </div>
                         <div>
-                            <h4 class="text-sm font-bold text-slate-800 group-hover:text-brand-600 transition-colors">${app.title}</h4>
+                            <h4 class="text-sm font-semibold text-slate-800 group-hover:text-brand-600 transition-colors">${app.title}</h4>
                             <p class="text-xs text-slate-500 line-clamp-1 mt-0.5">${app.desc}</p>
                         </div>
                     `;
                     
+                    // Tutup dropdown saat item diklik
                     item.addEventListener('click', () => {
                         close();
                         input.value = '';
@@ -509,22 +510,20 @@
         setupSearch('searchInput', 'searchResults', 'searchResultsList', 'search-wrapper');
         setupSearch('mobileSearchInput', 'mobileSearchResults', 'mobileSearchResultsList', 'mobile-search-wrapper');
 
-        // Shortcut Keyboard Ctrl+K / Cmd+K (Hanya fokus ke Desktop search jika layar besar)
+        // Shortcut Keyboard Ctrl+K / Cmd+K
         document.addEventListener('keydown', (e) => {
             if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
                 e.preventDefault(); 
-                const desktopSearch = document.getElementById('searchInput');
-                if(window.innerWidth >= 768 && desktopSearch) {
-                    desktopSearch.focus();
+                // Cek layar besar atau kecil untuk menentukan kotak pencarian mana yang difokuskan
+                if(window.innerWidth >= 768) {
+                    document.getElementById('searchInput')?.focus();
                 } else {
-                    const mobileSearch = document.getElementById('mobileSearchInput');
-                    if(mobileSearch) mobileSearch.focus();
+                    document.getElementById('mobileSearchInput')?.focus();
                 }
             }
             if (e.key === 'Escape') {
                 document.getElementById('searchInput')?.blur();
                 document.getElementById('mobileSearchInput')?.blur();
-                // Close triggers automatically via click outside listener
             }
         });
     </script>
