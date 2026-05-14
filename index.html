@@ -14,8 +14,8 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f8fafc; /* Lighter background for better contrast */
-            -webkit-tap-highlight-color: transparent; /* Remove default tap highlight on mobile */
+            background-color: #f8fafc;
+            -webkit-tap-highlight-color: transparent;
         }
         
         /* Custom scrollbar */
@@ -34,19 +34,29 @@
         /* Card hover and touch animations */
         .app-card {
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            display: block; /* Important for filtering */
         }
         /* Hover effect for desktop */
         @media (hover: hover) {
             .app-card:hover {
                 transform: translateY(-4px);
                 box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
-                border-color: #bae6fd; /* brand-200 */
+                border-color: #bae6fd;
             }
         }
         /* Active/Touch effect for mobile */
         .app-card:active {
             transform: scale(0.98);
             background-color: #f8fafc;
+        }
+        
+        /* Smooth fade for filtering */
+        .fade-in {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
     <script>
@@ -58,7 +68,7 @@
                             50: '#f0f9ff',
                             100: '#e0f2fe',
                             200: '#bae6fd',
-                            500: '#0ea5e9', /* Adaro-like blue */
+                            500: '#0ea5e9',
                             600: '#0284c7',
                             700: '#0369a1',
                             900: '#0c4a6e',
@@ -88,18 +98,14 @@
                 </div>
 
                 <!-- Central Search Bar (Desktop Only) -->
-                <div class="hidden md:flex flex-1 max-w-xl mx-8 relative" id="search-wrapper">
+                <div class="hidden md:flex flex-1 max-w-xl mx-8 relative">
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <i class="ph ph-magnifying-glass text-slate-400 text-lg"></i>
                     </div>
+                    <!-- Dropdown dihapus, input ini akan mentrigger live filter -->
                     <input type="text" id="searchInput" autocomplete="off" class="block w-full pl-10 pr-12 py-2.5 border border-slate-200 rounded-full leading-5 bg-slate-50 placeholder-slate-400 focus:outline-none focus:bg-white focus:ring-2 focus:ring-brand-500 focus:border-brand-500 sm:text-sm transition-all shadow-inner" placeholder="Cari aplikasi, form, atau panduan...">
                     <div class="absolute inset-y-0 right-0 pr-2 flex items-center">
                         <span class="text-xs text-slate-400 border border-slate-200 rounded px-1.5 py-0.5 bg-white shadow-sm font-medium">Ctrl+K</span>
-                    </div>
-                    
-                    <!-- Search Results Dropdown -->
-                    <div id="searchResults" class="absolute top-full left-0 w-full mt-2 bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden hidden z-50 max-h-[400px] overflow-y-auto transform opacity-0 transition-all duration-200 origin-top">
-                        <div class="p-2" id="searchResultsList"></div>
                     </div>
                 </div>
 
@@ -125,11 +131,12 @@
                     <!-- User Profile -->
                     <div class="flex items-center gap-3 cursor-pointer group active:scale-95 transition-transform">
                         <div class="text-right hidden lg:block">
-                            <p class="text-sm font-semibold text-slate-800 group-hover:text-brand-600 transition-colors">KOPKAR AKM</p>
-                            <p class="text-xs text-slate-500">SMART PORTAL</p>
+                            <p class="text-sm font-semibold text-slate-800 group-hover:text-brand-600 transition-colors">Smart Portal</p>
+                            <p class="text-xs text-slate-500">Kopkar AKM</p>
                         </div>
                         <div class="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-brand-100 border-2 border-transparent group-hover:border-brand-500 flex items-center justify-center text-brand-700 font-bold overflow-hidden transition-all shadow-sm">
-                            <img src="https://ui-avatars.com/api/?name=S+K&background=0ea5e9&color=fff&bold=true" alt="User Avatar" class="w-full h-full object-cover">
+                            <!-- Inisial diubah menjadi SP (Smart Portal) -->
+                            <img src="https://ui-avatars.com/api/?name=S+P&background=0ea5e9&color=fff&bold=true" alt="User Avatar" class="w-full h-full object-cover">
                         </div>
                     </div>
                 </div>
@@ -147,39 +154,35 @@
             <div class="absolute bottom-0 right-10 sm:right-20 -mb-10 sm:-mb-20 w-32 sm:w-48 h-32 sm:h-48 rounded-full bg-accent-500 opacity-10 blur-2xl sm:blur-3xl"></div>
             
             <div class="relative z-10">
-                <div class="inline-block bg-brand-50 text-brand-700 px-3 py-1.5 sm:px-4 sm:py-1.5 rounded-full text-[10px] sm:text-xs tracking-wider uppercase mb-4 sm:mb-5 border border-brand-100 shadow-sm font-medium">
-                    <span class="font-black text-rose-600 text-xs sm:text-sm">S</span>ISTEM 
-                    <span class="font-black text-rose-600 text-xs sm:text-sm">E</span>-PORTAL & 
-                    <span class="font-black text-rose-600 text-xs sm:text-sm">N</span>ETWORK 
-                    <span class="font-black text-rose-600 text-xs sm:text-sm">T</span>ERPADU KOPKA<span class="font-black text-rose-600 text-xs sm:text-sm">R</span> 
-                    <span class="font-black text-rose-600 text-xs sm:text-sm">A</span>KM
+                <div class="inline-block bg-brand-50 text-brand-700 px-4 py-1.5 rounded-full text-xs tracking-wider uppercase mb-4 sm:mb-5 border border-brand-100 shadow-sm font-medium">
+                    <span class="font-black text-rose-600 text-sm">S</span>ISTEM 
+                    <span class="font-black text-rose-600 text-sm">E</span>-PORTAL & 
+                    <span class="font-black text-rose-600 text-sm">N</span>ETWORK 
+                    <span class="font-black text-rose-600 text-sm">T</span>ERPADU KOPKA<span class="font-black text-rose-600 text-sm">R</span> 
+                    <span class="font-black text-rose-600 text-sm">A</span>KM
                 </div>
                 <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mb-2 sm:mb-3 tracking-tight">Selamat Datang di SENTRA</h2>
                 <p class="text-slate-500 sm:text-slate-600 max-w-2xl text-sm sm:text-lg leading-relaxed">Pusat kendali layanan, aplikasi, dan sistem informasi terpadu untuk anggota dan pengelola Koperasi Karyawan Adaro Karya Mandiri.</p>
                 
                 <!-- Mobile Search Bar (Visible ONLY on mobile devices) -->
-                <div class="mt-6 md:hidden relative" id="mobile-search-wrapper">
+                <div class="mt-6 md:hidden relative">
                     <div class="relative group">
                         <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                             <i class="ph ph-magnifying-glass text-brand-500 text-xl group-focus-within:text-brand-600 transition-colors"></i>
                         </div>
+                        <!-- Dropdown dihapus, input ini akan mentrigger live filter -->
                         <input type="text" id="mobileSearchInput" autocomplete="off" class="block w-full pl-12 pr-4 py-3.5 border border-slate-200 rounded-2xl bg-slate-50/50 shadow-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 focus:bg-white transition-all text-sm" placeholder="Cari aplikasi atau form di sini...">
-                    </div>
-                    
-                    <!-- Search Results Dropdown Mobile -->
-                    <div id="mobileSearchResults" class="absolute top-full left-0 w-full mt-2 bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden hidden z-50 max-h-[300px] overflow-y-auto transform opacity-0 transition-all duration-200 origin-top">
-                        <div class="p-2 flex flex-col gap-1" id="mobileSearchResultsList"></div>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- Applications Grid -->
-        <div class="space-y-10 sm:space-y-14">
+        <div class="space-y-10 sm:space-y-14" id="app-container">
             
             <!-- Section 1: HR & Administrasi -->
-            <section>
-                <div class="flex items-center gap-3 mb-4 sm:mb-6">
+            <section class="app-section">
+                <div class="flex items-center gap-3 mb-4 sm:mb-6 section-header">
                     <div class="bg-indigo-100 text-indigo-600 p-2 sm:p-2.5 rounded-xl">
                         <i class="ph ph-users-three text-lg sm:text-xl"></i>
                     </div>
@@ -187,53 +190,50 @@
                 </div>
                 
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-                    <!-- App Card 1: Absensi -->
-                    <a href="https://www.appsheet.com/start/147f850b-a296-4326-a409-dc463c9c4b52#table=Presensi%20Masuk&page=form" class="app-card block group bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-100">
+                    <a href="https://www.appsheet.com/start/147f850b-a296-4326-a409-dc463c9c4b52#table=Presensi%20Masuk&page=form" class="app-card bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-100">
                         <div class="flex items-start justify-between mb-3 sm:mb-4">
                             <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                                 <i class="ph ph-calendar-check text-2xl sm:text-3xl"></i>
                             </div>
-                            <div class="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center group-hover:bg-brand-50 transition-colors">
-                                <i class="ph ph-arrow-up-right text-slate-400 group-hover:text-brand-600"></i>
+                            <div class="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center transition-colors">
+                                <i class="ph ph-arrow-up-right text-slate-400"></i>
                             </div>
                         </div>
-                        <h4 class="text-base sm:text-lg font-bold text-slate-800 mb-1 group-hover:text-brand-600 transition-colors">Absensi Online</h4>
-                        <p class="text-xs sm:text-sm text-slate-500 line-clamp-2 leading-relaxed">Portal pencatatan kehadiran harian karyawan koperasi.</p>
+                        <h4 class="text-base sm:text-lg font-bold text-slate-800 mb-1 app-title">Absensi Online</h4>
+                        <p class="text-xs sm:text-sm text-slate-500 line-clamp-2 leading-relaxed app-desc">Portal pencatatan kehadiran harian karyawan koperasi.</p>
                     </a>
 
-                    <!-- App Card 2: Pengajuan Cuti -->
-                    <a href="https://kopkarakm.github.io/CutiKaryawanKopkarAKM/" class="app-card block group bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-100">
+                    <a href="https://kopkarakm.github.io/CutiKaryawanKopkarAKM/" class="app-card bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-100">
                         <div class="flex items-start justify-between mb-3 sm:mb-4">
-                            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center transition-transform duration-300">
                                 <i class="ph ph-airplane-tilt text-2xl sm:text-3xl"></i>
                             </div>
-                            <div class="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center group-hover:bg-brand-50 transition-colors">
-                                <i class="ph ph-arrow-up-right text-slate-400 group-hover:text-brand-600"></i>
+                            <div class="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center transition-colors">
+                                <i class="ph ph-arrow-up-right text-slate-400"></i>
                             </div>
                         </div>
-                        <h4 class="text-base sm:text-lg font-bold text-slate-800 mb-1 group-hover:text-brand-600 transition-colors">Pengajuan Cuti</h4>
-                        <p class="text-xs sm:text-sm text-slate-500 line-clamp-2 leading-relaxed">Sistem permohonan dan persetujuan cuti karyawan.</p>
+                        <h4 class="text-base sm:text-lg font-bold text-slate-800 mb-1 app-title">Pengajuan Cuti</h4>
+                        <p class="text-xs sm:text-sm text-slate-500 line-clamp-2 leading-relaxed app-desc">Sistem permohonan dan persetujuan cuti karyawan.</p>
                     </a>
 
-                    <!-- App Card 3: MOM Meeting -->
-                    <a href="https://kopkarakm.github.io/MomKopkarAkm/" class="app-card block group bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-100">
+                    <a href="https://kopkarakm.github.io/MomKopkarAkm/" class="app-card bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-100">
                         <div class="flex items-start justify-between mb-3 sm:mb-4">
-                            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center transition-transform duration-300">
                                 <i class="ph ph-notebook text-2xl sm:text-3xl"></i>
                             </div>
-                            <div class="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center group-hover:bg-brand-50 transition-colors">
-                                <i class="ph ph-arrow-up-right text-slate-400 group-hover:text-brand-600"></i>
+                            <div class="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center transition-colors">
+                                <i class="ph ph-arrow-up-right text-slate-400"></i>
                             </div>
                         </div>
-                        <h4 class="text-base sm:text-lg font-bold text-slate-800 mb-1 group-hover:text-brand-600 transition-colors">MOM Meeting</h4>
-                        <p class="text-xs sm:text-sm text-slate-500 line-clamp-2 leading-relaxed">Arsip Minutes of Meeting (Notulensi Rapat) internal.</p>
+                        <h4 class="text-base sm:text-lg font-bold text-slate-800 mb-1 app-title">MOM Meeting</h4>
+                        <p class="text-xs sm:text-sm text-slate-500 line-clamp-2 leading-relaxed app-desc">Arsip Minutes of Meeting (Notulensi Rapat) internal.</p>
                     </a>
                 </div>
             </section>
 
             <!-- Section 2: Keuangan & Operasional -->
-            <section>
-                <div class="flex items-center gap-3 mb-4 sm:mb-6">
+            <section class="app-section">
+                <div class="flex items-center gap-3 mb-4 sm:mb-6 section-header">
                     <div class="bg-teal-100 text-teal-600 p-2 sm:p-2.5 rounded-xl">
                         <i class="ph ph-wallet text-lg sm:text-xl"></i>
                     </div>
@@ -241,67 +241,63 @@
                 </div>
                 
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-                    <!-- App Card 5: Pinjaman Sukarela -->
-                    <a href="https://kopkarakm.github.io/Penarikan-Sukarela-/" class="app-card block group bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-100">
+                    <a href="https://kopkarakm.github.io/Penarikan-Sukarela-/" class="app-card bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-100">
                         <div class="flex items-start justify-between mb-3 sm:mb-4">
-                            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center transition-transform duration-300">
                                 <i class="ph ph-hand-coins text-2xl sm:text-3xl"></i>
                             </div>
-                            <div class="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center group-hover:bg-brand-50 transition-colors">
-                                <i class="ph ph-arrow-up-right text-slate-400 group-hover:text-brand-600"></i>
+                            <div class="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center transition-colors">
+                                <i class="ph ph-arrow-up-right text-slate-400"></i>
                             </div>
                         </div>
-                        <h4 class="text-base sm:text-lg font-bold text-slate-800 mb-1 group-hover:text-brand-600 transition-colors">Pinjaman Sukarela</h4>
-                        <p class="text-xs sm:text-sm text-slate-500 line-clamp-2 leading-relaxed">Formulir pengajuan pinjaman sukarela anggota.</p>
+                        <h4 class="text-base sm:text-lg font-bold text-slate-800 mb-1 app-title">Pinjaman Sukarela</h4>
+                        <p class="text-xs sm:text-sm text-slate-500 line-clamp-2 leading-relaxed app-desc">Formulir pengajuan pinjaman sukarela anggota.</p>
                     </a>
 
-                    <!-- App Card 6: Kas Opname -->
-                    <a href="https://kopkarakm.github.io/Aplikasi-Kas-KOPKAR/" class="app-card block group bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-100">
+                    <a href="https://kopkarakm.github.io/Aplikasi-Kas-KOPKAR/" class="app-card bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-100">
                         <div class="flex items-start justify-between mb-3 sm:mb-4">
-                            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-orange-100 text-orange-600 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-orange-100 text-orange-600 flex items-center justify-center transition-transform duration-300">
                                 <i class="ph ph-safe text-2xl sm:text-3xl"></i>
                             </div>
-                            <div class="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center group-hover:bg-brand-50 transition-colors">
-                                <i class="ph ph-arrow-up-right text-slate-400 group-hover:text-brand-600"></i>
+                            <div class="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center transition-colors">
+                                <i class="ph ph-arrow-up-right text-slate-400"></i>
                             </div>
                         </div>
-                        <h4 class="text-base sm:text-lg font-bold text-slate-800 mb-1 group-hover:text-brand-600 transition-colors">Kas Opname</h4>
-                        <p class="text-xs sm:text-sm text-slate-500 line-clamp-2 leading-relaxed">Pencatatan dan laporan perhitungan fisik kas (Cash Count).</p>
+                        <h4 class="text-base sm:text-lg font-bold text-slate-800 mb-1 app-title">Kas Opname</h4>
+                        <p class="text-xs sm:text-sm text-slate-500 line-clamp-2 leading-relaxed app-desc">Pencatatan dan laporan perhitungan fisik kas (Cash Count).</p>
                     </a>
 
-                    <!-- App Card 7: Rekening Koran -->
-                    <a href="https://kopkarakm.github.io/RekKor-AKM/" class="app-card block group bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-100">
+                    <a href="https://kopkarakm.github.io/RekKor-AKM/" class="app-card bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-100">
                         <div class="flex items-start justify-between mb-3 sm:mb-4">
-                            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-cyan-100 text-cyan-600 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-cyan-100 text-cyan-600 flex items-center justify-center transition-transform duration-300">
                                 <i class="ph ph-receipt text-2xl sm:text-3xl"></i>
                             </div>
-                            <div class="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center group-hover:bg-brand-50 transition-colors">
-                                <i class="ph ph-arrow-up-right text-slate-400 group-hover:text-brand-600"></i>
+                            <div class="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center transition-colors">
+                                <i class="ph ph-arrow-up-right text-slate-400"></i>
                             </div>
                         </div>
-                        <h4 class="text-base sm:text-lg font-bold text-slate-800 mb-1 group-hover:text-brand-600 transition-colors">Rekening Koran</h4>
-                        <p class="text-xs sm:text-sm text-slate-500 line-clamp-2 leading-relaxed">Cek mutasi dan saldo simpanan/pinjaman anggota.</p>
+                        <h4 class="text-base sm:text-lg font-bold text-slate-800 mb-1 app-title">Rekening Koran</h4>
+                        <p class="text-xs sm:text-sm text-slate-500 line-clamp-2 leading-relaxed app-desc">Cek mutasi dan saldo simpanan/pinjaman anggota.</p>
                     </a>
 
-                    <!-- App Card 8: Pengajuan BDV -->
-                    <a href="https://kopkarakm.github.io/BDV-Manager/" class="app-card block group bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-100">
+                    <a href="https://kopkarakm.github.io/BDV-Manager/" class="app-card bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-100">
                         <div class="flex items-start justify-between mb-3 sm:mb-4">
-                            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-fuchsia-100 text-fuchsia-600 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-fuchsia-100 text-fuchsia-600 flex items-center justify-center transition-transform duration-300">
                                 <i class="ph ph-file-text text-2xl sm:text-3xl"></i>
                             </div>
-                            <div class="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center group-hover:bg-brand-50 transition-colors">
-                                <i class="ph ph-arrow-up-right text-slate-400 group-hover:text-brand-600"></i>
+                            <div class="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center transition-colors">
+                                <i class="ph ph-arrow-up-right text-slate-400"></i>
                             </div>
                         </div>
-                        <h4 class="text-base sm:text-lg font-bold text-slate-800 mb-1 group-hover:text-brand-600 transition-colors">Pengajuan BDV</h4>
-                        <p class="text-xs sm:text-sm text-slate-500 line-clamp-2 leading-relaxed">Sistem pengajuan Bank Disbursement Voucher.</p>
+                        <h4 class="text-base sm:text-lg font-bold text-slate-800 mb-1 app-title">Pengajuan BDV</h4>
+                        <p class="text-xs sm:text-sm text-slate-500 line-clamp-2 leading-relaxed app-desc">Sistem pengajuan Bank Disbursement Voucher.</p>
                     </a>
                 </div>
             </section>
 
             <!-- Section 3: Dokumen & Referensi -->
-            <section>
-                <div class="flex items-center gap-3 mb-4 sm:mb-6">
+            <section class="app-section">
+                <div class="flex items-center gap-3 mb-4 sm:mb-6 section-header">
                     <div class="bg-slate-200 text-slate-700 p-2 sm:p-2.5 rounded-xl">
                         <i class="ph ph-books text-lg sm:text-xl"></i>
                     </div>
@@ -309,25 +305,24 @@
                 </div>
                 
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-                    <!-- App Card 9: SOM Koperasi -->
-                    <a href="#link-som" class="app-card block group bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-100">
+                    <a href="#link-som" class="app-card bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-100">
                         <div class="flex items-start justify-between mb-3 sm:mb-4">
-                            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-slate-100 text-slate-600 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-slate-100 text-slate-600 flex items-center justify-center transition-transform duration-300">
                                 <i class="ph ph-book-open-text text-2xl sm:text-3xl"></i>
                             </div>
-                            <div class="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center group-hover:bg-brand-50 transition-colors">
-                                <i class="ph ph-arrow-up-right text-slate-400 group-hover:text-brand-600"></i>
+                            <div class="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center transition-colors">
+                                <i class="ph ph-arrow-up-right text-slate-400"></i>
                             </div>
                         </div>
-                        <h4 class="text-base sm:text-lg font-bold text-slate-800 mb-1 group-hover:text-brand-600 transition-colors">SOM Koperasi</h4>
-                        <p class="text-xs sm:text-sm text-slate-500 line-clamp-2 leading-relaxed">Standar Operasional Manajemen dan pedoman kebijakan.</p>
+                        <h4 class="text-base sm:text-lg font-bold text-slate-800 mb-1 app-title">SOM Koperasi</h4>
+                        <p class="text-xs sm:text-sm text-slate-500 line-clamp-2 leading-relaxed app-desc">Standar Operasional Manajemen dan pedoman kebijakan.</p>
                     </a>
                 </div>
             </section>
 
-            <!-- Section 4: Manajemen & Kinerja (Khusus Pengelola) -->
-            <section>
-                <div class="flex items-center gap-3 mb-4 sm:mb-6">
+            <!-- Section 4: Manajemen & Kinerja -->
+            <section class="app-section">
+                <div class="flex items-center gap-3 mb-4 sm:mb-6 section-header">
                     <div class="bg-red-100 text-red-600 p-2 sm:p-2.5 rounded-xl">
                         <i class="ph ph-trend-up text-lg sm:text-xl"></i>
                     </div>
@@ -338,35 +333,43 @@
                 </div>
                 
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-                    <!-- App Card 4: Analisa Absensi -->
-                    <a href="https://kopkarakm.github.io/Absensi-Pengelola-Report/" class="app-card block group bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-100">
+                    <a href="https://kopkarakm.github.io/Absensi-Pengelola-Report/" class="app-card bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-100">
                         <div class="flex items-start justify-between mb-3 sm:mb-4">
-                            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center transition-transform duration-300">
                                 <i class="ph ph-chart-bar text-2xl sm:text-3xl"></i>
                             </div>
-                            <div class="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center group-hover:bg-brand-50 transition-colors">
-                                <i class="ph ph-arrow-up-right text-slate-400 group-hover:text-brand-600"></i>
+                            <div class="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center transition-colors">
+                                <i class="ph ph-arrow-up-right text-slate-400"></i>
                             </div>
                         </div>
-                        <h4 class="text-base sm:text-lg font-bold text-slate-800 mb-1 group-hover:text-brand-600 transition-colors">Analisa Absensi</h4>
-                        <p class="text-xs sm:text-sm text-slate-500 line-clamp-2 leading-relaxed">Dashboard reporting dan analisa tingkat kehadiran.</p>
+                        <h4 class="text-base sm:text-lg font-bold text-slate-800 mb-1 app-title">Analisa Absensi</h4>
+                        <p class="text-xs sm:text-sm text-slate-500 line-clamp-2 leading-relaxed app-desc">Dashboard reporting dan analisa tingkat kehadiran.</p>
                     </a>
 
-                    <!-- App Card 10: Analisa Job Goal -->
-                    <a href="https://kopkarakm.github.io/JobGoals/" class="app-card block group bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-100">
+                    <a href="https://kopkarakm.github.io/JobGoals/" class="app-card bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-100">
                         <div class="flex items-start justify-between mb-3 sm:mb-4">
-                            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-violet-100 text-violet-600 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-violet-100 text-violet-600 flex items-center justify-center transition-transform duration-300">
                                 <i class="ph ph-target text-2xl sm:text-3xl"></i>
                             </div>
-                            <div class="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center group-hover:bg-brand-50 transition-colors">
-                                <i class="ph ph-arrow-up-right text-slate-400 group-hover:text-brand-600"></i>
+                            <div class="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center transition-colors">
+                                <i class="ph ph-arrow-up-right text-slate-400"></i>
                             </div>
                         </div>
-                        <h4 class="text-base sm:text-lg font-bold text-slate-800 mb-1 group-hover:text-brand-600 transition-colors">Analisa Job Goal</h4>
-                        <p class="text-xs sm:text-sm text-slate-500 line-clamp-2 leading-relaxed">Tracking pencapaian target kerja bulanan pengelola.</p>
+                        <h4 class="text-base sm:text-lg font-bold text-slate-800 mb-1 app-title">Analisa Job Goal</h4>
+                        <p class="text-xs sm:text-sm text-slate-500 line-clamp-2 leading-relaxed app-desc">Tracking pencapaian target kerja bulanan pengelola.</p>
                     </a>
                 </div>
             </section>
+            
+            <!-- Pesan jika hasil pencarian kosong -->
+            <div id="no-results-msg" class="hidden py-12 text-center">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-100 text-slate-400 mb-4">
+                    <i class="ph ph-magnifying-glass text-3xl"></i>
+                </div>
+                <h3 class="text-lg font-bold text-slate-800 mb-1">Aplikasi Tidak Ditemukan</h3>
+                <p class="text-slate-500 text-sm">Coba gunakan kata kunci lain untuk mencari.</p>
+            </div>
+
         </div>
     </main>
 
@@ -404,126 +407,86 @@
                 timeElement.textContent = now.toLocaleTimeString('id-ID', timeOptions);
             }
         }
-        
         updateClock(); 
         setInterval(updateClock, 60000); 
 
-        // Data Aplikasi untuk Fitur Pencarian
-        const portalApps = [
-            { title: 'Absensi Online', desc: 'Portal pencatatan kehadiran harian karyawan koperasi.', url: 'https://www.appsheet.com/start/147f850b-a296-4326-a409-dc463c9c4b52#table=Presensi%20Masuk&page=form', icon: 'ph-calendar-check', bgColor: 'bg-emerald-100', iconColor: 'text-emerald-600' },
-            { title: 'Pengajuan Cuti', desc: 'Sistem permohonan dan persetujuan cuti karyawan.', url: 'https://kopkarakm.github.io/CutiKaryawanKopkarAKM/', icon: 'ph-airplane-tilt', bgColor: 'bg-amber-100', iconColor: 'text-amber-600' },
-            { title: 'MOM Meeting', desc: 'Arsip Minutes of Meeting (Notulensi Rapat) internal.', url: 'https://kopkarakm.github.io/MomKopkarAkm/', icon: 'ph-notebook', bgColor: 'bg-purple-100', iconColor: 'text-purple-600' },
-            { title: 'Pinjaman Sukarela', desc: 'Formulir pengajuan pinjaman sukarela anggota.', url: 'https://kopkarakm.github.io/Penarikan-Sukarela-/', icon: 'ph-hand-coins', bgColor: 'bg-blue-100', iconColor: 'text-blue-600' },
-            { title: 'Kas Opname', desc: 'Pencatatan dan laporan perhitungan fisik kas (Cash Count).', url: 'https://kopkarakm.github.io/Aplikasi-Kas-KOPKAR/', icon: 'ph-safe', bgColor: 'bg-orange-100', iconColor: 'text-orange-600' },
-            { title: 'Rekening Koran', desc: 'Cek mutasi dan saldo simpanan/pinjaman anggota.', url: 'https://kopkarakm.github.io/RekKor-AKM/', icon: 'ph-receipt', bgColor: 'bg-cyan-100', iconColor: 'text-cyan-600' },
-            { title: 'Pengajuan BDV', desc: 'Sistem pengajuan Bank Disbursement Voucher.', url: 'https://kopkarakm.github.io/BDV-Manager/', icon: 'ph-file-text', bgColor: 'bg-fuchsia-100', iconColor: 'text-fuchsia-600' },
-            { title: 'SOM Koperasi', desc: 'Standar Operasional Manajemen dan pedoman kebijakan.', url: '#link-som', icon: 'ph-book-open-text', bgColor: 'bg-slate-100', iconColor: 'text-slate-600' },
-            { title: 'Analisa Absensi', desc: 'Dashboard reporting dan analisa tingkat kehadiran.', url: 'https://kopkarakm.github.io/Absensi-Pengelola-Report/', icon: 'ph-chart-bar', bgColor: 'bg-rose-100', iconColor: 'text-rose-600' },
-            { title: 'Analisa Job Goal', desc: 'Tracking pencapaian target kerja bulanan pengelola.', url: 'https://kopkarakm.github.io/JobGoals/', icon: 'ph-target', bgColor: 'bg-violet-100', iconColor: 'text-violet-600' }
-        ];
+        // ==========================================
+        // SISTEM LIVE FILTER PENCARIAN
+        // ==========================================
+        const desktopSearch = document.getElementById('searchInput');
+        const mobileSearch = document.getElementById('mobileSearchInput');
+        const allSections = document.querySelectorAll('.app-section');
+        const noResultsMsg = document.getElementById('no-results-msg');
 
-        // Fungsi Universal untuk Setup Pencarian (Desktop & Mobile)
-        function setupSearch(inputId, resultsId, listId, wrapperId) {
-            const input = document.getElementById(inputId);
-            const results = document.getElementById(resultsId);
-            const list = document.getElementById(listId);
-            const wrapper = document.getElementById(wrapperId);
+        function performSearch(query) {
+            const searchTerm = query.toLowerCase().trim();
+            let totalVisibleCards = 0;
 
-            if (!input || !results || !list || !wrapper) return;
+            // Sinkronisasi teks input antara versi mobile dan desktop
+            if (desktopSearch && desktopSearch.value !== query) desktopSearch.value = query;
+            if (mobileSearch && mobileSearch.value !== query) mobileSearch.value = query;
 
-            function render(items) {
-                list.innerHTML = ''; // Bersihkan hasil sebelumnya
-                
-                if (items.length === 0) {
-                    list.innerHTML = `
-                        <div class="p-4 text-center text-slate-500">
-                            <i class="ph ph-magnifying-glass text-3xl mb-2 text-slate-300"></i>
-                            <p class="text-sm">Tidak ada aplikasi ditemukan.</p>
-                        </div>`;
-                    return;
-                }
+            // Loop melalui setiap Kategori (Section)
+            allSections.forEach(section => {
+                const cards = section.querySelectorAll('.app-card');
+                let sectionHasVisibleCards = false;
 
-                items.forEach(app => {
-                    const item = document.createElement('a');
-                    item.href = app.url;
-                    item.className = 'flex items-start gap-3 p-3 hover:bg-slate-50 rounded-xl transition-colors border border-transparent hover:border-slate-100 group';
-                    item.innerHTML = `
-                        <div class="w-10 h-10 rounded-lg ${app.bgColor} ${app.iconColor} flex items-center justify-center shrink-0">
-                            <i class="ph ${app.icon} text-xl"></i>
-                        </div>
-                        <div>
-                            <h4 class="text-sm font-semibold text-slate-800 group-hover:text-brand-600 transition-colors">${app.title}</h4>
-                            <p class="text-xs text-slate-500 line-clamp-1 mt-0.5">${app.desc}</p>
-                        </div>
-                    `;
-                    
-                    // Tutup dropdown saat item diklik
-                    item.addEventListener('click', () => {
-                        close();
-                        input.value = '';
-                    });
-                    
-                    list.appendChild(item);
+                // Loop melalui setiap Kartu dalam Section tersebut
+                cards.forEach(card => {
+                    // Ambil teks Judul dan Deskripsi
+                    const title = card.querySelector('.app-title').textContent.toLowerCase();
+                    const desc = card.querySelector('.app-desc').textContent.toLowerCase();
+
+                    // Jika kata kunci cocok
+                    if (title.includes(searchTerm) || desc.includes(searchTerm)) {
+                        card.style.display = 'block'; // Tampilkan kartu
+                        card.classList.add('fade-in'); // Tambah efek animasi
+                        sectionHasVisibleCards = true;
+                        totalVisibleCards++;
+                    } else {
+                        card.style.display = 'none'; // Sembunyikan kartu
+                        card.classList.remove('fade-in');
+                    }
                 });
-            }
 
-            function open() {
-                results.classList.remove('hidden');
-                setTimeout(() => {
-                    results.classList.remove('opacity-0', 'scale-y-95');
-                    results.classList.add('opacity-100', 'scale-y-100');
-                }, 10);
-            }
-
-            function close() {
-                results.classList.remove('opacity-100', 'scale-y-100');
-                results.classList.add('opacity-0', 'scale-y-95');
-                setTimeout(() => {
-                    results.classList.add('hidden');
-                }, 200); 
-            }
-
-            input.addEventListener('input', (e) => {
-                const searchTerm = e.target.value.toLowerCase().trim();
-                if (searchTerm.length > 0) {
-                    const filtered = portalApps.filter(app => 
-                        app.title.toLowerCase().includes(searchTerm) || 
-                        app.desc.toLowerCase().includes(searchTerm)
-                    );
-                    render(filtered);
-                    open();
+                // Jika tidak ada kartu yg tampil di section ini, sembunyikan seluruh section (termasuk judulnya)
+                if (sectionHasVisibleCards) {
+                    section.style.display = 'block';
                 } else {
-                    close();
+                    section.style.display = 'none';
                 }
             });
 
-            document.addEventListener('click', (e) => {
-                if (!wrapper.contains(e.target)) close();
-            });
-            
-            input.addEventListener('focus', () => {
-                if (input.value.trim().length > 0) open();
-            });
+            // Tampilkan pesan error jika pencarian tidak membuahkan hasil
+            if (totalVisibleCards === 0 && searchTerm !== '') {
+                noResultsMsg.classList.remove('hidden');
+            } else {
+                noResultsMsg.classList.add('hidden');
+            }
         }
 
-        // Inisialisasi Search untuk Desktop dan Mobile
-        setupSearch('searchInput', 'searchResults', 'searchResultsList', 'search-wrapper');
-        setupSearch('mobileSearchInput', 'mobileSearchResults', 'mobileSearchResultsList', 'mobile-search-wrapper');
+        // Listener untuk mengetik di kotak pencarian
+        if (desktopSearch) {
+            desktopSearch.addEventListener('input', (e) => performSearch(e.target.value));
+        }
+        if (mobileSearch) {
+            mobileSearch.addEventListener('input', (e) => performSearch(e.target.value));
+        }
 
         // Shortcut Keyboard Ctrl+K / Cmd+K
         document.addEventListener('keydown', (e) => {
             if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
                 e.preventDefault(); 
-                // Cek layar besar atau kecil untuk menentukan kotak pencarian mana yang difokuskan
                 if(window.innerWidth >= 768) {
-                    document.getElementById('searchInput')?.focus();
+                    desktopSearch?.focus();
                 } else {
-                    document.getElementById('mobileSearchInput')?.focus();
+                    mobileSearch?.focus();
                 }
             }
             if (e.key === 'Escape') {
-                document.getElementById('searchInput')?.blur();
-                document.getElementById('mobileSearchInput')?.blur();
+                desktopSearch?.blur();
+                mobileSearch?.blur();
+                performSearch(''); // Reset pencarian jika menekan Escape
             }
         });
     </script>
