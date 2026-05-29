@@ -30,9 +30,11 @@
 </head>
 <body class="text-slate-800 antialiased selection:bg-blue-200 selection:text-blue-900 flex flex-col min-h-screen">
 
+    <!-- Header (Sticky) -->
     <header class="glass-header sticky top-0 z-40 w-full">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16 sm:h-20">
+                <!-- Logo & Title -->
                 <div class="flex items-center gap-2.5 sm:gap-3 shrink-0">
                     <img src="https://i.ibb.co.com/WvTwLMn5/image-1.png" alt="Logo Kopkar AKM" class="h-9 sm:h-11 w-auto object-contain">
                     <div>
@@ -41,7 +43,7 @@
                     </div>
                 </div>
 
-                <!-- DESKTOP SEARCH -->
+                <!-- Global Search (Desktop) -->
                 <div class="hidden md:flex items-center flex-1 max-w-md ml-12 relative">
                     <div class="relative w-full group">
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 group-focus-within:text-blue-500 transition-colors">
@@ -55,6 +57,7 @@
                     </div>
                 </div>
 
+                <!-- Right Actions (Live Clock & Date) -->
                 <div class="flex items-center gap-2 sm:gap-4 ml-4">
                     <button class="md:hidden w-10 h-10 flex items-center justify-center text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded-full transition" id="mobile-search-toggle">
                         <i class="ph ph-magnifying-glass text-xl"></i>
@@ -67,7 +70,7 @@
                 </div>
             </div>
             
-            <!-- MOBILE SEARCH -->
+            <!-- Global Search (Mobile Dropdown) -->
             <div class="md:hidden hidden pb-4 relative" id="mobile-search-container">
                 <div class="relative w-full">
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
@@ -83,8 +86,10 @@
         </div>
     </header>
 
+    <!-- Main Content -->
     <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
         
+        <!-- Welcome Section -->
         <div class="mb-8 sm:mb-12 bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-slate-100 relative overflow-hidden">
             <div class="absolute top-0 right-0 -mr-10 sm:-mr-20 -mt-10 sm:-mt-20 w-48 sm:w-64 h-48 sm:h-64 rounded-full bg-blue-50 opacity-70 blur-2xl sm:blur-3xl pointer-events-none"></div>
             <div class="absolute bottom-0 right-10 sm:right-20 -mb-10 sm:-mb-20 w-32 sm:w-48 h-32 sm:h-48 rounded-full bg-orange-50 opacity-50 blur-2xl sm:blur-3xl pointer-events-none"></div>
@@ -103,7 +108,7 @@
         </div>
 
         <!-- ========================================== -->
-        <!-- WIDGETS SECTION (KEHADIRAN, TUGAS, BISNIS) -->
+        <!-- WIDGETS SECTION (KEHADIRAN, TUGAS)         -->
         <!-- ========================================== -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12">
             
@@ -157,60 +162,37 @@
                 </div>
             </div>
 
-            <!-- Kolom Kanan: Butuh Persetujuan & Adamart -->
-            <div class="grid grid-rows-2 gap-6">
-                <!-- Widget: Pending Tasks -->
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col relative overflow-hidden">
-                    <div class="absolute top-0 right-0 p-4 opacity-10 pointer-events-none">
-                        <i class="ph-fill ph-bell-ringing text-6xl text-amber-500"></i>
-                    </div>
-                    <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wider flex items-center gap-2 mb-4 relative z-10 border-b border-slate-100 pb-3">
-                        <i class="ph-fill ph-warning-circle text-amber-500 text-lg"></i> Butuh Persetujuan
-                    </h3>
-                    
-                    <div class="flex-1 flex flex-col justify-center gap-4 relative z-10">
-                        <!-- Baris Cuti -->
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-3">
-                                <h2 class="text-2xl font-black text-slate-400 w-8 text-center" id="pending-cuti-count"><i class="ph ph-spinner animate-spin text-lg"></i></h2>
-                                <span class="text-sm font-semibold text-slate-600 leading-tight">Cuti Karyawan<br>
-                                    <a href="https://kopkarakm.github.io/CutiKaryawanKopkarAKM/" target="_blank" class="text-xs text-blue-600 hover:underline">Tinjau <i class="ph-bold ph-caret-right"></i></a>
-                                </span>
-                            </div>
-                        </div>
-                        
-                        <div class="w-full h-px bg-slate-100"></div>
-
-                        <!-- Baris Opname Kas -->
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-3">
-                                <h2 class="text-2xl font-black text-slate-400 w-8 text-center" id="pending-opname-count"><i class="ph ph-spinner animate-spin text-lg"></i></h2>
-                                <span class="text-sm font-semibold text-slate-600 leading-tight">Opname Kas<br>
-                                    <button onclick="openModalOpname()" class="text-xs text-blue-600 hover:underline text-left">Lihat Detail <i class="ph-bold ph-caret-right"></i></button>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
+            <!-- Widget 2: Pending Tasks -->
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-4 opacity-10 pointer-events-none">
+                    <i class="ph-fill ph-bell-ringing text-6xl text-amber-500"></i>
                 </div>
-
-                <!-- Widget: Adamart Harian (Realtime dari Push API) -->
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-center relative overflow-hidden">
-                    <div class="absolute top-0 right-0 p-4 opacity-10">
-                        <i class="ph-fill ph-storefront text-6xl text-emerald-500"></i>
-                    </div>
-                    <h3 class="text-sm font-bold text-slate-500 uppercase tracking-wider flex items-center gap-2 mb-2 relative z-10">
-                        <i class="ph-fill ph-chart-line-up text-emerald-500 text-lg"></i> Adamart Harian
-                    </h3>
-                    <div class="relative z-10">
-                        <h2 class="text-2xl font-black text-slate-400 truncate" id="adamart-sales-amount"><i class="ph ph-spinner animate-spin text-xl"></i></h2>
-                        <!-- Area ini akan diisi rincian lokasi jika ada data -->
-                        <div class="text-[11px] font-semibold text-slate-500 mt-1 flex flex-wrap gap-1" id="adamart-sales-detail">
-                            Memuat data omzet...
+                <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wider flex items-center gap-2 mb-4 relative z-10 border-b border-slate-100 pb-3">
+                    <i class="ph-fill ph-warning-circle text-amber-500 text-lg"></i> Butuh Persetujuan
+                </h3>
+                
+                <div class="flex-1 flex flex-col justify-center gap-4 relative z-10">
+                    <!-- Baris Cuti -->
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <h2 class="text-2xl font-black text-slate-400 w-8 text-center" id="pending-cuti-count"><i class="ph ph-spinner animate-spin text-lg"></i></h2>
+                            <span class="text-sm font-semibold text-slate-600 leading-tight">Cuti Karyawan<br>
+                                <a href="https://kopkarakm.github.io/CutiKaryawanKopkarAKM/" target="_blank" class="text-xs text-blue-600 hover:underline">Tinjau <i class="ph-bold ph-caret-right"></i></a>
+                            </span>
                         </div>
                     </div>
-                    <a href="https://kopkarakm.github.io/Manager_AdamartV2/" target="_blank" class="text-xs text-blue-600 font-bold mt-3 hover:underline relative z-10 flex items-center gap-1 w-fit">
-                        Buka Dashboard Manager <i class="ph-bold ph-caret-right"></i>
-                    </a>
+                    
+                    <div class="w-full h-px bg-slate-100"></div>
+
+                    <!-- Baris Opname Kas -->
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <h2 class="text-2xl font-black text-slate-400 w-8 text-center" id="pending-opname-count"><i class="ph ph-spinner animate-spin text-lg"></i></h2>
+                            <span class="text-sm font-semibold text-slate-600 leading-tight">Opname Kas<br>
+                                <button onclick="openModalOpname()" class="text-xs text-blue-600 hover:underline text-left">Lihat Detail <i class="ph-bold ph-caret-right"></i></button>
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -442,10 +424,12 @@
         </div>
     </footer>
 
-    <!-- MODAL POP-UP DETAIL KEHADIRAN -->
-    <div id="modal-kehadiran" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[100] hidden flex flex-col items-center justify-center p-4 sm:p-6 opacity-0 transition-opacity duration-300">
-        <div class="bg-slate-50 w-full max-w-6xl h-[90vh] rounded-2xl shadow-2xl flex flex-col overflow-hidden scale-95 transition-transform duration-300" id="modal-content">
-            <div class="px-5 py-4 border-b border-slate-200 bg-white flex flex-wrap gap-4 justify-between items-center shrink-0">
+    <!-- MODAL POP-UP DETAIL KEHADIRAN (DENGAN MOBILE TABS) -->
+    <div id="modal-kehadiran" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[100] hidden flex flex-col items-center justify-center p-0 md:p-6 opacity-0 transition-opacity duration-300">
+        <div class="bg-white w-full h-full md:max-w-6xl md:h-[90vh] md:rounded-2xl shadow-2xl flex flex-col overflow-hidden scale-95 transition-transform duration-300" id="modal-content">
+            
+            <!-- Header Modal -->
+            <div class="px-4 py-4 md:px-5 border-b border-slate-200 bg-white flex flex-wrap gap-4 justify-between items-center shrink-0 z-20">
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center border border-blue-100">
                         <i class="ph-fill ph-users-three text-xl"></i>
@@ -466,29 +450,50 @@
                 </div>
             </div>
 
-            <div class="p-4 sm:p-6 overflow-y-auto flex-1 custom-scroll">
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 h-full min-h-[400px]">
-                    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col overflow-hidden">
+            <!-- Tab Khusus Mobile -->
+            <div class="flex lg:hidden bg-white shadow-sm shrink-0 px-2 justify-around border-b border-slate-200 z-10">
+                <button onclick="switchModalTab('hadir')" id="tab-btn-hadir" class="px-4 py-3 text-sm font-bold border-b-2 border-emerald-500 text-emerald-600 transition-colors">
+                    Hadir <span id="mobile-count-hadir" class="ml-1 bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded-md text-xs">0</span>
+                </button>
+                <button onclick="switchModalTab('belum')" id="tab-btn-belum" class="px-4 py-3 text-sm font-bold border-b-2 border-transparent text-slate-400 hover:text-slate-600 transition-colors">
+                    Belum <span id="mobile-count-belum" class="ml-1 bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded-md text-xs">0</span>
+                </button>
+                <button onclick="switchModalTab('cuti')" id="tab-btn-cuti" class="px-4 py-3 text-sm font-bold border-b-2 border-transparent text-slate-400 hover:text-slate-600 transition-colors">
+                    Cuti/Izin <span id="mobile-count-cuti" class="ml-1 bg-orange-100 text-orange-600 px-1.5 py-0.5 rounded-md text-xs">0</span>
+                </button>
+            </div>
+
+            <!-- Body Area Scrollable -->
+            <div class="p-4 sm:p-6 overflow-y-auto flex-1 custom-scroll bg-slate-50">
+                <div class="flex flex-col lg:grid lg:grid-cols-3 gap-6 h-full lg:min-h-[400px]">
+                    
+                    <!-- Panel 1: Sudah Hadir -->
+                    <div id="panel-hadir" class="bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col overflow-hidden h-full">
                         <div class="bg-emerald-500 px-5 py-3.5 flex items-center justify-between shrink-0">
                             <h3 class="font-bold text-white flex items-center gap-2"><i class="ph-fill ph-check-circle text-lg"></i> Sudah Hadir</h3>
-                            <span class="bg-emerald-600 text-white text-xs font-bold px-2.5 py-1 rounded-full" id="badge-hadir">0</span>
+                            <span class="bg-emerald-600 text-white text-xs font-bold px-2.5 py-1 rounded-full hidden lg:inline-block" id="badge-hadir">0</span>
                         </div>
-                        <div class="p-3 flex-1 overflow-y-auto custom-scroll space-y-2 bg-slate-50/50" id="list-hadir"></div>
+                        <div class="p-3 flex-1 overflow-y-auto custom-scroll space-y-2" id="list-hadir"></div>
                     </div>
-                    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col overflow-hidden">
+
+                    <!-- Panel 2: Belum Hadir -->
+                    <div id="panel-belum" class="bg-white rounded-2xl border border-slate-200 shadow-sm hidden lg:flex flex-col overflow-hidden h-full">
                         <div class="bg-slate-600 px-5 py-3.5 flex items-center justify-between shrink-0">
                             <h3 class="font-bold text-white flex items-center gap-2"><i class="ph-fill ph-clock text-lg"></i> Belum Hadir</h3>
-                            <span class="bg-slate-700 text-white text-xs font-bold px-2.5 py-1 rounded-full" id="badge-belum">0</span>
+                            <span class="bg-slate-700 text-white text-xs font-bold px-2.5 py-1 rounded-full hidden lg:inline-block" id="badge-belum">0</span>
                         </div>
-                        <div class="p-3 flex-1 overflow-y-auto custom-scroll space-y-2 bg-slate-50/50" id="list-belum"></div>
+                        <div class="p-3 flex-1 overflow-y-auto custom-scroll space-y-2" id="list-belum"></div>
                     </div>
-                    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col overflow-hidden">
+
+                    <!-- Panel 3: Cuti & Izin -->
+                    <div id="panel-cuti" class="bg-white rounded-2xl border border-slate-200 shadow-sm hidden lg:flex flex-col overflow-hidden h-full">
                         <div class="bg-orange-500 px-5 py-3.5 flex items-center justify-between shrink-0">
                             <h3 class="font-bold text-white flex items-center gap-2"><i class="ph-fill ph-airplane-tilt text-lg"></i> Cuti & Izin</h3>
-                            <span class="bg-orange-600 text-white text-xs font-bold px-2.5 py-1 rounded-full" id="badge-cuti">0</span>
+                            <span class="bg-orange-600 text-white text-xs font-bold px-2.5 py-1 rounded-full hidden lg:inline-block" id="badge-cuti">0</span>
                         </div>
-                        <div class="p-3 flex-1 overflow-y-auto custom-scroll space-y-2 bg-slate-50/50" id="list-cuti"></div>
+                        <div class="p-3 flex-1 overflow-y-auto custom-scroll space-y-2" id="list-cuti"></div>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -557,7 +562,6 @@
             if (!searchContainer.classList.contains('hidden')) mobileSearch.focus();
         });
 
-        // Daftar Aplikasi untuk Auto-Suggest
         function getAppList() {
             const apps = [];
             document.querySelectorAll('.app-card').forEach(card => {
@@ -650,7 +654,6 @@
             noResultsMsg.classList.toggle('hidden', !(totalVisibleCards === 0 && searchTerm !== ''));
         }
 
-        // Event Listeners Pencarian
         if (desktopSearch) {
             desktopSearch.addEventListener('input', (e) => {
                 performSearch(e.target.value);
@@ -666,7 +669,6 @@
             mobileSearch.addEventListener('focus', (e) => buildSuggestions(e.target.value.trim().toLowerCase(), true));
         }
 
-        // Tutup Suggestion saat klik di luar
         document.addEventListener('click', (e) => {
             if (desktopSearch && !desktopSearch.contains(e.target) && !desktopSuggestions.contains(e.target)) {
                 desktopSuggestions.classList.add('hidden');
@@ -691,9 +693,6 @@
             }
         });
 
-        // ==========================================
-        // 2. LOGIKA FAVORIT (LOCALSTORAGE)
-        // ==========================================
         window.toggleFavorite = function(e, id) {
             e.preventDefault();
             e.stopPropagation();
@@ -750,7 +749,6 @@
         const API_KAS_KECIL = 'https://script.google.com/macros/s/AKfycbwfP26-S4E0R4IsvKhx4CfFcHBvNFevVsTR0pwbuoey2IluMStp97MioxFawwdzxJueNw/exec';
 
         async function fetchPendingTasks() {
-            // 1. Fetch Cuti
             const elCuti = document.getElementById('pending-cuti-count');
             if(elCuti) {
                 try {
@@ -767,7 +765,6 @@
                 }
             }
 
-            // 2. Fetch Opname Kas
             const elOpname = document.getElementById('pending-opname-count');
             if(elOpname) {
                 try {
@@ -795,80 +792,6 @@
             }
         }
 
-        // ==========================================
-        // 4. API ADAMART (GOOGLE SHEET PUSH METHOD)
-        // ==========================================
-        async function fetchAdamartSales() {
-            const elAmount = document.getElementById('adamart-sales-amount');
-            const elDetail = document.getElementById('adamart-sales-detail');
-            if(!elAmount || !elDetail) return;
-
-            // URL Web App GAS baru Anda 
-            const GAS_URL = 'https://script.google.com/macros/s/AKfycbwoW8zffXN_A1Z3y5SiVknDSO62s5ZBnYu7WQpu00ak-kDeH5PPsZZAg_-vXHGlknjR/exec'; 
-
-            try {
-                const res = await fetch(GAS_URL).then(r => r.json());
-                if(res.result === 'success' && res.data && res.data.length > 1) {
-                    let totalHariIni = 0;
-                    
-                    // Gunakan tanggal lokal agar sinkron dengan data waktu pengiriman
-                    const tzOffset = (new Date()).getTimezoneOffset() * 60000;
-                    const hariIni = (new Date(Date.now() - tzOffset)).toISOString().split('T')[0];
-                    
-                    let locBreakdown = {};
-
-                    // index 1 ke atas (melewati baris judul/header)
-                    for(let i = 1; i < res.data.length; i++) {
-                        const row = res.data[i];
-                        
-                        // Handle ISO string atau date murni yang dikembalikan dari GAS
-                        let tglRow = String(row[0]);
-                        if (tglRow.includes('T')) {
-                            tglRow = tglRow.split('T')[0];
-                        }
-                        
-                        const nominal = Number(row[3]) || 0; // Kolom Nominal (Index 3)
-                        const lokasi = String(row[4] || 'Kasir Pusat').trim(); // Kolom Lokasi (Index 4)
-                        
-                        // Pencocokan string tanggal sederhana untuk hari ini
-                        if(tglRow.includes(hariIni) || new Date(row[0]).toDateString() === new Date().toDateString()) {
-                           totalHariIni += nominal;
-                           
-                           // Tambahkan ke perincian lokasi
-                           if(!locBreakdown[lokasi]) locBreakdown[lokasi] = 0;
-                           locBreakdown[lokasi] += nominal;
-                        }
-                    }
-                    
-                    // Update Text Total
-                    elAmount.innerText = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(totalHariIni);
-                    elAmount.classList.replace('text-slate-400', 'text-emerald-600');
-
-                    // Menampilkan rincian lokasi menggunakan label kecil
-                    if(Object.keys(locBreakdown).length > 0) {
-                        let detailHTML = '';
-                        Object.entries(locBreakdown).forEach(([loc, val]) => {
-                            const valFormatted = new Intl.NumberFormat('id-ID', { notation: "compact", compactDisplay: "short" }).format(val);
-                            detailHTML += `<span class="inline-block bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded border border-emerald-100">${loc}: ${valFormatted}</span>`;
-                        });
-                        elDetail.innerHTML = detailHTML;
-                    } else {
-                        elDetail.innerHTML = 'Total Penjualan Hari Ini (Masih 0)';
-                    }
-                    
-                } else {
-                    elAmount.innerText = "Rp 0";
-                    elDetail.innerHTML = 'Total Penjualan Hari Ini (Masih 0)';
-                }
-            } catch(error) {
-                console.error("Gagal membaca Sheet Adamart:", error);
-                elAmount.innerHTML = '<span class="text-sm text-rose-500 font-bold"><i class="ph ph-warning-circle"></i> Error</span>';
-            }
-        }
-
-        // ==========================================
-        // POP-UP OPNAME KAS LOGIC
-        // ==========================================
         window.openModalOpname = () => {
             const modal = document.getElementById('modal-opname');
             const content = document.getElementById('modal-opname-content');
@@ -883,7 +806,6 @@
                     const dateStr = op.date ? new Date(op.date).toLocaleDateString('id-ID', {day:'numeric', month:'short', year:'numeric'}) : '-';
                     const selisih = Number(op.selisih || 0);
                     
-                    // Menentukan warna selisih
                     const colorClass = selisih < 0 ? 'text-rose-600' : (selisih > 0 ? 'text-amber-500' : 'text-emerald-600');
                     const sign = selisih > 0 ? '+' : '';
                     const rpSelisih = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(selisih);
@@ -934,7 +856,7 @@
 
 
         // ==========================================
-        // 5. API LIVE KEHADIRAN (EXISTING)
+        // 5. API LIVE KEHADIRAN & TAB MOBILE LOGIC
         // ==========================================
         const API_ABSEN = 'https://script.google.com/macros/s/AKfycbz6YajqskEFxko5jVtpK8RS3oI-LUHbaLCUmgCFa-xHZIWSGrxJfB66ng0O0HqR4Arf-g/exec';
         const CSV_CUTI = 'https://docs.google.com/spreadsheets/d/1hnvFy3cmQg8qRxqASY5PZfgmUfiW5WBU0fkDAA5DUc4/gviz/tq?tqx=out:csv&sheet=DataCuti';
@@ -943,6 +865,8 @@
         const dp = document.getElementById('date-filter');
         const modalSubtitle = document.getElementById('modal-subtitle');
         
+        let activeModalTab = 'hadir';
+
         const setInitialDate = () => {
             const tzDate = new Date(targetDate.getTime() - (targetDate.getTimezoneOffset() * 60000)).toISOString().split('T')[0];
             if(dp) dp.value = tzDate;
@@ -959,6 +883,55 @@
                 }
             });
         }
+
+        // --- Logika Tab Mobile ---
+        window.switchModalTab = function(tab) {
+            activeModalTab = tab;
+            if (window.innerWidth >= 1024) return; // Desktop uses grid, ignores tabs
+
+            const tabs = ['hadir', 'belum', 'cuti'];
+            
+            // Define active classes manually to ensure Tailwind CDN picks them up if generated dynamically
+            const activeClasses = {
+                hadir: ['border-emerald-500', 'text-emerald-600'],
+                belum: ['border-slate-500', 'text-slate-800'],
+                cuti: ['border-orange-500', 'text-orange-600']
+            };
+            const inactiveClasses = ['border-transparent', 'text-slate-400'];
+
+            tabs.forEach(t => {
+                const panel = document.getElementById(`panel-${t}`);
+                const btn = document.getElementById(`tab-btn-${t}`);
+                
+                if (t === tab) {
+                    panel.classList.remove('hidden');
+                    panel.classList.add('flex');
+                    
+                    btn.classList.add(...activeClasses[t]);
+                    btn.classList.remove(...inactiveClasses);
+                } else {
+                    panel.classList.add('hidden');
+                    panel.classList.remove('flex');
+                    
+                    btn.classList.remove(...activeClasses[t]);
+                    btn.classList.add(...inactiveClasses);
+                }
+            });
+        };
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 1024) {
+                ['hadir', 'belum', 'cuti'].forEach(t => {
+                    const panel = document.getElementById(`panel-${t}`);
+                    if(panel) {
+                        panel.classList.remove('hidden');
+                        panel.classList.add('flex');
+                    }
+                });
+            } else {
+                window.switchModalTab(activeModalTab);
+            }
+        });
 
         function isSameDate(dateVal, targetObj) {
             if (!dateVal) return false;
@@ -1164,14 +1137,21 @@
         }
 
         function renderUI(total, hadir, belum, cuti) {
+            // Update widget summaries
             if(document.getElementById('w-total')) document.getElementById('w-total').innerText = total;
             if(document.getElementById('w-hadir')) document.getElementById('w-hadir').innerText = hadir.length;
             if(document.getElementById('w-belum')) document.getElementById('w-belum').innerText = belum.length;
             if(document.getElementById('w-cuti')) document.getElementById('w-cuti').innerText = cuti.length;
 
+            // Update desktop modal badges
             if(document.getElementById('badge-hadir')) document.getElementById('badge-hadir').innerText = hadir.length;
             if(document.getElementById('badge-belum')) document.getElementById('badge-belum').innerText = belum.length;
             if(document.getElementById('badge-cuti')) document.getElementById('badge-cuti').innerText = cuti.length;
+
+            // Update mobile modal badges (new!)
+            if(document.getElementById('mobile-count-hadir')) document.getElementById('mobile-count-hadir').innerText = hadir.length;
+            if(document.getElementById('mobile-count-belum')) document.getElementById('mobile-count-belum').innerText = belum.length;
+            if(document.getElementById('mobile-count-cuti')) document.getElementById('mobile-count-cuti').innerText = cuti.length;
 
             const containerHadir = document.getElementById('list-hadir');
             if (containerHadir) {
@@ -1186,19 +1166,19 @@
                         containerHadir.insertAdjacentHTML('beforeend', `
                         <div class="bg-white p-3 sm:p-4 rounded-xl border border-slate-100 shadow-sm fade-in flex items-center justify-between hover:border-emerald-200 transition-colors" style="animation-delay: ${delay}ms; animation-fill-mode: both;">
                             <div class="flex items-center gap-3">
-                                <div class="w-9 h-9 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold text-sm border border-emerald-200">
+                                <div class="w-9 h-9 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold text-sm border border-emerald-200 shrink-0">
                                     ${item.nama.substring(0,2).toUpperCase()}
                                 </div>
-                                <div>
-                                    <h4 class="font-bold text-slate-800 text-[14px] leading-tight">${item.nama}</h4>
-                                    <p class="text-[10px] text-slate-500 mt-0.5"><i class="ph ph-map-pin"></i> ${item.data.lokasi ? 'Lokasi Terekam' : 'Kantor'}</p>
+                                <div class="min-w-0">
+                                    <h4 class="font-bold text-slate-800 text-[14px] leading-tight truncate">${item.nama}</h4>
+                                    <p class="text-[10px] text-slate-500 mt-0.5 truncate"><i class="ph ph-map-pin"></i> ${item.data.lokasi ? 'Lokasi Terekam' : 'Kantor'}</p>
                                 </div>
                             </div>
-                            <div class="text-right">
-                                <div class="flex items-center justify-end gap-1.5 text-xs font-semibold text-slate-700">
-                                    <span class="bg-slate-100 px-2 py-0.5 rounded text-emerald-600 border border-slate-200" title="Jam Masuk">${msk}</span>
+                            <div class="text-right pl-2 shrink-0">
+                                <div class="flex items-center justify-end gap-1 text-xs font-semibold text-slate-700">
+                                    <span class="bg-slate-100 px-1.5 py-0.5 rounded text-emerald-600 border border-slate-200" title="Jam Masuk">${msk}</span>
                                     <span class="text-slate-400">-</span>
-                                    <span class="bg-slate-100 px-2 py-0.5 rounded border border-slate-200" title="Jam Pulang">${plg}</span>
+                                    <span class="bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200" title="Jam Pulang">${plg}</span>
                                 </div>
                             </div>
                         </div>`);
@@ -1249,24 +1229,28 @@
             }
         }
 
+        const modalKehadiran = document.getElementById('modal-kehadiran');
+        const modalContent = document.getElementById('modal-content');
+
         window.openModalKehadiran = () => {
-            const modalKehadiran = document.getElementById('modal-kehadiran');
-            const modalContent = document.getElementById('modal-content');
             if (modalKehadiran && modalContent) {
                 modalKehadiran.classList.remove('hidden');
                 void modalKehadiran.offsetWidth; 
                 modalKehadiran.classList.remove('opacity-0');
                 modalContent.classList.remove('scale-95');
+                
+                // Pastikan tab yang aktif dirender ulang di mobile saat dibuka
+                if(window.innerWidth < 1024) window.switchModalTab(activeModalTab);
             }
         };
 
         window.closeModalKehadiran = () => {
-            const modalKehadiran = document.getElementById('modal-kehadiran');
-            const modalContent = document.getElementById('modal-content');
             if (modalKehadiran && modalContent) {
                 modalKehadiran.classList.add('opacity-0');
                 modalContent.classList.add('scale-95');
-                setTimeout(() => { modalKehadiran.classList.add('hidden'); }, 300);
+                setTimeout(() => {
+                    modalKehadiran.classList.add('hidden');
+                }, 300);
             }
         };
 
@@ -1276,14 +1260,11 @@
             window.renderFavorites();
             fetchDashboardData();
             fetchPendingTasks();
-            fetchAdamartSales(); // Memanggil fungsi Adamart
             
-            // Auto refresh
             setInterval(() => {
                 fetchDashboardData();
                 fetchPendingTasks();
-                fetchAdamartSales();
-            }, 300000); // Tiap 5 menit
+            }, 300000);
         });
 
     </script>
