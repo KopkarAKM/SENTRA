@@ -770,9 +770,28 @@
                 try {
                     const resKas = await fetch(API_KAS_KECIL + '?action=readData').then(r => r.json());
                     if (resKas.opnames) {
-                        const pendingOpnames = resKas.opnames.filter(o => {
-                            const statusVal = o.status || o.Status || o.STATUS || '';
-                            return statusVal && String(statusVal).toLowerCase() !== 'selesai' && String(statusVal).toLowerCase() !== 'ditolak';
+                        const normalizedOpnames = resKas.opnames.map(o => {
+                            let accName = 'Kas Koperasi';
+                            try {
+                                const pecahan = o['Detail Pecahan (Format JSON)'] || '{}';
+                                let parsed = JSON.parse(pecahan);
+                                if (typeof parsed === 'string') parsed = JSON.parse(parsed);
+                                if (parsed.account) accName = parsed.account;
+                            } catch(e) {}
+
+                            return {
+                                date: o['Tanggal'] || o.date || '',
+                                saldoBuku: Number(o['Saldo Buku'] || o.saldoBuku || 0),
+                                saldoFisik: Number(o['Saldo Fisik'] || o.saldoFisik || 0),
+                                selisih: Number(o['Selisih'] || o.selisih || 0),
+                                status: o['Status'] || o.status || '',
+                                account: accName
+                            };
+                        });
+
+                        const pendingOpnames = normalizedOpnames.filter(o => {
+                            const st = String(o.status).toLowerCase();
+                            return o.status && st !== 'selesai' && st !== 'ditolak';
                         });
                         
                         window.pendingOpnameData = pendingOpnames; 
