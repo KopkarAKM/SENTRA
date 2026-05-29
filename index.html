@@ -4,11 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SENTRA | Kopkar Adaro Karya Mandiri</title>
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
-    <!-- Phosphor Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     
     <style>
@@ -27,21 +24,11 @@
         .app-card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.08), 0 4px 12px -3px rgba(0, 0, 0, 0.04); border-color: #bfdbfe; }
         .app-card:hover .app-icon-bg { background-color: #eff6ff; color: #2563eb; transform: scale(1.05); }
 
-        /* Search Dropdown Styling */
-        #search-results-dropdown {
-            max-height: 400px;
-            overflow-y: auto;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
-        }
-        .search-item {
-            transition: all 0.2s;
-        }
-        .search-item:hover {
-            background-color: #f1f5f9;
-        }
+        #search-suggestions { max-height: 300px; overflow-y: auto; }
+        .suggestion-item:hover { background-color: #f1f5f9; }
     </style>
 </head>
-<body class="text-slate-800 antialiased selection:bg-blue-200 selection:text-blue-900 flex flex-col min-h-screen relative">
+<body class="text-slate-800 antialiased selection:bg-blue-200 selection:text-blue-900 flex flex-col min-h-screen">
 
     <header class="glass-header sticky top-0 z-40 w-full">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -54,16 +41,16 @@
                     </div>
                 </div>
 
-                <!-- Global Search (Desktop) with Smart Dropdown -->
-                <div class="hidden md:flex flex-col flex-1 max-w-md ml-12 relative">
-                    <div class="relative w-full group z-50">
+                <!-- DESKTOP SEARCH -->
+                <div class="hidden md:flex items-center flex-1 max-w-md ml-12 relative">
+                    <div class="relative w-full group">
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 group-focus-within:text-blue-500 transition-colors">
                             <i class="ph ph-magnifying-glass text-lg"></i>
                         </div>
                         <input type="text" id="desktop-search" autocomplete="off" class="block w-full pl-10 pr-4 py-2.5 bg-slate-100 border-transparent rounded-xl text-sm placeholder-slate-500 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none" placeholder="Cari aplikasi atau layanan... (Ctrl+K)">
                     </div>
-                    <!-- Dropdown Desktop -->
-                    <div id="desktop-search-dropdown" class="hidden absolute top-full left-0 right-0 mt-2 bg-white border border-slate-200 rounded-xl overflow-hidden z-50 shadow-xl flex-col custom-scroll">
+                    <!-- SUGGESTION BOX DESKTOP -->
+                    <div id="desktop-suggestions" class="absolute top-full left-0 w-full mt-2 bg-white rounded-xl shadow-xl border border-slate-200 hidden z-50 flex-col overflow-hidden">
                         <!-- Items will be injected here -->
                     </div>
                 </div>
@@ -80,24 +67,21 @@
                 </div>
             </div>
             
-            <!-- Global Search (Mobile Dropdown) -->
-            <div class="md:hidden hidden pb-4 relative z-50" id="mobile-search-container">
+            <!-- MOBILE SEARCH -->
+            <div class="md:hidden hidden pb-4 relative" id="mobile-search-container">
                 <div class="relative w-full">
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
                         <i class="ph ph-magnifying-glass text-lg"></i>
                     </div>
                     <input type="text" id="mobile-search" autocomplete="off" class="block w-full pl-10 pr-4 py-3 bg-slate-100 border-transparent rounded-xl text-sm placeholder-slate-500 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none" placeholder="Cari aplikasi...">
                 </div>
-                <!-- Dropdown Mobile -->
-                <div id="mobile-search-dropdown" class="hidden absolute top-full left-0 right-0 mt-2 bg-white border border-slate-200 rounded-xl overflow-hidden shadow-xl flex-col custom-scroll max-h-[60vh]">
+                <!-- SUGGESTION BOX MOBILE -->
+                <div id="mobile-suggestions" class="absolute top-full left-0 w-full mt-1 bg-white rounded-xl shadow-xl border border-slate-200 hidden z-50 flex-col overflow-hidden">
                     <!-- Items will be injected here -->
                 </div>
             </div>
         </div>
     </header>
-
-    <!-- Overlay Gelap saat mencari (Opsional tapi mempercantik) -->
-    <div id="search-overlay" class="fixed inset-0 bg-slate-900/20 backdrop-blur-sm z-30 hidden transition-opacity"></div>
 
     <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
         
@@ -145,7 +129,6 @@
                     </div>
                 </div>
 
-                <!-- Pesan Error - Dikembalikan agar tidak error undefined di JS -->
                 <div id="error-banner" class="hidden mb-4 bg-red-50 border border-red-200 rounded-xl p-3 flex items-start gap-3">
                     <i class="ph-fill ph-warning-circle text-red-500 text-lg mt-0.5"></i>
                     <div>
@@ -174,42 +157,43 @@
                 </div>
             </div>
 
-            <!-- Kolom Widget Tambahan (Tugas & Adamart) -->
+            <!-- Kolom Kanan: Butuh Persetujuan & Adamart -->
             <div class="grid grid-rows-2 gap-6">
-                <!-- Widget 2: Pending Tasks -->
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-center relative overflow-hidden">
-                    <div class="absolute top-0 right-0 p-4 opacity-10">
+                <!-- Widget: Pending Tasks -->
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 pointer-events-none">
                         <i class="ph-fill ph-bell-ringing text-6xl text-amber-500"></i>
                     </div>
-                    <h3 class="text-sm font-bold text-slate-500 uppercase tracking-wider flex items-center gap-2 mb-3 relative z-10">
+                    <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wider flex items-center gap-2 mb-4 relative z-10 border-b border-slate-100 pb-3">
                         <i class="ph-fill ph-warning-circle text-amber-500 text-lg"></i> Butuh Persetujuan
                     </h3>
                     
-                    <!-- Rincian Tugas 1: Cuti -->
-                    <div class="flex items-center justify-between relative z-10 mb-2 border-b border-slate-100 pb-2">
-                        <div class="flex items-center gap-3">
-                            <h2 class="text-2xl font-black text-slate-400 w-8 text-center" id="pending-cuti-count"><i class="ph ph-spinner animate-spin text-lg"></i></h2>
-                            <div>
-                                <span class="text-sm font-semibold text-slate-700 block leading-tight">Cuti Karyawan</span>
-                                <a href="https://kopkarakm.github.io/CutiKaryawanKopkarAKM/" target="_blank" class="text-[11px] text-blue-600 font-bold hover:underline">Tinjau Sekarang &rsaquo;</a>
+                    <div class="flex-1 flex flex-col justify-center gap-4 relative z-10">
+                        <!-- Baris Cuti -->
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <h2 class="text-2xl font-black text-slate-400 w-8 text-center" id="pending-cuti-count"><i class="ph ph-spinner animate-spin text-lg"></i></h2>
+                                <span class="text-sm font-semibold text-slate-600 leading-tight">Cuti Karyawan<br>
+                                    <a href="https://kopkarakm.github.io/CutiKaryawanKopkarAKM/" target="_blank" class="text-xs text-blue-600 hover:underline">Tinjau <i class="ph-bold ph-caret-right"></i></a>
+                                </span>
                             </div>
                         </div>
-                    </div>
+                        
+                        <div class="w-full h-px bg-slate-100"></div>
 
-                    <!-- Rincian Tugas 2: Opname Kas -->
-                    <div class="flex items-center justify-between relative z-10">
-                        <div class="flex items-center gap-3">
-                            <h2 class="text-2xl font-black text-slate-400 w-8 text-center" id="pending-opname-count"><i class="ph ph-spinner animate-spin text-lg"></i></h2>
-                            <div>
-                                <span class="text-sm font-semibold text-slate-700 block leading-tight">Opname Kas</span>
-                                <!-- Tombol ini sekarang membuka Modal Detail Opname -->
-                                <button onclick="openModalOpname()" class="text-[11px] text-blue-600 font-bold hover:underline text-left">Lihat Detail &rsaquo;</button>
+                        <!-- Baris Opname Kas -->
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <h2 class="text-2xl font-black text-slate-400 w-8 text-center" id="pending-opname-count"><i class="ph ph-spinner animate-spin text-lg"></i></h2>
+                                <span class="text-sm font-semibold text-slate-600 leading-tight">Opname Kas<br>
+                                    <button onclick="openModalOpname()" class="text-xs text-blue-600 hover:underline text-left">Lihat Detail <i class="ph-bold ph-caret-right"></i></button>
+                                </span>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Widget 3: Mini Chart Adamart -->
+                <!-- Widget: Adamart Harian (Realtime dari Push API) -->
                 <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-center relative overflow-hidden">
                     <div class="absolute top-0 right-0 p-4 opacity-10">
                         <i class="ph-fill ph-storefront text-6xl text-emerald-500"></i>
@@ -219,10 +203,13 @@
                     </h3>
                     <div class="relative z-10">
                         <h2 class="text-2xl font-black text-slate-400 truncate" id="adamart-sales-amount"><i class="ph ph-spinner animate-spin text-xl"></i></h2>
-                        <span class="text-xs font-semibold text-slate-500">Estimasi Penjualan Realtime</span>
+                        <!-- Area ini akan diisi rincian lokasi jika ada data -->
+                        <div class="text-[11px] font-semibold text-slate-500 mt-1 flex flex-wrap gap-1" id="adamart-sales-detail">
+                            Memuat data omzet...
+                        </div>
                     </div>
                     <a href="https://kopkarakm.github.io/Manager_AdamartV2/" target="_blank" class="text-xs text-blue-600 font-bold mt-3 hover:underline relative z-10 flex items-center gap-1 w-fit">
-                        Buka POS <i class="ph-bold ph-caret-right"></i>
+                        Buka Dashboard Manager <i class="ph-bold ph-caret-right"></i>
                     </a>
                 </div>
             </div>
@@ -239,7 +226,6 @@
 
         <div class="space-y-12" id="app-sections">
             
-            <!-- Kategori Khusus: Favoritku (Muncul dinamis) -->
             <section id="favorites-section" class="app-category hidden" data-category="favorit">
                 <div class="flex items-center gap-3 mb-5 border-b border-slate-200 pb-3">
                     <div class="w-8 h-8 rounded-lg bg-amber-100 text-amber-600 flex items-center justify-center">
@@ -252,7 +238,6 @@
                 </div>
             </section>
 
-            <!-- Kategori: Administrasi & Karyawan -->
             <section class="app-category" data-category="admin">
                 <div class="flex items-center gap-3 mb-5 border-b border-slate-200 pb-3">
                     <div class="w-8 h-8 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center">
@@ -261,7 +246,6 @@
                     <h3 class="text-xl font-bold text-slate-800">Aplikasi Admin & Karyawan</h3>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-                    <!-- App: Absensi -->
                     <a href="https://www.appsheet.com/start/147f850b-a296-4326-a409-dc463c9c4b52#table=Presensi%20Masuk&page=form" target="_blank" id="app-absen" class="app-card relative group block bg-white rounded-2xl p-5 border border-slate-200" data-search="absensi kehadiran presensi masuk pulang scan barcode harian">
                         <button class="fav-btn absolute top-4 right-4 z-10 text-slate-300 hover:text-amber-400 transition-colors" onclick="toggleFavorite(event, 'app-absen')" title="Tandai Favorit"><i class="ph-fill ph-star text-2xl"></i></button>
                         <div class="flex items-start gap-4">
@@ -275,7 +259,6 @@
                         </div>
                     </a>
 
-                    <!-- App: Cuti -->
                     <a href="https://kopkarakm.github.io/CutiKaryawanKopkarAKM/" target="_blank" id="app-cuti" class="app-card relative group block bg-white rounded-2xl p-5 border border-slate-200" data-search="cuti izin sakit libur pengajuan approval sisa">
                         <button class="fav-btn absolute top-4 right-4 z-10 text-slate-300 hover:text-amber-400 transition-colors" onclick="toggleFavorite(event, 'app-cuti')" title="Tandai Favorit"><i class="ph-fill ph-star text-2xl"></i></button>
                         <div class="flex items-start gap-4">
@@ -289,7 +272,6 @@
                         </div>
                     </a>
 
-                    <!-- App: Lembur -->
                     <a href="https://script.google.com/macros/s/AKfycbzQ_W997-vWj3m9o5l8f28pB9jGZ269hZ4414i0hZ3Yv6-z9c9q8g9q5c7901009/exec" target="_blank" id="app-lembur" class="app-card relative group block bg-white rounded-2xl p-5 border border-slate-200" data-search="lembur overtime kerja tambahan spkl">
                         <button class="fav-btn absolute top-4 right-4 z-10 text-slate-300 hover:text-amber-400 transition-colors" onclick="toggleFavorite(event, 'app-lembur')" title="Tandai Favorit"><i class="ph-fill ph-star text-2xl"></i></button>
                         <div class="flex items-start gap-4">
@@ -303,7 +285,6 @@
                         </div>
                     </a>
 
-                    <!-- App: MOM Meeting -->
                     <a href="https://kopkarakm.github.io/MomKopkarAkm/" target="_blank" id="app-mom" class="app-card relative group block bg-white rounded-2xl p-5 border border-slate-200" data-search="mom meeting rapat notulen hasil diskusi minutes">
                         <button class="fav-btn absolute top-4 right-4 z-10 text-slate-300 hover:text-amber-400 transition-colors" onclick="toggleFavorite(event, 'app-mom')" title="Tandai Favorit"><i class="ph-fill ph-star text-2xl"></i></button>
                         <div class="flex items-start gap-4">
@@ -317,7 +298,6 @@
                         </div>
                     </a>
 
-                    <!-- App: SOM Koperasi -->
                     <a href="https://kopkarakm.github.io/SmartSOP-Kopkar-AKM/" target="_blank" id="app-som" class="app-card relative group block bg-white rounded-2xl p-5 border border-slate-200" data-search="som pedoman standar operasional manajemen peraturan">
                         <button class="fav-btn absolute top-4 right-4 z-10 text-slate-300 hover:text-amber-400 transition-colors" onclick="toggleFavorite(event, 'app-som')" title="Tandai Favorit"><i class="ph-fill ph-star text-2xl"></i></button>
                         <div class="flex items-start gap-4">
@@ -331,7 +311,6 @@
                         </div>
                     </a>
 
-                    <!-- App: Analisa Absensi -->
                     <a href="https://kopkarakm.github.io/Absensi-Pengelola-Report/" target="_blank" id="app-analisa-absen" class="app-card relative group block bg-white rounded-2xl p-5 border border-slate-200" data-search="analisa absensi data grafik statistik laporan kehadiran">
                         <button class="fav-btn absolute top-4 right-4 z-10 text-slate-300 hover:text-amber-400 transition-colors" onclick="toggleFavorite(event, 'app-analisa-absen')" title="Tandai Favorit"><i class="ph-fill ph-star text-2xl"></i></button>
                         <div class="flex items-start gap-4">
@@ -345,7 +324,6 @@
                         </div>
                     </a>
 
-                    <!-- App: Analisa Job Goal -->
                     <a href="https://kopkarakm.github.io/JobGoals/" target="_blank" id="app-jobgoal" class="app-card relative group block bg-white rounded-2xl p-5 border border-slate-200" data-search="analisa job goal kpi target kinerja performance okr">
                         <button class="fav-btn absolute top-4 right-4 z-10 text-slate-300 hover:text-amber-400 transition-colors" onclick="toggleFavorite(event, 'app-jobgoal')" title="Tandai Favorit"><i class="ph-fill ph-star text-2xl"></i></button>
                         <div class="flex items-start gap-4">
@@ -361,7 +339,6 @@
                 </div>
             </section>
 
-            <!-- Kategori: Bisnis Koperasi -->
             <section class="app-category" data-category="bisnis">
                 <div class="flex items-center gap-3 mb-5 border-b border-slate-200 pb-3">
                     <div class="w-8 h-8 rounded-lg bg-orange-100 text-orange-600 flex items-center justify-center">
@@ -370,7 +347,6 @@
                     <h3 class="text-xl font-bold text-slate-800">Ekosistem Keuangan & Bisnis</h3>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-                    <!-- App: Adamart Pos -->
                     <a href="https://kopkarakm.github.io/Manager_AdamartV2/" target="_blank" id="app-adamart" class="app-card relative group block bg-white rounded-2xl p-5 border border-slate-200" data-search="adamart pos kasir minimarket penjualan toko barang">
                         <button class="fav-btn absolute top-4 right-4 z-10 text-slate-300 hover:text-amber-400 transition-colors" onclick="toggleFavorite(event, 'app-adamart')" title="Tandai Favorit"><i class="ph-fill ph-star text-2xl"></i></button>
                         <div class="flex items-start gap-4">
@@ -384,7 +360,6 @@
                         </div>
                     </a>
 
-                    <!-- App: Cek Mutasi -->
                     <a href="https://kopkarakm.github.io/CekMutasi/" target="_blank" id="app-mutasi" class="app-card relative group block bg-white rounded-2xl p-5 border border-slate-200" data-search="cek mutasi bank transaksi keuangan">
                         <button class="fav-btn absolute top-4 right-4 z-10 text-slate-300 hover:text-amber-400 transition-colors" onclick="toggleFavorite(event, 'app-mutasi')" title="Tandai Favorit"><i class="ph-fill ph-star text-2xl"></i></button>
                         <div class="flex items-start gap-4">
@@ -398,7 +373,6 @@
                         </div>
                     </a>
 
-                    <!-- App: Rekening Koran -->
                     <a href="https://kopkarakm.github.io/RekKor-AKM/" target="_blank" id="app-rekkor" class="app-card relative group block bg-white rounded-2xl p-5 border border-slate-200" data-search="rekening koran laporan mutasi histori bank">
                         <button class="fav-btn absolute top-4 right-4 z-10 text-slate-300 hover:text-amber-400 transition-colors" onclick="toggleFavorite(event, 'app-rekkor')" title="Tandai Favorit"><i class="ph-fill ph-star text-2xl"></i></button>
                         <div class="flex items-start gap-4">
@@ -412,21 +386,19 @@
                         </div>
                     </a>
 
-                    <!-- App: Kas Opname -->
-                    <a href="https://kopkarakm.github.io/Aplikasi-Kas-KOPKAR/" target="_blank" id="app-kas" class="app-card relative group block bg-white rounded-2xl p-5 border border-slate-200" data-search="kas opname audit fisik uang saldo kasir">
+                    <a href="https://kopkarakm.github.io/Aplikasi-Kas-KOPKAR/" target="_blank" id="app-kas" class="app-card relative group block bg-white rounded-2xl p-5 border border-slate-200" data-search="kas opname audit fisik uang saldo kasir kaskecil">
                         <button class="fav-btn absolute top-4 right-4 z-10 text-slate-300 hover:text-amber-400 transition-colors" onclick="toggleFavorite(event, 'app-kas')" title="Tandai Favorit"><i class="ph-fill ph-star text-2xl"></i></button>
                         <div class="flex items-start gap-4">
                             <div class="app-icon-bg w-12 h-12 rounded-xl bg-slate-100 text-slate-600 flex items-center justify-center shrink-0 transition-colors">
                                 <i class="ph-fill ph-wallet text-2xl"></i>
                             </div>
                             <div class="pr-6">
-                                <h4 class="font-bold text-slate-800 text-base group-hover:text-blue-600 transition-colors">Kas Opname</h4>
-                                <p class="text-sm text-slate-500 mt-1 line-clamp-2">Pencatatan dan pencocokan fisik uang tunai dengan saldo buku.</p>
+                                <h4 class="font-bold text-slate-800 text-base group-hover:text-blue-600 transition-colors">KasKecil Pro</h4>
+                                <p class="text-sm text-slate-500 mt-1 line-clamp-2">Pencatatan mutasi kas dan pelaporan opname harian.</p>
                             </div>
                         </div>
                     </a>
 
-                    <!-- App: Pengajuan BDV -->
                     <a href="https://kopkarakm.github.io/BDV-Manager/" target="_blank" id="app-bdv" class="app-card relative group block bg-white rounded-2xl p-5 border border-slate-200" data-search="bdv pengajuan dana bank disbursement voucher pencairan">
                         <button class="fav-btn absolute top-4 right-4 z-10 text-slate-300 hover:text-amber-400 transition-colors" onclick="toggleFavorite(event, 'app-bdv')" title="Tandai Favorit"><i class="ph-fill ph-star text-2xl"></i></button>
                         <div class="flex items-start gap-4">
@@ -440,17 +412,15 @@
                         </div>
                     </a>
 
-                    <!-- Kategori Baru: Whistleblowing System -->
-                    <a href="https://kopkarakm.github.io/whistleblower-sistem/" target="_blank" id="app-wbs" class="app-card relative group block bg-white rounded-2xl p-5 border border-slate-200" data-search="wbs whistleblowing pelaporan etika aduan rahasia anonim pelanggaran">
+                    <a href="#" target="_blank" id="app-wbs" class="app-card relative group block bg-white rounded-2xl p-5 border border-slate-200" data-search="wbs whistleblowing system lapor pelanggaran kepatuhan etika rahasia">
                         <button class="fav-btn absolute top-4 right-4 z-10 text-slate-300 hover:text-amber-400 transition-colors" onclick="toggleFavorite(event, 'app-wbs')" title="Tandai Favorit"><i class="ph-fill ph-star text-2xl"></i></button>
                         <div class="flex items-start gap-4">
-                            <!-- Icon Alert / Megaphone -->
-                            <div class="app-icon-bg w-12 h-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center shrink-0 transition-colors group-hover:bg-rose-100">
+                            <div class="app-icon-bg w-12 h-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center shrink-0 transition-colors">
                                 <i class="ph-fill ph-megaphone text-2xl"></i>
                             </div>
                             <div class="pr-6">
-                                <h4 class="font-bold text-slate-800 text-base group-hover:text-blue-600 transition-colors">Whistleblowing System</h4>
-                                <p class="text-sm text-slate-500 mt-1 line-clamp-2">Sistem pelaporan pelanggaran etika dan kepatuhan secara rahasia dan aman.</p>
+                                <h4 class="font-bold text-slate-800 text-base group-hover:text-rose-600 transition-colors">Whistleblowing System</h4>
+                                <p class="text-sm text-slate-500 mt-1 line-clamp-2">Layanan pelaporan pelanggaran rahasia, aman, dan terpercaya.</p>
                             </div>
                         </div>
                     </a>
@@ -524,21 +494,19 @@
         </div>
     </div>
 
-    <!-- MODAL POP-UP DETAIL OPNAME KAS -->
+    <!-- MODAL POP-UP DETAIL OPNAME -->
     <div id="modal-opname" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[100] hidden flex flex-col items-center justify-center p-4 sm:p-6 opacity-0 transition-opacity duration-300">
         <div class="bg-slate-50 w-full max-w-4xl h-[85vh] rounded-2xl shadow-2xl flex flex-col overflow-hidden scale-95 transition-transform duration-300" id="modal-opname-content">
-            
             <div class="px-5 py-4 border-b border-slate-200 bg-white flex flex-wrap gap-4 justify-between items-center shrink-0">
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center border border-amber-100">
                         <i class="ph-fill ph-wallet text-xl"></i>
                     </div>
                     <div>
-                        <h2 class="text-lg font-bold text-slate-900 leading-tight">Detail Opname Kas</h2>
-                        <p class="text-[11px] text-slate-500 font-semibold" id="modal-opname-subtitle">Butuh Persetujuan</p>
+                        <h2 class="text-lg font-bold text-slate-900 leading-tight">Daftar Antrean Opname Kas</h2>
+                        <p class="text-[11px] text-slate-500 font-semibold">Menunggu pemeriksaan & persetujuan manajerial</p>
                     </div>
                 </div>
-
                 <div class="flex items-center gap-3">
                     <button onclick="closeModalOpname()" class="w-9 h-9 flex items-center justify-center text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition border border-transparent hover:border-rose-200" title="Tutup Modal">
                         <i class="ph-bold ph-x text-lg"></i>
@@ -546,17 +514,13 @@
                 </div>
             </div>
 
-            <!-- List Opname Container -->
-            <div class="p-4 sm:p-6 overflow-y-auto flex-1 custom-scroll bg-slate-100/50">
-                <div id="list-opname" class="space-y-4 max-w-2xl mx-auto">
-                    <!-- Data injeksi via JS -->
-                </div>
+            <div class="p-4 sm:p-6 overflow-y-auto flex-1 custom-scroll bg-slate-50/50" id="list-opname-detail">
+                <!-- List Data Opname di-inject dari JS -->
             </div>
-
-            <!-- Footer Modal (Call to Action) -->
-            <div class="p-4 bg-white border-t border-slate-200 text-center">
-                <a href="https://kopkarakm.github.io/Aplikasi-Kas-KOPKAR/" target="_blank" class="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition shadow-md">
-                    Buka KasKecil Pro untuk Menyetujui <i class="ph-bold ph-arrow-square-out text-lg"></i>
+            
+            <div class="p-4 border-t border-slate-200 bg-white flex justify-center shrink-0">
+                <a href="https://kopkarakm.github.io/Aplikasi-Kas-KOPKAR/" target="_blank" class="inline-flex items-center gap-2 px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded-xl shadow-sm transition-colors">
+                    Buka KasKecil Pro Sekarang <i class="ph-bold ph-arrow-right"></i>
                 </a>
             </div>
         </div>
@@ -564,6 +528,9 @@
 
 
     <script>
+        // Data penyimpanan global
+        window.pendingOpnameData = [];
+
         // ==========================================
         // 1. LOGIKA UI SENTRA (SEARCH, JAM, FAVORIT)
         // ==========================================
@@ -576,111 +543,138 @@
         updateClock();
 
         const desktopSearch = document.getElementById('desktop-search');
-        const desktopDropdown = document.getElementById('desktop-search-dropdown');
         const mobileSearch = document.getElementById('mobile-search');
-        const mobileDropdown = document.getElementById('mobile-search-dropdown');
         const searchToggle = document.getElementById('mobile-search-toggle');
         const searchContainer = document.getElementById('mobile-search-container');
-        const searchOverlay = document.getElementById('search-overlay');
-        const allCards = document.querySelectorAll('.app-card');
-
-        // Extract app data from DOM once
-        const appDataList = Array.from(allCards).map(card => {
-            return {
-                id: card.id,
-                title: card.querySelector('h4').textContent,
-                desc: card.querySelector('p').textContent,
-                searchKeys: card.getAttribute('data-search').toLowerCase(),
-                url: card.getAttribute('href'),
-                iconHTML: card.querySelector('.app-icon-bg').outerHTML
-            }
-        });
+        const allSections = document.querySelectorAll('.app-category');
+        const noResultsMsg = document.getElementById('no-results-msg');
+        
+        const desktopSuggestions = document.getElementById('desktop-suggestions');
+        const mobileSuggestions = document.getElementById('mobile-suggestions');
 
         searchToggle.addEventListener('click', () => {
             searchContainer.classList.toggle('hidden');
-            if (!searchContainer.classList.contains('hidden')) {
-                mobileSearch.focus();
-                searchOverlay.classList.remove('hidden');
-            } else {
-                searchOverlay.classList.add('hidden');
-                mobileDropdown.classList.add('hidden');
-            }
+            if (!searchContainer.classList.contains('hidden')) mobileSearch.focus();
         });
 
-        // Close search overlay on click outside
-        searchOverlay.addEventListener('click', () => {
-            searchOverlay.classList.add('hidden');
-            desktopDropdown.classList.add('hidden');
-            mobileDropdown.classList.add('hidden');
-            searchContainer.classList.add('hidden'); // Hide mobile bar if active
-            desktopSearch.blur();
-            mobileSearch.blur();
-        });
+        // Daftar Aplikasi untuk Auto-Suggest
+        function getAppList() {
+            const apps = [];
+            document.querySelectorAll('.app-card').forEach(card => {
+                if(card.id.includes('-clone')) return; 
+                apps.push({
+                    id: card.id,
+                    title: card.querySelector('h4').textContent,
+                    desc: card.querySelector('p').textContent,
+                    href: card.getAttribute('href'),
+                    searchTags: card.getAttribute('data-search').toLowerCase(),
+                    iconHTML: card.querySelector('.app-icon-bg').innerHTML,
+                    iconClasses: card.querySelector('.app-icon-bg').className
+                });
+            });
+            return apps;
+        }
 
-        function renderDropdown(searchTerm, dropdownElement) {
-            dropdownElement.innerHTML = '';
-            searchTerm = searchTerm.toLowerCase().trim();
-
+        function buildSuggestions(searchTerm, isMobile) {
+            const container = isMobile ? mobileSuggestions : desktopSuggestions;
             if (searchTerm === '') {
-                dropdownElement.classList.add('hidden');
-                searchOverlay.classList.add('hidden');
+                container.classList.add('hidden');
                 return;
             }
 
-            searchOverlay.classList.remove('hidden');
-
-            const matches = appDataList.filter(app => {
-                return app.searchKeys.includes(searchTerm) || 
-                       app.title.toLowerCase().includes(searchTerm) || 
-                       app.desc.toLowerCase().includes(searchTerm);
-            });
+            const apps = getAppList();
+            const matches = apps.filter(app => 
+                app.searchTags.includes(searchTerm) || 
+                app.title.toLowerCase().includes(searchTerm) || 
+                app.desc.toLowerCase().includes(searchTerm)
+            );
 
             if (matches.length === 0) {
-                dropdownElement.innerHTML = `
-                    <div class="p-4 text-center text-slate-500">
-                        <i class="ph ph-magnifying-glass text-2xl mb-1"></i>
-                        <p class="text-sm font-medium">Tidak ada aplikasi ditemukan</p>
-                    </div>`;
-                dropdownElement.classList.remove('hidden');
+                container.innerHTML = `<div class="p-4 text-center text-sm text-slate-500">Tidak ada aplikasi cocok</div>`;
+                container.classList.remove('hidden');
                 return;
             }
 
+            let html = '<div class="py-2" id="search-suggestions">';
             matches.forEach(app => {
-                const itemHtml = `
-                    <a href="${app.url}" target="_blank" class="search-item flex items-center gap-4 p-3 border-b border-slate-100 last:border-0 group">
-                        <div class="scale-75 origin-center">${app.iconHTML}</div>
-                        <div class="flex-1">
-                            <h4 class="text-sm font-bold text-slate-800 group-hover:text-blue-600">${app.title}</h4>
-                            <p class="text-[11px] text-slate-500 line-clamp-1">${app.desc}</p>
-                        </div>
-                        <i class="ph-bold ph-arrow-right text-slate-300 group-hover:text-blue-500 pr-2"></i>
-                    </a>
-                `;
-                dropdownElement.insertAdjacentHTML('beforeend', itemHtml);
+                html += `
+                <a href="${app.href}" target="_blank" class="suggestion-item flex items-center gap-4 px-4 py-3 border-b border-slate-50 last:border-0 transition-colors">
+                    <div class="${app.iconClasses} !w-10 !h-10 shrink-0">
+                        ${app.iconHTML}
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h4 class="font-bold text-slate-800 text-sm truncate">${app.title}</h4>
+                        <p class="text-[11px] text-slate-500 truncate">${app.desc}</p>
+                    </div>
+                    <i class="ph-bold ph-arrow-right text-slate-300"></i>
+                </a>`;
             });
-
-            dropdownElement.classList.remove('hidden');
+            html += '</div>';
+            
+            container.innerHTML = html;
+            container.classList.remove('hidden');
         }
 
+        function performSearch(searchTerm) {
+            searchTerm = searchTerm.toLowerCase().trim();
+            let totalVisibleCards = 0;
+            const favSection = document.getElementById('favorites-section');
+
+            if(searchTerm !== '') {
+                favSection.style.display = 'none';
+            } else {
+                renderFavorites(); 
+            }
+
+            allSections.forEach(section => {
+                if(section.id === 'favorites-section') return; 
+                
+                const cardsInSection = section.querySelectorAll('.app-card');
+                let sectionHasVisibleCards = false;
+
+                cardsInSection.forEach(card => {
+                    const searchKeywords = card.getAttribute('data-search').toLowerCase();
+                    const title = card.querySelector('h4').textContent.toLowerCase();
+                    const desc = card.querySelector('p').textContent.toLowerCase();
+                    
+                    if (searchKeywords.includes(searchTerm) || title.includes(searchTerm) || desc.includes(searchTerm)) {
+                        card.style.display = 'block';
+                        sectionHasVisibleCards = true;
+                        totalVisibleCards++;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                section.style.display = sectionHasVisibleCards ? 'block' : 'none';
+            });
+            noResultsMsg.classList.toggle('hidden', !(totalVisibleCards === 0 && searchTerm !== ''));
+        }
+
+        // Event Listeners Pencarian
         if (desktopSearch) {
-            desktopSearch.addEventListener('input', (e) => renderDropdown(e.target.value, desktopDropdown));
-            desktopSearch.addEventListener('focus', (e) => {
-                if(e.target.value.trim() !== '') {
-                    desktopDropdown.classList.remove('hidden');
-                    searchOverlay.classList.remove('hidden');
-                }
+            desktopSearch.addEventListener('input', (e) => {
+                performSearch(e.target.value);
+                buildSuggestions(e.target.value.trim().toLowerCase(), false);
             });
+            desktopSearch.addEventListener('focus', (e) => buildSuggestions(e.target.value.trim().toLowerCase(), false));
+        }
+        if (mobileSearch) {
+            mobileSearch.addEventListener('input', (e) => {
+                performSearch(e.target.value);
+                buildSuggestions(e.target.value.trim().toLowerCase(), true);
+            });
+            mobileSearch.addEventListener('focus', (e) => buildSuggestions(e.target.value.trim().toLowerCase(), true));
         }
 
-        if (mobileSearch) {
-            mobileSearch.addEventListener('input', (e) => renderDropdown(e.target.value, mobileDropdown));
-            mobileSearch.addEventListener('focus', (e) => {
-                if(e.target.value.trim() !== '') {
-                    mobileDropdown.classList.remove('hidden');
-                    searchOverlay.classList.remove('hidden');
-                }
-            });
-        }
+        // Tutup Suggestion saat klik di luar
+        document.addEventListener('click', (e) => {
+            if (desktopSearch && !desktopSearch.contains(e.target) && !desktopSuggestions.contains(e.target)) {
+                desktopSuggestions.classList.add('hidden');
+            }
+            if (mobileSearch && !mobileSearch.contains(e.target) && !mobileSuggestions.contains(e.target)) {
+                mobileSuggestions.classList.add('hidden');
+            }
+        });
 
         document.addEventListener('keydown', (e) => {
             if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
@@ -689,16 +683,18 @@
             }
             if (e.key === 'Escape') {
                 desktopSearch?.blur(); mobileSearch?.blur(); 
-                desktopDropdown.classList.add('hidden');
-                mobileDropdown.classList.add('hidden');
-                searchOverlay.classList.add('hidden');
+                performSearch('');
+                if(desktopSearch) desktopSearch.value = '';
+                if(mobileSearch) mobileSearch.value = '';
+                desktopSuggestions.classList.add('hidden');
+                mobileSuggestions.classList.add('hidden');
             }
         });
 
         // ==========================================
         // 2. LOGIKA FAVORIT (LOCALSTORAGE)
         // ==========================================
-        function toggleFavorite(e, id) {
+        window.toggleFavorite = function(e, id) {
             e.preventDefault();
             e.stopPropagation();
             
@@ -707,16 +703,17 @@
             else favs.push(id);
             
             localStorage.setItem('sentra_favs', JSON.stringify(favs));
-            renderFavorites();
+            window.renderFavorites();
         }
 
-        function renderFavorites() {
+        window.renderFavorites = function() {
             const favs = JSON.parse(localStorage.getItem('sentra_favs') || '[]');
             const favSection = document.getElementById('favorites-section');
             const favContainer = document.getElementById('favorites-container');
             if(favContainer) favContainer.innerHTML = '';
 
             document.querySelectorAll('.app-card').forEach(card => {
+                if(card.id.includes('-clone')) return;
                 const starBtn = card.querySelector('.fav-btn i');
                 if(!starBtn) return;
                 
@@ -745,16 +742,15 @@
             });
         }
 
+
         // ==========================================
-        // 3. API WIDGET TUGAS & BISNIS ADAMART
+        // 3. API WIDGET TUGAS (CUTI & OPNAME KAS)
         // ==========================================
         const API_CUTI = 'https://script.google.com/macros/s/AKfycbzDZQPf1U3Nfdccrc2ckxIrKe3A0NXQ9Xkxj0lFBYcDvf7Npy-8qfJkXHY9VFvoNjUj/exec';
-        const API_KAS_KECIL = 'https://script.google.com/macros/s/AKfycbwfP26-S4E0R4IsvKhx4CfFcHBvNFevVsTR0pwbuoey2IluMStp97MioxFawwdzxJueNw/exec'; // URL API KasKecil
-
-        window.pendingOpnameData = []; // Simpan data global untuk Pop-Up
+        const API_KAS_KECIL = 'https://script.google.com/macros/s/AKfycbwfP26-S4E0R4IsvKhx4CfFcHBvNFevVsTR0pwbuoey2IluMStp97MioxFawwdzxJueNw/exec';
 
         async function fetchPendingTasks() {
-            // Fetch Cuti
+            // 1. Fetch Cuti
             const elCuti = document.getElementById('pending-cuti-count');
             if(elCuti) {
                 try {
@@ -767,26 +763,25 @@
                         if(totalPending > 0) elCuti.classList.replace('text-slate-400', 'text-amber-600');
                     }
                 } catch (error) {
-                    elCuti.innerText = "!";
+                    elCuti.innerText = "-";
                 }
             }
 
-            // Fetch Opname Kas
+            // 2. Fetch Opname Kas
             const elOpname = document.getElementById('pending-opname-count');
             if(elOpname) {
                 try {
                     const resKas = await fetch(API_KAS_KECIL + '?action=readData').then(r => r.json());
                     if (resKas.opnames) {
-                        // Filter data yang belum selesai
                         const pendingOpnames = resKas.opnames.filter(o => {
                             const statusVal = o.status || o.Status || o.STATUS || '';
                             return statusVal && String(statusVal).toLowerCase() !== 'selesai' && String(statusVal).toLowerCase() !== 'ditolak';
                         });
                         
-                        window.pendingOpnameData = pendingOpnames; // Simpan ke global
+                        window.pendingOpnameData = pendingOpnames; 
                         const totalOpnamePending = pendingOpnames.length;
-                        elOpname.innerText = totalOpnamePending;
                         
+                        elOpname.innerText = totalOpnamePending;
                         if(totalOpnamePending > 0) {
                             elOpname.classList.replace('text-slate-400', 'text-amber-600');
                         }
@@ -795,157 +790,151 @@
                     }
                 } catch (error) {
                     console.error("Gagal mengambil data Opname:", error);
-                    elOpname.innerText = "!";
+                    elOpname.innerText = "-";
                 }
             }
         }
-    </script>
 
-    <!-- Modul Firebase untuk membaca Adamart Firestore (Di bawah tag script utama) -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        // MENGGUNAKAN FIRESTORE (SESUAI DATABASE ANDA) BUKAN DATABASE REALTIME
-        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        // ==========================================
+        // 4. API ADAMART (GOOGLE SHEET PUSH METHOD)
+        // ==========================================
+        async function fetchAdamartSales() {
+            const elAmount = document.getElementById('adamart-sales-amount');
+            const elDetail = document.getElementById('adamart-sales-detail');
+            if(!elAmount || !elDetail) return;
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyBApyoL7sczxl1kDq_WgPtnYF4lyujuWgc",
-            authDomain: "adamart-pos.firebaseapp.com",
-            projectId: "adamart-pos",
-            storageBucket: "adamart-pos.firebasestorage.app",
-            messagingSenderId: "754641758734",
-            appId: "1:754641758734:web:8eaa07cf10ead6ea02aa5f"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const elAdamartAmount = document.getElementById('adamart-sales-amount');
-        const formatRp = (angka) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(angka);
-
-        async function listenAdamartSales() {
-            if (!elAdamartAmount) return;
+            // URL Web App GAS baru Anda 
+            const GAS_URL = 'https://script.google.com/macros/s/AKfycbwoW8zffXN_A1Z3y5SiVknDSO62s5ZBnYu7WQpu00ak-kDeH5PPsZZAg_-vXHGlknjR/exec'; 
 
             try {
-                // Sesuai dengan Rules Anda, koleksi transaksi adalah 'sales'. 
-                const salesRef = collection(db, 'sales'); 
-                const snapshot = await getDocs(salesRef);
-                
-                let totalOmzetSemua = 0;
+                const res = await fetch(GAS_URL).then(r => r.json());
+                if(res.result === 'success' && res.data && res.data.length > 1) {
+                    let totalHariIni = 0;
+                    
+                    // Gunakan tanggal lokal agar sinkron dengan data waktu pengiriman
+                    const tzOffset = (new Date()).getTimezoneOffset() * 60000;
+                    const hariIni = (new Date(Date.now() - tzOffset)).toISOString().split('T')[0];
+                    
+                    let locBreakdown = {};
 
-                snapshot.forEach((doc) => {
-                    const data = doc.data();
-                    // Sesuaikan ini dengan nama field di Firestore Anda
-                    const nominal = Number(data.total || data.totalPrice || data.grandTotal || data.amount || 0);
-                    totalOmzetSemua += nominal;
-                });
+                    // index 1 ke atas (melewati baris judul/header)
+                    for(let i = 1; i < res.data.length; i++) {
+                        const row = res.data[i];
+                        
+                        // Handle ISO string atau date murni yang dikembalikan dari GAS
+                        let tglRow = String(row[0]);
+                        if (tglRow.includes('T')) {
+                            tglRow = tglRow.split('T')[0];
+                        }
+                        
+                        const nominal = Number(row[3]) || 0; // Kolom Nominal (Index 3)
+                        const lokasi = String(row[4] || 'Kasir Pusat').trim(); // Kolom Lokasi (Index 4)
+                        
+                        // Pencocokan string tanggal sederhana untuk hari ini
+                        if(tglRow.includes(hariIni) || new Date(row[0]).toDateString() === new Date().toDateString()) {
+                           totalHariIni += nominal;
+                           
+                           // Tambahkan ke perincian lokasi
+                           if(!locBreakdown[lokasi]) locBreakdown[lokasi] = 0;
+                           locBreakdown[lokasi] += nominal;
+                        }
+                    }
+                    
+                    // Update Text Total
+                    elAmount.innerText = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(totalHariIni);
+                    elAmount.classList.replace('text-slate-400', 'text-emerald-600');
 
-                // Menampilkan hasil bacaan Firestore (Real Total Sepanjang Masa)
-                elAdamartAmount.innerText = formatRp(totalOmzetSemua);
-                elAdamartAmount.classList.replace('text-slate-400', 'text-emerald-600');
-
-            } catch (error) {
-                // Mengubah console.error menjadi console.log biasa agar terminal Anda tetap bersih.
-                if (error.code === 'permission-denied') {
-                    console.log("ℹ️ Info Sistem: Akses Firestore (Adamart) ditolak oleh Rules. Mengaktifkan mode data Mockup/Cached.");
+                    // Menampilkan rincian lokasi menggunakan label kecil
+                    if(Object.keys(locBreakdown).length > 0) {
+                        let detailHTML = '';
+                        Object.entries(locBreakdown).forEach(([loc, val]) => {
+                            const valFormatted = new Intl.NumberFormat('id-ID', { notation: "compact", compactDisplay: "short" }).format(val);
+                            detailHTML += `<span class="inline-block bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded border border-emerald-100">${loc}: ${valFormatted}</span>`;
+                        });
+                        elDetail.innerHTML = detailHTML;
+                    } else {
+                        elDetail.innerHTML = 'Total Penjualan Hari Ini (Masih 0)';
+                    }
+                    
                 } else {
-                    console.warn("ℹ️ Status Firebase Adamart:", error.message);
+                    elAmount.innerText = "Rp 0";
+                    elDetail.innerHTML = 'Total Penjualan Hari Ini (Masih 0)';
                 }
-                
-                // Menampilkan Mockup jika Firestore memblokir koneksi
-                elAdamartAmount.innerHTML = `<span class="text-xl">Rp 11.572.000</span> <i class="ph-fill ph-warning-circle text-amber-500 text-sm mb-2 inline-block cursor-help" title="Akses Database Ditolak (Rules Require Auth). Menampilkan data cached terakhir."></i>`; 
-                elAdamartAmount.classList.replace('text-slate-400', 'text-slate-700');
+            } catch(error) {
+                console.error("Gagal membaca Sheet Adamart:", error);
+                elAmount.innerHTML = '<span class="text-sm text-rose-500 font-bold"><i class="ph ph-warning-circle"></i> Error</span>';
             }
         }
 
-        window.addEventListener('DOMContentLoaded', listenAdamartSales);
-    </script>
-
-    <!-- Script Lanjutan (Harus setelah Firebase agar tidak memblokir render) -->
-    <script>
-        // Format Rupiah Helper untuk Pop Up
-        const formatRupiah = (angka) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(angka || 0);
-        const formatDateIndo = (dateStr) => {
-            if(!dateStr) return '-';
-            const d = new Date(dateStr);
-            if(isNaN(d)) return dateStr;
-            return d.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
-        }
-
-        // --- Logika Modal Opname Kas ---
-        const modalOpname = document.getElementById('modal-opname');
-        const modalOpnameContent = document.getElementById('modal-opname-content');
-        const listOpname = document.getElementById('list-opname');
-
+        // ==========================================
+        // POP-UP OPNAME KAS LOGIC
+        // ==========================================
         window.openModalOpname = () => {
-            if (modalOpname && modalOpnameContent) {
-                renderListOpname(); // Render data saat pop-up dibuka
-                modalOpname.classList.remove('hidden');
-                void modalOpname.offsetWidth; 
-                modalOpname.classList.remove('opacity-0');
-                modalOpnameContent.classList.remove('scale-95');
+            const modal = document.getElementById('modal-opname');
+            const content = document.getElementById('modal-opname-content');
+            const listContainer = document.getElementById('list-opname-detail');
+            
+            listContainer.innerHTML = '';
+
+            if(window.pendingOpnameData.length === 0) {
+                listContainer.innerHTML = '<div class="flex items-center justify-center h-full"><p class="text-slate-500 font-medium">Luar biasa! Tidak ada tugas opname yang tertunda.</p></div>';
+            } else {
+                window.pendingOpnameData.forEach(op => {
+                    const dateStr = op.date ? new Date(op.date).toLocaleDateString('id-ID', {day:'numeric', month:'short', year:'numeric'}) : '-';
+                    const selisih = Number(op.selisih || 0);
+                    
+                    // Menentukan warna selisih
+                    const colorClass = selisih < 0 ? 'text-rose-600' : (selisih > 0 ? 'text-amber-500' : 'text-emerald-600');
+                    const sign = selisih > 0 ? '+' : '';
+                    const rpSelisih = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(selisih);
+
+                    listContainer.insertAdjacentHTML('beforeend', `
+                        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm mb-3 hover:border-blue-200 transition-colors">
+                            <div class="flex justify-between items-start mb-2">
+                                <div>
+                                    <h3 class="font-bold text-slate-800">${op.account || 'Kas Koperasi'}</h3>
+                                    <p class="text-xs text-slate-500 font-medium"><i class="ph ph-calendar-blank"></i> ${dateStr}</p>
+                                </div>
+                                <span class="text-[10px] font-bold px-2.5 py-1 rounded-md bg-amber-50 border border-amber-100 text-amber-600 uppercase tracking-wider">${op.status}</span>
+                            </div>
+                            <div class="grid grid-cols-3 gap-2 mt-3 bg-slate-50/80 p-2.5 rounded-lg border border-slate-100 text-sm">
+                                <div>
+                                    <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Saldo Buku</p>
+                                    <p class="font-semibold text-slate-700">${new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(op.saldoBuku || 0)}</p>
+                                </div>
+                                <div>
+                                    <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Fisik Uang</p>
+                                    <p class="font-semibold text-slate-700">${new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(op.saldoFisik || 0)}</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Selisih</p>
+                                    <p class="font-black ${colorClass}">${sign}${rpSelisih}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `);
+                });
             }
+
+            modal.classList.remove('hidden');
+            void modal.offsetWidth; 
+            modal.classList.remove('opacity-0');
+            content.classList.remove('scale-95');
         };
 
         window.closeModalOpname = () => {
-            if (modalOpname && modalOpnameContent) {
-                modalOpname.classList.add('opacity-0');
-                modalOpnameContent.classList.add('scale-95');
-                setTimeout(() => { modalOpname.classList.add('hidden'); }, 300);
+            const modal = document.getElementById('modal-opname');
+            const content = document.getElementById('modal-opname-content');
+            if (modal && content) {
+                modal.classList.add('opacity-0');
+                content.classList.add('scale-95');
+                setTimeout(() => { modal.classList.add('hidden'); }, 300);
             }
         };
 
-        function renderListOpname() {
-            if(!listOpname) return;
-            listOpname.innerHTML = '';
-            
-            if(window.pendingOpnameData.length === 0) {
-                listOpname.innerHTML = '<div class="text-center py-10 text-slate-500">Tidak ada pengajuan yang perlu diperiksa.</div>';
-                return;
-            }
-
-            window.pendingOpnameData.forEach((op, i) => {
-                const isMinus = op.selisih < 0;
-                const isPlus = op.selisih > 0;
-                const selisihColor = isMinus ? 'text-red-600' : isPlus ? 'text-emerald-600' : 'text-slate-600';
-                
-                const html = `
-                <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 fade-in hover:border-amber-200 transition-colors" style="animation-delay: ${i*50}ms">
-                    <div class="flex justify-between items-start border-b border-slate-100 pb-3 mb-3">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500">
-                                <i class="ph-fill ph-clock-counter-clockwise text-xl"></i>
-                            </div>
-                            <div>
-                                <h3 class="font-bold text-slate-800">${op.account || 'Kas Koperasi'}</h3>
-                                <p class="text-xs text-slate-500">Diajukan: ${formatDateIndo(op.date || op.Tanggal || op.TANGGAL)}</p>
-                            </div>
-                        </div>
-                        <span class="bg-amber-100 text-amber-700 text-[10px] font-bold px-2 py-1 rounded-md uppercase tracking-wider">${op.status || 'MENUNGGU'}</span>
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-y-2 text-sm px-2">
-                        <span class="text-slate-500">Saldo Buku:</span>
-                        <span class="text-right font-medium text-slate-800">${formatRupiah(op.saldoBuku || op.Buku || 0)}</span>
-                        
-                        <span class="text-slate-500">Fisik Uang:</span>
-                        <span class="text-right font-medium text-slate-800">${formatRupiah(op.saldoFisik || op.Fisik || 0)}</span>
-                        
-                        <span class="font-bold text-slate-700">Selisih:</span>
-                        <span class="text-right font-bold ${selisihColor}">${isPlus ? '+' : ''}${formatRupiah(op.selisih || op.Selisih || 0)}</span>
-                    </div>
-
-                    ${(op.keterangan || op.Keterangan) ? `
-                    <div class="mt-4 bg-slate-50 p-3 rounded-lg border border-slate-100">
-                        <p class="text-xs text-slate-500"><strong class="text-slate-700">Ket:</strong> ${op.keterangan || op.Keterangan}</p>
-                    </div>
-                    ` : ''}
-                </div>`;
-                listOpname.insertAdjacentHTML('beforeend', html);
-            });
-        }
-
 
         // ==========================================
-        // 4. API LIVE KEHADIRAN (EXISTING)
+        // 5. API LIVE KEHADIRAN (EXISTING)
         // ==========================================
         const API_ABSEN = 'https://script.google.com/macros/s/AKfycbz6YajqskEFxko5jVtpK8RS3oI-LUHbaLCUmgCFa-xHZIWSGrxJfB66ng0O0HqR4Arf-g/exec';
         const CSV_CUTI = 'https://docs.google.com/spreadsheets/d/1hnvFy3cmQg8qRxqASY5PZfgmUfiW5WBU0fkDAA5DUc4/gviz/tq?tqx=out:csv&sheet=DataCuti';
@@ -1260,10 +1249,9 @@
             }
         }
 
-        const modalKehadiran = document.getElementById('modal-kehadiran');
-        const modalContent = document.getElementById('modal-content');
-
         window.openModalKehadiran = () => {
+            const modalKehadiran = document.getElementById('modal-kehadiran');
+            const modalContent = document.getElementById('modal-content');
             if (modalKehadiran && modalContent) {
                 modalKehadiran.classList.remove('hidden');
                 void modalKehadiran.offsetWidth; 
@@ -1273,27 +1261,29 @@
         };
 
         window.closeModalKehadiran = () => {
+            const modalKehadiran = document.getElementById('modal-kehadiran');
+            const modalContent = document.getElementById('modal-content');
             if (modalKehadiran && modalContent) {
                 modalKehadiran.classList.add('opacity-0');
                 modalContent.classList.add('scale-95');
-                setTimeout(() => {
-                    modalKehadiran.classList.add('hidden');
-                }, 300);
+                setTimeout(() => { modalKehadiran.classList.add('hidden'); }, 300);
             }
         };
 
         window.forceSync = () => fetchDashboardData();
 
         window.addEventListener('DOMContentLoaded', () => {
-            renderFavorites();
+            window.renderFavorites();
             fetchDashboardData();
             fetchPendingTasks();
+            fetchAdamartSales(); // Memanggil fungsi Adamart
             
-            // Auto refresh setiap 5 Menit (300000ms)
+            // Auto refresh
             setInterval(() => {
                 fetchDashboardData();
                 fetchPendingTasks();
-            }, 300000);
+                fetchAdamartSales();
+            }, 300000); // Tiap 5 menit
         });
 
     </script>
