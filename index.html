@@ -28,6 +28,8 @@
         #search-suggestions { max-height: 280px; overflow-y: auto; }
         .suggestion-item:hover { background-color: #f1f5f9; }
         .glass-card { background: rgba(255,255,255,0.85); backdrop-filter: blur(12px); border: 1px solid rgba(226,232,240,0.8); }
+        .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+        .transition-layout { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
     </style>
   <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js" type="text/javascript"></script>
  </head>
@@ -71,7 +73,8 @@
   <main class="flex-1 w-full max-w-[1920px] mx-auto px-4 lg:px-10 py-4 lg:py-5 overflow-hidden flex flex-col relative">
    <div id="scroll-container" class="flex-1 flex flex-col lg:flex-row gap-4 lg:gap-6 overflow-y-auto lg:overflow-hidden custom-scroll pb-24 lg:pb-0 scroll-smooth">
     
-    <div id="panel-home" class="w-full lg:w-[360px] xl:w-[400px] flex flex-col gap-4 shrink-0 lg:overflow-y-auto custom-scroll lg:pr-2">
+    <!-- KOLOM KIRI: WIDGET -->
+    <div id="panel-home" class="w-full lg:w-[320px] xl:w-[360px] flex flex-col gap-4 shrink-0 lg:overflow-y-auto custom-scroll lg:pr-2 transition-layout">
      <div data-template-id="welcome-banner" class="canva-banner rounded-2xl p-5 lg:p-6 shadow-md relative overflow-hidden" style="background: linear-gradient(135deg, rgb(79, 70, 229), rgb(124, 58, 237));">
       <div class="absolute top-0 right-0 w-32 h-32 rounded-full bg-white/15 blur-2xl -mt-8 -mr-8 pointer-events-none"></div>
       <div class="absolute bottom-0 left-0 w-24 h-24 rounded-full bg-yellow-300/20 blur-xl -mb-6 -ml-6 pointer-events-none"></div>
@@ -127,7 +130,7 @@
       <div class="flex flex-col gap-2.5">
        <div class="flex items-center justify-between bg-gradient-to-r from-slate-50 to-white p-3 rounded-xl border border-slate-100"><span data-template-id="approval-cuti-label" class="canva-text text-xs font-semibold" style="color: rgb(71, 85, 105); font-weight: 600; font-style: normal; font-size: 15px;">Cuti Karyawan</span>
         <div class="flex items-center gap-3">
-         <h2 class="text-base font-black text-slate-400 w-5 text-center" id="pending-cuti-count"><i class="ph ph-spinner animate-spin text-sm"></i></h2><a href="https://kopkarakm.github.io/CutiKaryawanKopkarAKM/" target="_blank" rel="noopener noreferrer" data-template-id="approval-cuti-btn" class="canva-button text-[10px] font-bold px-3 py-1 rounded-lg border transition-colors" style="background: rgb(238, 242, 255); color: rgb(79, 70, 229); font-weight: 700; font-style: normal; font-size: 15px;">Cek</a>
+         <h2 class="text-base font-black text-slate-400 w-5 text-center" id="pending-cuti-count"><i class="ph ph-spinner animate-spin text-sm"></i></h2><a href="https://kopkarakm.github.io/CutiKaryawanKopkarAKM/" target="_blank" rel="noopener noreferrer" data-title="Cuti Karyawan" data-template-id="approval-cuti-btn" class="canva-button text-[10px] font-bold px-3 py-1 rounded-lg border transition-colors" style="background: rgb(238, 242, 255); color: rgb(79, 70, 229); font-weight: 700; font-style: normal; font-size: 15px;">Cek</a>
         </div>
        </div>
        <div class="flex items-center justify-between bg-gradient-to-r from-slate-50 to-white p-3 rounded-xl border border-slate-100"><span data-template-id="approval-opname-label" class="canva-text text-xs font-semibold" style="color: rgb(71, 85, 105); font-weight: 600; font-style: normal; font-size: 15px;">Opname Kas</span>
@@ -139,7 +142,7 @@
      </div>
      <div class="glass-card p-4 rounded-2xl shadow-sm">
       <div class="flex justify-between items-start mb-1.5">
-       <h3 class="text-[11px] font-bold text-slate-500 uppercase tracking-wider flex items-center gap-2"><span class="text-base">🛒</span> <span data-template-id="adamart-title" class="canva-text" style="color: rgb(100, 116, 139); font-weight: 700; font-style: normal; font-size: 15px;">Adamart Harian</span></h3><a href="https://kopkarakm.github.io/Manager_AdamartV2/" target="_blank" rel="noopener noreferrer" title="Buka Manajer Adamart"><i class="ph-bold ph-arrow-square-out text-slate-400 hover:text-indigo-500 transition-colors"></i></a>
+       <h3 class="text-[11px] font-bold text-slate-500 uppercase tracking-wider flex items-center gap-2"><span class="text-base">🛒</span> <span data-template-id="adamart-title" class="canva-text" style="color: rgb(100, 116, 139); font-weight: 700; font-style: normal; font-size: 15px;">Adamart Harian</span></h3><a href="https://kopkarakm.github.io/Manager_AdamartV2/" target="_blank" rel="noopener noreferrer" data-title="Manajer Adamart" title="Buka Manajer Adamart"><i class="ph-bold ph-arrow-square-out text-slate-400 hover:text-indigo-500 transition-colors"></i></a>
       </div>
       <div class="mt-1">
        <h2 class="text-2xl font-black text-slate-400 truncate tracking-tight" id="adamart-sales-amount"><i class="ph ph-spinner animate-spin text-lg"></i></h2>
@@ -152,7 +155,43 @@
      </div>
     </div>
     
-    <div class="w-full lg:flex-1 flex flex-col bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden shrink-0 lg:h-full">
+    <!-- KOLOM TENGAH: VIEWER APLIKASI DESKTOP -->
+    <div id="panel-viewer" class="hidden flex-col bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden shrink-0 lg:flex-1 lg:h-full relative transition-layout fade-in">
+        <div class="h-14 lg:h-[58px] border-b border-slate-100 bg-slate-50 flex items-center px-4 justify-between shrink-0">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-600 flex items-center justify-center">
+                    <i class="ph-fill ph-app-window text-lg"></i>
+                </div>
+                <h2 id="desktop-iframe-title" class="font-bold text-slate-800 text-sm">Area Kerja Utama</h2>
+            </div>
+            <div class="flex items-center gap-2">
+                <a id="desktop-iframe-ext" href="#" target="_blank" class="text-[10px] font-bold text-indigo-600 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-colors hidden" title="Buka di Tab Baru">
+                    Buka Eksternal <i class="ph-bold ph-arrow-square-out"></i>
+                </a>
+                <button onclick="closeDesktopApp()" class="w-8 h-8 flex items-center justify-center text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors" title="Tutup Viewer">
+                    <i class="ph-bold ph-x"></i>
+                </button>
+            </div>
+        </div>
+        <div class="flex-1 relative bg-slate-100/50">
+            <div id="desktop-iframe-loader" class="absolute inset-0 flex flex-col items-center justify-center bg-white z-10 hidden">
+                <i class="ph ph-spinner animate-spin text-3xl text-indigo-600 mb-2"></i>
+                <p class="text-xs text-slate-500 font-medium mt-2">Memuat aplikasi...</p>
+            </div>
+            <iframe id="desktop-app-iframe" class="w-full h-full border-0 absolute inset-0 z-20 hidden" src="" onload="document.getElementById('desktop-iframe-loader').style.display='none'"></iframe>
+            
+            <div id="desktop-viewer-placeholder" class="absolute inset-0 flex flex-col items-center justify-center text-center p-6 z-0">
+                <div class="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center text-slate-300 mb-4 shadow-inner">
+                    <i class="ph-fill ph-cursor-click text-4xl"></i>
+                </div>
+                <h3 class="text-lg font-bold text-slate-700">Ruang Kerja Kosong</h3>
+                <p class="text-sm text-slate-500 mt-1 max-w-xs">Klik salah satu aplikasi dari direktori di sebelah kanan untuk membukanya secara langsung di sini.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- KOLOM KANAN: DIREKTORI APLIKASI -->
+    <div id="panel-directory" class="w-full lg:flex-1 flex flex-col bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden shrink-0 lg:h-full transition-layout">
      <div class="px-5 lg:px-7 py-3.5 border-b border-slate-100 bg-gradient-to-r from-indigo-50/50 to-white shrink-0 flex justify-between items-center">
       <h2 class="font-bold text-slate-800 text-sm lg:text-base uppercase tracking-wider flex items-center gap-2"><span class="text-lg">📱</span> <span data-template-id="directory-title" class="canva-text" style="color: rgb(30, 41, 59); font-weight: 700; font-style: normal; font-size: 15px;">Direktori Aplikasi</span></h2>
      </div>
@@ -168,14 +207,14 @@
        <div class="flex items-center gap-2 mb-3 border-b border-slate-100 pb-2.5"><span class="text-lg">⭐</span>
         <h3 data-template-id="cat-favorit-title" class="canva-text text-sm font-bold text-slate-700" style="color: rgb(30, 41, 59); font-weight: 700; font-style: normal; font-size: 18px;">Favorit Saya</h3>
        </div>
-       <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-3" id="favorites-container"></div>
+       <div class="app-grid grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-3" id="favorites-container"></div>
       </section>
       
       <section id="section-admin" class="app-category mb-8" data-category="admin">
        <div class="flex items-center gap-2 mb-3 border-b border-slate-100 pb-2.5"><span class="text-lg">💼</span>
         <h3 data-template-id="cat-admin-title" class="canva-text text-sm font-bold text-slate-700" style="color: rgb(30, 41, 59); font-weight: 700; font-style: normal; font-size: 18px;">Admin &amp; Karyawan</h3>
        </div>
-       <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-3">
+       <div class="app-grid grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-3">
          <a href="https://www.appsheet.com/start/147f850b-a296-4326-a409-dc463c9c4b52#table=Presensi%20Masuk&amp;page=form" target="_blank" rel="noopener noreferrer" id="app-absen" class="app-card relative block bg-white rounded-xl p-3.5 border border-slate-200 group" data-search="absensi kehadiran presensi masuk pulang scan barcode harian"> <button class="fav-btn absolute top-2.5 right-2.5 z-10 text-slate-300 hover:text-amber-400 transition-colors" onclick="toggleFavorite(event, 'app-absen')"><i class="ph-fill ph-star text-lg"></i></button>
          <div class="flex items-start gap-3">
           <div class="emoji-icon shrink-0 mt-0.5">📷</div>
@@ -254,7 +293,7 @@
        <div class="flex items-center gap-2 mb-3 border-b border-slate-100 pb-2.5"><span class="text-lg">💰</span>
         <h3 data-template-id="cat-bisnis-title" class="canva-text text-sm font-bold text-slate-700" style="color: rgb(30, 41, 59); font-weight: 700; font-style: normal; font-size: 18px;">Keuangan &amp; Bisnis</h3>
        </div>
-       <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-3">
+       <div class="app-grid grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-3">
          <a href="https://kopkarakm.github.io/Manager_AdamartV2/" target="_blank" rel="noopener noreferrer" id="app-adamart" class="app-card relative block bg-white rounded-xl p-3.5 border border-slate-200 group" data-search="adamart pos kasir minimarket penjualan toko barang"> <button class="fav-btn absolute top-2.5 right-2.5 z-10 text-slate-300 hover:text-amber-400 transition-colors" onclick="toggleFavorite(event, 'app-adamart')"><i class="ph-fill ph-star text-lg"></i></button>
          <div class="flex items-start gap-3">
           <div class="emoji-icon shrink-0 mt-0.5">🏪</div>
@@ -414,13 +453,13 @@
      </div><button onclick="closeModalOpname()" class="w-8 h-8 flex items-center justify-center text-slate-400 hover:text-rose-500 hover:bg-rose-50 rounded-lg transition"><i class="ph-bold ph-x text-base"></i></button>
     </div>
     <div class="p-4 overflow-y-auto flex-1 custom-scroll" id="list-opname-detail"></div>
-    <div class="p-3 border-t border-slate-200 bg-slate-50 flex justify-center shrink-0"><a href="https://kopkarakm.github.io/Aplikasi-Kas-KOPKAR/" target="_blank" rel="noopener noreferrer" data-template-id="modal-opname-cta" class="canva-button inline-flex items-center gap-2 px-5 py-2.5 text-sm font-bold rounded-xl shadow-md transition-colors" style="background: rgb(79, 70, 229); color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 15px;">Buka KasKecil Pro →</a>
+    <div class="p-3 border-t border-slate-200 bg-slate-50 flex justify-center shrink-0"><a href="https://kopkarakm.github.io/Aplikasi-Kas-KOPKAR/" target="_blank" rel="noopener noreferrer" data-template-id="modal-opname-cta" data-title="KasKecil Pro" class="canva-button inline-flex items-center gap-2 px-5 py-2.5 text-sm font-bold rounded-xl shadow-md transition-colors" style="background: rgb(79, 70, 229); color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 15px;">Buka KasKecil Pro →</a>
     </div>
    </div>
   </div>
 
-  <!-- MODAL IFRAME APLIKASI -->
-  <div id="iframe-modal" class="fixed inset-0 z-[200] bg-slate-50 flex flex-col transition-transform duration-300 translate-y-full hidden">
+  <!-- MODAL IFRAME APLIKASI (MOBILE) -->
+  <div id="iframe-modal" class="fixed inset-0 z-[200] bg-slate-50 flex flex-col transition-transform duration-300 translate-y-full hidden lg:hidden">
    <div class="h-14 lg:h-16 bg-white border-b border-slate-200 flex items-center px-4 justify-between shrink-0 shadow-sm">
     <div class="flex items-center gap-3">
      <button onclick="closeAppIframe()" class="w-8 h-8 lg:w-10 lg:h-10 flex items-center justify-center bg-slate-100 text-slate-600 rounded-full hover:bg-slate-200 transition-colors">
@@ -437,7 +476,7 @@
      <i class="ph ph-spinner animate-spin text-3xl text-indigo-600 mb-2"></i>
      <p class="text-xs text-slate-500 font-medium mt-2">Memuat aplikasi...</p>
     </div>
-    <iframe id="app-iframe" class="w-full h-full border-0 absolute inset-0 z-20" src="" onload="document.getElementById('iframe-loader').style.display='none'"></iframe>
+    <iframe id="app-iframe" class="w-full h-full border-0 absolute inset-0 z-20 hidden" src="" onload="document.getElementById('iframe-loader').style.display='none'"></iframe>
    </div>
   </div>
 
@@ -681,19 +720,52 @@
 
     window.openApp = function(e, url, title) {
         if(e) e.preventDefault();
-        const modal = document.getElementById('iframe-modal');
-        const iframe = document.getElementById('app-iframe');
-        const titleEl = document.getElementById('iframe-title');
-        const loader = document.getElementById('iframe-loader');
-        const extLink = document.getElementById('iframe-external-link');
+        
+        const isDesktop = window.innerWidth >= 1024;
+        
+        if (isDesktop) {
+            const viewer = document.getElementById('panel-viewer');
+            const dirPanel = document.getElementById('panel-directory');
+            const iframe = document.getElementById('desktop-app-iframe');
+            const titleEl = document.getElementById('desktop-iframe-title');
+            const extLink = document.getElementById('desktop-iframe-ext');
+            const loader = document.getElementById('desktop-iframe-loader');
+            const placeholder = document.getElementById('desktop-viewer-placeholder');
 
-        titleEl.textContent = title;
-        extLink.href = url;
-        loader.style.display = 'flex';
-        iframe.src = url;
+            viewer.classList.remove('hidden');
+            viewer.classList.add('flex');
+            
+            dirPanel.classList.remove('lg:flex-1');
+            dirPanel.classList.add('lg:w-[320px]', 'xl:w-[360px]');
+            
+            document.querySelectorAll('#panel-directory .app-grid').forEach(g => {
+                g.classList.remove('sm:grid-cols-2', 'xl:grid-cols-3', '2xl:grid-cols-4');
+                g.classList.add('grid-cols-1');
+            });
 
-        modal.classList.remove('hidden');
-        setTimeout(() => { modal.classList.remove('translate-y-full'); }, 10);
+            titleEl.textContent = title;
+            extLink.href = url;
+            extLink.classList.remove('hidden');
+            placeholder.style.display = 'none';
+            iframe.style.display = 'block';
+            loader.style.display = 'flex';
+            iframe.src = url;
+
+        } else {
+            const modal = document.getElementById('iframe-modal');
+            const iframe = document.getElementById('app-iframe');
+            const titleEl = document.getElementById('iframe-title');
+            const loader = document.getElementById('iframe-loader');
+            const extLink = document.getElementById('iframe-external-link');
+
+            titleEl.textContent = title;
+            extLink.href = url;
+            loader.style.display = 'flex';
+            iframe.src = url;
+
+            modal.classList.remove('hidden');
+            setTimeout(() => { modal.classList.remove('translate-y-full'); }, 10);
+        }
     };
 
     window.closeAppIframe = function() {
@@ -701,6 +773,32 @@
         const iframe = document.getElementById('app-iframe');
         modal.classList.add('translate-y-full');
         setTimeout(() => { modal.classList.add('hidden'); iframe.src = ''; }, 300);
+    };
+
+    window.closeDesktopApp = function() {
+        const viewer = document.getElementById('panel-viewer');
+        const dirPanel = document.getElementById('panel-directory');
+        const iframe = document.getElementById('desktop-app-iframe');
+        const titleEl = document.getElementById('desktop-iframe-title');
+        const extLink = document.getElementById('desktop-iframe-ext');
+        const placeholder = document.getElementById('desktop-viewer-placeholder');
+
+        viewer.classList.add('hidden');
+        viewer.classList.remove('flex');
+        
+        dirPanel.classList.add('lg:flex-1');
+        dirPanel.classList.remove('lg:w-[320px]', 'xl:w-[360px]');
+        
+        document.querySelectorAll('#panel-directory .app-grid').forEach(g => {
+            g.classList.add('sm:grid-cols-2', 'xl:grid-cols-3', '2xl:grid-cols-4');
+            g.classList.remove('grid-cols-1');
+        });
+
+        iframe.src = '';
+        iframe.style.display = 'none';
+        extLink.classList.add('hidden');
+        placeholder.style.display = 'flex';
+        titleEl.textContent = 'Area Kerja Utama';
     };
 
     window.forceSync = () => fetchDashboardData();
@@ -711,15 +809,40 @@
         fetchPendingTasks();
         fetchAdamartSales();
         
-        // Pasang event listener ke semua kartu aplikasi agar terbuka di iframe internal
-        document.querySelectorAll('.app-card').forEach(card => {
-            card.addEventListener('click', (e) => {
-                if (e.target.closest('.fav-btn')) return;
+        // Pencegat global untuk semua tautan
+        document.body.addEventListener('click', (e) => {
+            // Abaikan klik jika pada tombol bintang favorit
+            if (e.target.closest('.fav-btn')) {
                 e.preventDefault();
-                const title = card.querySelector('h4').textContent;
-                const url = card.getAttribute('href');
-                window.openApp(e, url, title);
-            });
+                return;
+            }
+
+            const link = e.target.closest('a');
+            
+            // Tangkap semua elemen <a> dengan target="_blank"
+            if (link && link.getAttribute('target') === '_blank') {
+                
+                // Izinkan tautan keluar berfungsi normal jika di-klik dari tombol "Buka Eksternal"
+                if (link.id === 'desktop-iframe-ext' || link.id === 'iframe-external-link') {
+                    return; 
+                }
+
+                e.preventDefault(); // Batalkan buka tab baru
+                
+                let title = 'Aplikasi';
+                
+                // Cek sumber klik untuk menentukan judul aplikasi
+                if (link.classList.contains('app-card')) {
+                    const h4 = link.querySelector('h4');
+                    if (h4) title = h4.textContent;
+                } else if (link.hasAttribute('data-title')) {
+                    title = link.getAttribute('data-title');
+                } else {
+                    title = link.textContent.replace(/Cek|Buka|Sekarang|→/gi, '').trim() || 'Aplikasi';
+                }
+
+                window.openApp(e, link.href, title);
+            }
         });
 
         setInterval(() => { fetchDashboardData(); fetchPendingTasks(); fetchAdamartSales(); }, 300000);
