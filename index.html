@@ -233,6 +233,7 @@
                 </div>
             </section>
 
+            <!-- Kategori: Aplikasi Admin & Karyawan -->
             <section class="app-category" data-category="admin">
                 <div class="flex items-center gap-3 mb-5 border-b border-slate-200 pb-3">
                     <div class="w-8 h-8 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center">
@@ -331,6 +332,20 @@
                             </div>
                         </div>
                     </a>
+
+                    <!-- ITEM BARU: SURAT KUASA DIGITAL -->
+                    <a href="https://kopkarakm.github.io/Delegasi-Kopkar-AKM/" target="_blank" id="app-surat-kuasa" class="app-card relative group block bg-white rounded-2xl p-5 border border-slate-200" data-search="surat kuasa digital delegasi wewenang tugas persetujuan ttd tanda tangan form formulir">
+                        <button class="fav-btn absolute top-4 right-4 z-10 text-slate-300 hover:text-amber-400 transition-colors" onclick="toggleFavorite(event, 'app-surat-kuasa')" title="Tandai Favorit"><i class="ph-fill ph-star text-2xl"></i></button>
+                        <div class="flex items-start gap-4">
+                            <div class="app-icon-bg w-12 h-12 rounded-xl bg-slate-100 text-slate-600 flex items-center justify-center shrink-0 transition-colors">
+                                <i class="ph-fill ph-signature text-2xl"></i>
+                            </div>
+                            <div class="pr-6">
+                                <h4 class="font-bold text-slate-800 text-base group-hover:text-blue-600 transition-colors">Surat Kuasa Digital</h4>
+                                <p class="text-sm text-slate-500 mt-1 line-clamp-2">Formulir pendelegasian wewenang dan pembuatan surat kuasa secara digital.</p>
+                            </div>
+                        </div>
+                    </a>
                 </div>
             </section>
 
@@ -403,6 +418,20 @@
                             <div class="pr-6">
                                 <h4 class="font-bold text-slate-800 text-base group-hover:text-blue-600 transition-colors">Pengajuan BDV</h4>
                                 <p class="text-sm text-slate-500 mt-1 line-clamp-2">Form pengajuan pencairan dana (Bank Disbursement Voucher).</p>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- ITEM BARU: E-APPROVAL PINJAMAN -->
+                    <a href="https://kopkarakm.github.io/E-Approval-Pinjaman/" target="_blank" id="app-pinjaman" class="app-card relative group block bg-white rounded-2xl p-5 border border-slate-200" data-search="pinjaman kredit anggota e-approval persetujuan analisis kelayakan uang dana">
+                        <button class="fav-btn absolute top-4 right-4 z-10 text-slate-300 hover:text-amber-400 transition-colors" onclick="toggleFavorite(event, 'app-pinjaman')" title="Tandai Favorit"><i class="ph-fill ph-star text-2xl"></i></button>
+                        <div class="flex items-start gap-4">
+                            <div class="app-icon-bg w-12 h-12 rounded-xl bg-slate-100 text-slate-600 flex items-center justify-center shrink-0 transition-colors">
+                                <i class="ph-fill ph-hand-coins text-2xl"></i>
+                            </div>
+                            <div class="pr-6">
+                                <h4 class="font-bold text-slate-800 text-base group-hover:text-blue-600 transition-colors">E-Approval Pinjaman</h4>
+                                <p class="text-sm text-slate-500 mt-1 line-clamp-2">Laporan analisis kelayakan & persetujuan pinjaman anggota digital.</p>
                             </div>
                         </div>
                     </a>
@@ -932,7 +961,6 @@
                 setTimeout(() => { modal.classList.add('hidden'); }, 300);
             }
         };
-
 
         const API_ABSEN = 'https://script.google.com/macros/s/AKfycbz6YajqskEFxko5jVtpK8RS3oI-LUHbaLCUmgCFa-xHZIWSGrxJfB66ng0O0HqR4Arf-g/exec';
         const CSV_CUTI = 'https://docs.google.com/spreadsheets/d/1hnvFy3cmQg8qRxqASY5PZfgmUfiW5WBU0fkDAA5DUc4/gviz/tq?tqx=out:csv&sheet=DataCuti';
