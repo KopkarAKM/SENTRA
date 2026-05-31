@@ -28,11 +28,10 @@
         #search-suggestions { max-height: 280px; overflow-y: auto; }
         .suggestion-item:hover { background-color: #f1f5f9; }
         .glass-card { background: rgba(255,255,255,0.85); backdrop-filter: blur(12px); border: 1px solid rgba(226,232,240,0.8); }
-        .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
     </style>
   <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js" type="text/javascript"></script>
  </head>
- <body data-template-id="__page-root" class="text-slate-800 antialiased flex flex-col overflow-hidden" style="height: calc(100 * min(var(--vh, 1vh), 1vh)); background: linear-gradient(145deg, rgb(248, 250, 252), rgb(238, 242, 255));">
+ <body data-template-id="__page-root" class="text-slate-800 antialiased flex flex-col overflow-hidden h-[100dvh]" style="background: linear-gradient(145deg, rgb(248, 250, 252), rgb(238, 242, 255))">
   <header class="shrink-0 z-40 w-full bg-white/90 backdrop-blur-xl border-b border-slate-200/80 shadow-sm relative">
    <div class="max-w-[1920px] mx-auto px-4 lg:px-10">
     <div class="flex items-center justify-between h-14 lg:h-16">
@@ -153,11 +152,11 @@
      </div>
     </div>
     
-    <div class="flex-1 flex flex-col bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden shrink-0 lg:shrink lg:h-full">
+    <div class="w-full lg:flex-1 flex flex-col bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden shrink-0 lg:h-full">
      <div class="px-5 lg:px-7 py-3.5 border-b border-slate-100 bg-gradient-to-r from-indigo-50/50 to-white shrink-0 flex justify-between items-center">
       <h2 class="font-bold text-slate-800 text-sm lg:text-base uppercase tracking-wider flex items-center gap-2"><span class="text-lg">📱</span> <span data-template-id="directory-title" class="canva-text" style="color: rgb(30, 41, 59); font-weight: 700; font-style: normal; font-size: 15px;">Direktori Aplikasi</span></h2>
      </div>
-     <div class="flex-1 overflow-y-auto custom-scroll p-4 lg:p-6 scroll-smooth" id="app-sections">
+     <div class="w-full lg:flex-1 lg:overflow-y-auto custom-scroll p-4 lg:p-6 scroll-smooth" id="app-sections">
       <div id="no-results-msg" class="hidden py-12 text-center">
        <div class="text-4xl mb-3">
         🔍
@@ -171,80 +170,78 @@
        </div>
        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-3" id="favorites-container"></div>
       </section>
+      
       <section id="section-admin" class="app-category mb-8" data-category="admin">
        <div class="flex items-center gap-2 mb-3 border-b border-slate-100 pb-2.5"><span class="text-lg">💼</span>
         <h3 data-template-id="cat-admin-title" class="canva-text text-sm font-bold text-slate-700" style="color: rgb(30, 41, 59); font-weight: 700; font-style: normal; font-size: 18px;">Admin &amp; Karyawan</h3>
        </div>
-       <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-3"><a href="https://www.appsheet.com/start/147f850b-a296-4326-a409-dc463c9c4b52#table=Presensi%20Masuk&amp;page=form" target="_blank" rel="noopener noreferrer" id="app-absen" class="app-card relative block bg-white rounded-xl p-3.5 border border-slate-200 group" data-search="absensi kehadiran presensi masuk pulang scan barcode harian"> <button class="fav-btn absolute top-2.5 right-2.5 z-10 text-slate-300 hover:text-amber-400 transition-colors" onclick="toggleFavorite(event, 'app-absen')"><i class="ph-fill ph-star text-lg"></i></button>
        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-3">
          <a href="https://www.appsheet.com/start/147f850b-a296-4326-a409-dc463c9c4b52#table=Presensi%20Masuk&amp;page=form" target="_blank" rel="noopener noreferrer" id="app-absen" class="app-card relative block bg-white rounded-xl p-3.5 border border-slate-200 group" data-search="absensi kehadiran presensi masuk pulang scan barcode harian"> <button class="fav-btn absolute top-2.5 right-2.5 z-10 text-slate-300 hover:text-amber-400 transition-colors" onclick="toggleFavorite(event, 'app-absen')"><i class="ph-fill ph-star text-lg"></i></button>
          <div class="flex items-start gap-3">
-          <div class="emoji-icon shrink-0 mt-0.5">
-           📷
-          </div>
+          <div class="emoji-icon shrink-0 mt-0.5">📷</div>
           <div class="pr-5">
            <h4 data-template-id="app-absen-title" class="canva-text font-bold text-[13px] group-hover:text-indigo-600 transition-colors leading-tight" style="color: rgb(30, 41, 59); font-weight: 700; font-style: normal; font-size: 15px;">Absensi Karyawan</h4>
            <p data-template-id="app-absen-desc" class="canva-text text-[10px] mt-1 line-clamp-2 leading-relaxed" style="color: rgb(100, 116, 139); font-weight: 400; font-style: normal; font-size: 15px;">Presensi digital harian dengan verifikasi lokasi/foto.</p>
           </div>
-         </div></a> <a href="https://kopkarakm.github.io/CutiKaryawanKopkarAKM/" target="_blank" rel="noopener noreferrer" id="app-cuti" class="app-card relative block bg-white rounded-xl p-3.5 border border-slate-200 group" data-search="cuti izin sakit libur pengajuan approval sisa"> <button class="fav-btn absolute top-2.5 right-2.5 z-10 text-slate-300 hover:text-amber-400 transition-colors" onclick="toggleFavorite(event, 'app-cuti')"><i class="ph-fill ph-star text-lg"></i></button>
+         </div></a>
+         
+         <a href="https://kopkarakm.github.io/CutiKaryawanKopkarAKM/" target="_blank" rel="noopener noreferrer" id="app-cuti" class="app-card relative block bg-white rounded-xl p-3.5 border border-slate-200 group" data-search="cuti izin sakit libur pengajuan approval sisa"> <button class="fav-btn absolute top-2.5 right-2.5 z-10 text-slate-300 hover:text-amber-400 transition-colors" onclick="toggleFavorite(event, 'app-cuti')"><i class="ph-fill ph-star text-lg"></i></button>
          <div class="flex items-start gap-3">
-          <div class="emoji-icon shrink-0 mt-0.5">
-           🏖️
-          </div>
+          <div class="emoji-icon shrink-0 mt-0.5">🏖️</div>
           <div class="pr-5">
            <h4 data-template-id="app-cuti-title" class="canva-text font-bold text-[13px] group-hover:text-indigo-600 transition-colors leading-tight" style="color: rgb(30, 41, 59); font-weight: 700; font-style: normal; font-size: 15px;">Pengajuan Cuti</h4>
            <p data-template-id="app-cuti-desc" class="canva-text text-[10px] mt-1 line-clamp-2 leading-relaxed" style="color: rgb(100, 116, 139); font-weight: 400; font-style: normal; font-size: 15px;">Portal cuti, izin, dan monitoring kuota tahunan.</p>
           </div>
-         </div></a> <a href="https://script.google.com/macros/s/AKfycbzQ_W997-vWj3m9o5l8f28pB9jGZ269hZ4414i0hZ3Yv6-z9c9q8g9q5c7901009/exec" target="_blank" rel="noopener noreferrer" id="app-lembur" class="app-card relative block bg-white rounded-xl p-3.5 border border-slate-200 group" data-search="lembur overtime kerja tambahan spkl"> <button class="fav-btn absolute top-2.5 right-2.5 z-10 text-slate-300 hover:text-amber-400 transition-colors" onclick="toggleFavorite(event, 'app-lembur')"><i class="ph-fill ph-star text-lg"></i></button>
+         </div></a>
+         
+         <a href="https://script.google.com/macros/s/AKfycbzQ_W997-vWj3m9o5l8f28pB9jGZ269hZ4414i0hZ3Yv6-z9c9q8g9q5c7901009/exec" target="_blank" rel="noopener noreferrer" id="app-lembur" class="app-card relative block bg-white rounded-xl p-3.5 border border-slate-200 group" data-search="lembur overtime kerja tambahan spkl"> <button class="fav-btn absolute top-2.5 right-2.5 z-10 text-slate-300 hover:text-amber-400 transition-colors" onclick="toggleFavorite(event, 'app-lembur')"><i class="ph-fill ph-star text-lg"></i></button>
          <div class="flex items-start gap-3">
-          <div class="emoji-icon shrink-0 mt-0.5">
-           ⏰
-          </div>
+          <div class="emoji-icon shrink-0 mt-0.5">⏰</div>
           <div class="pr-5">
            <h4 data-template-id="app-lembur-title" class="canva-text font-bold text-[13px] group-hover:text-indigo-600 transition-colors leading-tight" style="color: rgb(30, 41, 59); font-weight: 700; font-style: normal; font-size: 15px;">Surat Lembur</h4>
            <p data-template-id="app-lembur-desc" class="canva-text text-[10px] mt-1 line-clamp-2 leading-relaxed" style="color: rgb(100, 116, 139); font-weight: 400; font-style: normal; font-size: 15px;">Manajemen SPKL &amp; rekapitulasi jam kerja ekstra.</p>
           </div>
-         </div></a> <a href="https://kopkarakm.github.io/MomKopkarAkm/" target="_blank" rel="noopener noreferrer" id="app-mom" class="app-card relative block bg-white rounded-xl p-3.5 border border-slate-200 group" data-search="mom meeting rapat notulen hasil diskusi minutes"> <button class="fav-btn absolute top-2.5 right-2.5 z-10 text-slate-300 hover:text-amber-400 transition-colors" onclick="toggleFavorite(event, 'app-mom')"><i class="ph-fill ph-star text-lg"></i></button>
+         </div></a>
+         
+         <a href="https://kopkarakm.github.io/MomKopkarAkm/" target="_blank" rel="noopener noreferrer" id="app-mom" class="app-card relative block bg-white rounded-xl p-3.5 border border-slate-200 group" data-search="mom meeting rapat notulen hasil diskusi minutes"> <button class="fav-btn absolute top-2.5 right-2.5 z-10 text-slate-300 hover:text-amber-400 transition-colors" onclick="toggleFavorite(event, 'app-mom')"><i class="ph-fill ph-star text-lg"></i></button>
          <div class="flex items-start gap-3">
-          <div class="emoji-icon shrink-0 mt-0.5">
-           🤝
-          </div>
+          <div class="emoji-icon shrink-0 mt-0.5">🤝</div>
           <div class="pr-5">
            <h4 data-template-id="app-mom-title" class="canva-text font-bold text-[13px] group-hover:text-indigo-600 transition-colors leading-tight" style="color: rgb(30, 41, 59); font-weight: 700; font-style: normal; font-size: 15px;">MOM Meeting</h4>
            <p data-template-id="app-mom-desc" class="canva-text text-[10px] mt-1 line-clamp-2 leading-relaxed" style="color: rgb(100, 116, 139); font-weight: 400; font-style: normal; font-size: 15px;">Catatan, notulensi, dan tindak lanjut dari rapat.</p>
           </div>
-         </div></a> <a href="https://kopkarakm.github.io/SmartSOP-Kopkar-AKM/" target="_blank" rel="noopener noreferrer" id="app-som" class="app-card relative block bg-white rounded-xl p-3.5 border border-slate-200 group" data-search="som pedoman standar operasional manajemen peraturan"> <button class="fav-btn absolute top-2.5 right-2.5 z-10 text-slate-300 hover:text-amber-400 transition-colors" onclick="toggleFavorite(event, 'app-som')"><i class="ph-fill ph-star text-lg"></i></button>
+         </div></a>
+         
+         <a href="https://kopkarakm.github.io/SmartSOP-Kopkar-AKM/" target="_blank" rel="noopener noreferrer" id="app-som" class="app-card relative block bg-white rounded-xl p-3.5 border border-slate-200 group" data-search="som pedoman standar operasional manajemen peraturan"> <button class="fav-btn absolute top-2.5 right-2.5 z-10 text-slate-300 hover:text-amber-400 transition-colors" onclick="toggleFavorite(event, 'app-som')"><i class="ph-fill ph-star text-lg"></i></button>
          <div class="flex items-start gap-3">
-          <div class="emoji-icon shrink-0 mt-0.5">
-           📖
-          </div>
+          <div class="emoji-icon shrink-0 mt-0.5">📖</div>
           <div class="pr-5">
            <h4 data-template-id="app-som-title" class="canva-text font-bold text-[13px] group-hover:text-indigo-600 transition-colors leading-tight" style="color: rgb(30, 41, 59); font-weight: 700; font-style: normal; font-size: 15px;">SOM Koperasi</h4>
            <p data-template-id="app-som-desc" class="canva-text text-[10px] mt-1 line-clamp-2 leading-relaxed" style="color: rgb(100, 116, 139); font-weight: 400; font-style: normal; font-size: 15px;">Standar Operasional Manajemen &amp; aturan baku.</p>
           </div>
-         </div></a> <a href="https://kopkarakm.github.io/Absensi-Pengelola-Report/" target="_blank" rel="noopener noreferrer" id="app-analisa-absen" class="app-card relative block bg-white rounded-xl p-3.5 border border-slate-200 group" data-search="analisa absensi data grafik statistik laporan kehadiran"> <button class="fav-btn absolute top-2.5 right-2.5 z-10 text-slate-300 hover:text-amber-400 transition-colors" onclick="toggleFavorite(event, 'app-analisa-absen')"><i class="ph-fill ph-star text-lg"></i></button>
+         </div></a>
+         
+         <a href="https://kopkarakm.github.io/Absensi-Pengelola-Report/" target="_blank" rel="noopener noreferrer" id="app-analisa-absen" class="app-card relative block bg-white rounded-xl p-3.5 border border-slate-200 group" data-search="analisa absensi data grafik statistik laporan kehadiran"> <button class="fav-btn absolute top-2.5 right-2.5 z-10 text-slate-300 hover:text-amber-400 transition-colors" onclick="toggleFavorite(event, 'app-analisa-absen')"><i class="ph-fill ph-star text-lg"></i></button>
          <div class="flex items-start gap-3">
-          <div class="emoji-icon shrink-0 mt-0.5">
-           📊
-          </div>
+          <div class="emoji-icon shrink-0 mt-0.5">📊</div>
           <div class="pr-5">
            <h4 data-template-id="app-analisa-absen-title" class="canva-text font-bold text-[13px] group-hover:text-indigo-600 transition-colors leading-tight" style="color: rgb(30, 41, 59); font-weight: 700; font-style: normal; font-size: 15px;">Analisa Absensi</h4>
            <p data-template-id="app-analisa-absen-desc" class="canva-text text-[10px] mt-1 line-clamp-2 leading-relaxed" style="color: rgb(100, 116, 139); font-weight: 400; font-style: normal; font-size: 15px;">Dashboard statistik dan tren analisis kehadiran.</p>
           </div>
-         </div></a> <a href="https://kopkarakm.github.io/JobGoals/" target="_blank" rel="noopener noreferrer" id="app-jobgoal" class="app-card relative block bg-white rounded-xl p-3.5 border border-slate-200 group" data-search="analisa job goal kpi target kinerja performance okr"> <button class="fav-btn absolute top-2.5 right-2.5 z-10 text-slate-300 hover:text-amber-400 transition-colors" onclick="toggleFavorite(event, 'app-jobgoal')"><i class="ph-fill ph-star text-lg"></i></button>
+         </div></a>
+         
+         <a href="https://kopkarakm.github.io/JobGoals/" target="_blank" rel="noopener noreferrer" id="app-jobgoal" class="app-card relative block bg-white rounded-xl p-3.5 border border-slate-200 group" data-search="analisa job goal kpi target kinerja performance okr"> <button class="fav-btn absolute top-2.5 right-2.5 z-10 text-slate-300 hover:text-amber-400 transition-colors" onclick="toggleFavorite(event, 'app-jobgoal')"><i class="ph-fill ph-star text-lg"></i></button>
          <div class="flex items-start gap-3">
-          <div class="emoji-icon shrink-0 mt-0.5">
-           🎯
-          </div>
+          <div class="emoji-icon shrink-0 mt-0.5">🎯</div>
           <div class="pr-5">
            <h4 data-template-id="app-jobgoal-title" class="canva-text font-bold text-[13px] group-hover:text-indigo-600 transition-colors leading-tight" style="color: rgb(30, 41, 59); font-weight: 700; font-style: normal; font-size: 15px;">Analisa Job Goal</h4>
            <p data-template-id="app-jobgoal-desc" class="canva-text text-[10px] mt-1 line-clamp-2 leading-relaxed" style="color: rgb(100, 116, 139); font-weight: 400; font-style: normal; font-size: 15px;">Evaluasi KPI &amp; pencapaian target kerja tim.</p>
           </div>
-         </div></a> <a href="https://kopkarakm.github.io/Delegasi-Kopkar-AKM/" target="_blank" rel="noopener noreferrer" id="app-surat-kuasa" class="app-card relative block bg-white rounded-xl p-3.5 border border-slate-200 group" data-search="surat kuasa digital delegasi wewenang tugas persetujuan ttd tanda tangan form formulir"> <button class="fav-btn absolute top-2.5 right-2.5 z-10 text-slate-300 hover:text-amber-400 transition-colors" onclick="toggleFavorite(event, 'app-surat-kuasa')"><i class="ph-fill ph-star text-lg"></i></button>
+         </div></a>
+         
+         <a href="https://kopkarakm.github.io/Delegasi-Kopkar-AKM/" target="_blank" rel="noopener noreferrer" id="app-surat-kuasa" class="app-card relative block bg-white rounded-xl p-3.5 border border-slate-200 group" data-search="surat kuasa digital delegasi wewenang tugas persetujuan ttd tanda tangan form formulir"> <button class="fav-btn absolute top-2.5 right-2.5 z-10 text-slate-300 hover:text-amber-400 transition-colors" onclick="toggleFavorite(event, 'app-surat-kuasa')"><i class="ph-fill ph-star text-lg"></i></button>
          <div class="flex items-start gap-3">
-          <div class="emoji-icon shrink-0 mt-0.5">
-           ✍️
-          </div>
+          <div class="emoji-icon shrink-0 mt-0.5">✍️</div>
           <div class="pr-5">
            <h4 data-template-id="app-surat-kuasa-title" class="canva-text font-bold text-[13px] group-hover:text-indigo-600 transition-colors leading-tight" style="color: rgb(30, 41, 59); font-weight: 700; font-style: normal; font-size: 15px;">Surat Kuasa Digital</h4>
            <p data-template-id="app-surat-kuasa-desc" class="canva-text text-[10px] mt-1 line-clamp-2 leading-relaxed" style="color: rgb(100, 116, 139); font-weight: 400; font-style: normal; font-size: 15px;">Formulir pendelegasian wewenang secara digital.</p>
@@ -257,83 +254,82 @@
        <div class="flex items-center gap-2 mb-3 border-b border-slate-100 pb-2.5"><span class="text-lg">💰</span>
         <h3 data-template-id="cat-bisnis-title" class="canva-text text-sm font-bold text-slate-700" style="color: rgb(30, 41, 59); font-weight: 700; font-style: normal; font-size: 18px;">Keuangan &amp; Bisnis</h3>
        </div>
-       <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-3"><a href="https://kopkarakm.github.io/Manager_AdamartV2/" target="_blank" rel="noopener noreferrer" id="app-adamart" class="app-card relative block bg-white rounded-xl p-3.5 border border-slate-200 group" data-search="adamart pos kasir minimarket penjualan toko barang"> <button class="fav-btn absolute top-2.5 right-2.5 z-10 text-slate-300 hover:text-amber-400 transition-colors" onclick="toggleFavorite(event, 'app-adamart')"><i class="ph-fill ph-star text-lg"></i></button>
+       <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-3">
+         <a href="https://kopkarakm.github.io/Manager_AdamartV2/" target="_blank" rel="noopener noreferrer" id="app-adamart" class="app-card relative block bg-white rounded-xl p-3.5 border border-slate-200 group" data-search="adamart pos kasir minimarket penjualan toko barang"> <button class="fav-btn absolute top-2.5 right-2.5 z-10 text-slate-300 hover:text-amber-400 transition-colors" onclick="toggleFavorite(event, 'app-adamart')"><i class="ph-fill ph-star text-lg"></i></button>
          <div class="flex items-start gap-3">
-          <div class="emoji-icon shrink-0 mt-0.5">
-           🏪
-          </div>
+          <div class="emoji-icon shrink-0 mt-0.5">🏪</div>
           <div class="pr-5">
            <h4 data-template-id="app-adamart-title" class="canva-text font-bold text-[13px] group-hover:text-indigo-600 transition-colors leading-tight" style="color: rgb(30, 41, 59); font-weight: 700; font-style: normal; font-size: 15px;">Adamart POS</h4>
            <p data-template-id="app-adamart-desc" class="canva-text text-[10px] mt-1 line-clamp-2 leading-relaxed" style="color: rgb(100, 116, 139); font-weight: 400; font-style: normal; font-size: 15px;">Sistem Kasir (POS) minimarket Adamart.</p>
           </div>
-         </div></a> <a href="https://kopkarakm.github.io/CekMutasi/" target="_blank" rel="noopener noreferrer" id="app-mutasi" class="app-card relative block bg-white rounded-xl p-3.5 border border-slate-200 group" data-search="cek mutasi bank transaksi keuangan"> <button class="fav-btn absolute top-2.5 right-2.5 z-10 text-slate-300 hover:text-amber-400 transition-colors" onclick="toggleFavorite(event, 'app-mutasi')"><i class="ph-fill ph-star text-lg"></i></button>
+         </div></a>
+         
+         <a href="https://kopkarakm.github.io/CekMutasi/" target="_blank" rel="noopener noreferrer" id="app-mutasi" class="app-card relative block bg-white rounded-xl p-3.5 border border-slate-200 group" data-search="cek mutasi bank transaksi keuangan"> <button class="fav-btn absolute top-2.5 right-2.5 z-10 text-slate-300 hover:text-amber-400 transition-colors" onclick="toggleFavorite(event, 'app-mutasi')"><i class="ph-fill ph-star text-lg"></i></button>
          <div class="flex items-start gap-3">
-          <div class="emoji-icon shrink-0 mt-0.5">
-           🏦
-          </div>
+          <div class="emoji-icon shrink-0 mt-0.5">🏦</div>
           <div class="pr-5">
            <h4 data-template-id="app-mutasi-title" class="canva-text font-bold text-[13px] group-hover:text-indigo-600 transition-colors leading-tight" style="color: rgb(30, 41, 59); font-weight: 700; font-style: normal; font-size: 15px;">Cek Mutasi Bank</h4>
            <p data-template-id="app-mutasi-desc" class="canva-text text-[10px] mt-1 line-clamp-2 leading-relaxed" style="color: rgb(100, 116, 139); font-weight: 400; font-style: normal; font-size: 15px;">Pemantauan lalu lintas transaksi harian realtime.</p>
           </div>
-         </div></a> <a href="https://kopkarakm.github.io/RekKor-AKM/" target="_blank" rel="noopener noreferrer" id="app-rekkor" class="app-card relative block bg-white rounded-xl p-3.5 border border-slate-200 group" data-search="rekening koran laporan mutasi histori bank"> <button class="fav-btn absolute top-2.5 right-2.5 z-10 text-slate-300 hover:text-amber-400 transition-colors" onclick="toggleFavorite(event, 'app-rekkor')"><i class="ph-fill ph-star text-lg"></i></button>
+         </div></a>
+         
+         <a href="https://kopkarakm.github.io/RekKor-AKM/" target="_blank" rel="noopener noreferrer" id="app-rekkor" class="app-card relative block bg-white rounded-xl p-3.5 border border-slate-200 group" data-search="rekening koran laporan mutasi histori bank"> <button class="fav-btn absolute top-2.5 right-2.5 z-10 text-slate-300 hover:text-amber-400 transition-colors" onclick="toggleFavorite(event, 'app-rekkor')"><i class="ph-fill ph-star text-lg"></i></button>
          <div class="flex items-start gap-3">
-          <div class="emoji-icon shrink-0 mt-0.5">
-           🧾
-          </div>
+          <div class="emoji-icon shrink-0 mt-0.5">🧾</div>
           <div class="pr-5">
            <h4 data-template-id="app-rekkor-title" class="canva-text font-bold text-[13px] group-hover:text-indigo-600 transition-colors leading-tight" style="color: rgb(30, 41, 59); font-weight: 700; font-style: normal; font-size: 15px;">Rekening Koran</h4>
            <p data-template-id="app-rekkor-desc" class="canva-text text-[10px] mt-1 line-clamp-2 leading-relaxed" style="color: rgb(100, 116, 139); font-weight: 400; font-style: normal; font-size: 15px;">Rekapitulasi riwayat mutasi rekening bank.</p>
           </div>
-         </div></a> <a href="https://kopkarakm.github.io/Aplikasi-Kas-KOPKAR/" target="_blank" rel="noopener noreferrer" id="app-kas" class="app-card relative block bg-white rounded-xl p-3.5 border border-slate-200 group" data-search="kas opname audit fisik uang saldo kasir kaskecil"> <button class="fav-btn absolute top-2.5 right-2.5 z-10 text-slate-300 hover:text-amber-400 transition-colors" onclick="toggleFavorite(event, 'app-kas')"><i class="ph-fill ph-star text-lg"></i></button>
+         </div></a>
+         
+         <a href="https://kopkarakm.github.io/Aplikasi-Kas-KOPKAR/" target="_blank" rel="noopener noreferrer" id="app-kas" class="app-card relative block bg-white rounded-xl p-3.5 border border-slate-200 group" data-search="kas opname audit fisik uang saldo kasir kaskecil"> <button class="fav-btn absolute top-2.5 right-2.5 z-10 text-slate-300 hover:text-amber-400 transition-colors" onclick="toggleFavorite(event, 'app-kas')"><i class="ph-fill ph-star text-lg"></i></button>
          <div class="flex items-start gap-3">
-          <div class="emoji-icon shrink-0 mt-0.5">
-           👛
-          </div>
+          <div class="emoji-icon shrink-0 mt-0.5">👛</div>
           <div class="pr-5">
            <h4 data-template-id="app-kas-title" class="canva-text font-bold text-[13px] group-hover:text-indigo-600 transition-colors leading-tight" style="color: rgb(30, 41, 59); font-weight: 700; font-style: normal; font-size: 15px;">KasKecil Pro</h4>
            <p data-template-id="app-kas-desc" class="canva-text text-[10px] mt-1 line-clamp-2 leading-relaxed" style="color: rgb(100, 116, 139); font-weight: 400; font-style: normal; font-size: 15px;">Pencatatan mutasi kas &amp; pelaporan opname harian.</p>
           </div>
-         </div></a> <a href="https://kopkarakm.github.io/BDV-Manager/" target="_blank" rel="noopener noreferrer" id="app-bdv" class="app-card relative block bg-white rounded-xl p-3.5 border border-slate-200 group" data-search="bdv pengajuan dana bank disbursement voucher pencairan"> <button class="fav-btn absolute top-2.5 right-2.5 z-10 text-slate-300 hover:text-amber-400 transition-colors" onclick="toggleFavorite(event, 'app-bdv')"><i class="ph-fill ph-star text-lg"></i></button>
+         </div></a>
+         
+         <a href="https://kopkarakm.github.io/BDV-Manager/" target="_blank" rel="noopener noreferrer" id="app-bdv" class="app-card relative block bg-white rounded-xl p-3.5 border border-slate-200 group" data-search="bdv pengajuan dana bank disbursement voucher pencairan"> <button class="fav-btn absolute top-2.5 right-2.5 z-10 text-slate-300 hover:text-amber-400 transition-colors" onclick="toggleFavorite(event, 'app-bdv')"><i class="ph-fill ph-star text-lg"></i></button>
          <div class="flex items-start gap-3">
-          <div class="emoji-icon shrink-0 mt-0.5">
-           📄
-          </div>
+          <div class="emoji-icon shrink-0 mt-0.5">📄</div>
           <div class="pr-5">
            <h4 data-template-id="app-bdv-title" class="canva-text font-bold text-[13px] group-hover:text-indigo-600 transition-colors leading-tight" style="color: rgb(30, 41, 59); font-weight: 700; font-style: normal; font-size: 15px;">Pengajuan BDV</h4>
            <p data-template-id="app-bdv-desc" class="canva-text text-[10px] mt-1 line-clamp-2 leading-relaxed" style="color: rgb(100, 116, 139); font-weight: 400; font-style: normal; font-size: 15px;">Form pengajuan pencairan dana (BDV).</p>
           </div>
-         </div></a> <a href="https://kopkarakm.github.io/E-Approval-Pinjaman/" target="_blank" rel="noopener noreferrer" id="app-pinjaman" class="app-card relative block bg-white rounded-xl p-3.5 border border-slate-200 group" data-search="pinjaman kredit anggota e-approval persetujuan analisis kelayakan uang dana"> <button class="fav-btn absolute top-2.5 right-2.5 z-10 text-slate-300 hover:text-amber-400 transition-colors" onclick="toggleFavorite(event, 'app-pinjaman')"><i class="ph-fill ph-star text-lg"></i></button>
+         </div></a>
+         
+         <a href="https://kopkarakm.github.io/E-Approval-Pinjaman/" target="_blank" rel="noopener noreferrer" id="app-pinjaman" class="app-card relative block bg-white rounded-xl p-3.5 border border-slate-200 group" data-search="pinjaman kredit anggota e-approval persetujuan analisis kelayakan uang dana"> <button class="fav-btn absolute top-2.5 right-2.5 z-10 text-slate-300 hover:text-amber-400 transition-colors" onclick="toggleFavorite(event, 'app-pinjaman')"><i class="ph-fill ph-star text-lg"></i></button>
          <div class="flex items-start gap-3">
-          <div class="emoji-icon shrink-0 mt-0.5">
-           🤲
-          </div>
+          <div class="emoji-icon shrink-0 mt-0.5">🤲</div>
           <div class="pr-5">
            <h4 data-template-id="app-pinjaman-title" class="canva-text font-bold text-[13px] group-hover:text-indigo-600 transition-colors leading-tight" style="color: rgb(30, 41, 59); font-weight: 700; font-style: normal; font-size: 15px;">Approval Pinjaman</h4>
            <p data-template-id="app-pinjaman-desc" class="canva-text text-[10px] mt-1 line-clamp-2 leading-relaxed" style="color: rgb(100, 116, 139); font-weight: 400; font-style: normal; font-size: 15px;">Laporan analisis &amp; persetujuan pinjaman anggota.</p>
           </div>
-         </div></a> <a href="https://kopkarakm.github.io/whistleblower-sistem/" target="_blank" rel="noopener noreferrer" id="app-wbs" class="app-card relative block bg-white rounded-xl p-3.5 border border-slate-200 group" data-search="wbs whistleblowing system lapor pelanggaran kepatuhan etika rahasia"> <button class="fav-btn absolute top-2.5 right-2.5 z-10 text-slate-300 hover:text-amber-400 transition-colors" onclick="toggleFavorite(event, 'app-wbs')"><i class="ph-fill ph-star text-lg"></i></button>
+         </div></a>
+         
+         <a href="https://kopkarakm.github.io/whistleblower-sistem/" target="_blank" rel="noopener noreferrer" id="app-wbs" class="app-card relative block bg-white rounded-xl p-3.5 border border-slate-200 group" data-search="wbs whistleblowing system lapor pelanggaran kepatuhan etika rahasia"> <button class="fav-btn absolute top-2.5 right-2.5 z-10 text-slate-300 hover:text-amber-400 transition-colors" onclick="toggleFavorite(event, 'app-wbs')"><i class="ph-fill ph-star text-lg"></i></button>
          <div class="flex items-start gap-3">
-          <div class="emoji-icon shrink-0 mt-0.5">
-           🚨
-          </div>
+          <div class="emoji-icon shrink-0 mt-0.5">🚨</div>
           <div class="pr-5">
            <h4 data-template-id="app-wbs-title" class="canva-text font-bold text-[13px] group-hover:text-rose-500 transition-colors leading-tight" style="color: rgb(30, 41, 59); font-weight: 700; font-style: normal; font-size: 15px;">Whistleblowing</h4>
            <p data-template-id="app-wbs-desc" class="canva-text text-[10px] mt-1 line-clamp-2 leading-relaxed" style="color: rgb(100, 116, 139); font-weight: 400; font-style: normal; font-size: 15px;">Pelaporan pelanggaran rahasia dan aman.</p>
           </div>
-         </div></a> <a href="https://kopkarakm.github.io/Dashboard-Debitur-Bermasalah/" target="_blank" rel="noopener noreferrer" id="app-eskalasi-kredit" class="app-card relative block bg-white rounded-xl p-3.5 border border-slate-200 group" data-search="sistem pemantauan eskalasi kredit terpadu digital debitur bermasalah pinjaman macet npl"> <button class="fav-btn absolute top-2.5 right-2.5 z-10 text-slate-300 hover:text-amber-400 transition-colors" onclick="toggleFavorite(event, 'app-eskalasi-kredit')"><i class="ph-fill ph-star text-lg"></i></button>
+         </div></a>
+         
+         <a href="https://kopkarakm.github.io/Dashboard-Debitur-Bermasalah/" target="_blank" rel="noopener noreferrer" id="app-eskalasi-kredit" class="app-card relative block bg-white rounded-xl p-3.5 border border-slate-200 group" data-search="sistem pemantauan eskalasi kredit terpadu digital debitur bermasalah pinjaman macet npl"> <button class="fav-btn absolute top-2.5 right-2.5 z-10 text-slate-300 hover:text-amber-400 transition-colors" onclick="toggleFavorite(event, 'app-eskalasi-kredit')"><i class="ph-fill ph-star text-lg"></i></button>
          <div class="flex items-start gap-3">
-          <div class="emoji-icon shrink-0 mt-0.5">
-           🛡️
-          </div>
+          <div class="emoji-icon shrink-0 mt-0.5">🛡️</div>
           <div class="pr-5">
            <h4 data-template-id="app-eskalasi-kredit-title" class="canva-text font-bold text-[13px] group-hover:text-indigo-600 transition-colors leading-tight" style="color: rgb(30, 41, 59); font-weight: 700; font-style: normal; font-size: 15px;">Pantau Kredit</h4>
            <p data-template-id="app-eskalasi-kredit-desc" class="canva-text text-[10px] mt-1 line-clamp-2 leading-relaxed" style="color: rgb(100, 116, 139); font-weight: 400; font-style: normal; font-size: 15px;">Pemantauan dan eskalasi debitur bermasalah.</p>
           </div>
-         </div></a> <a href="https://kopkarakm.github.io/Pusat-Kendali-Arus-Kas/" target="_blank" rel="noopener noreferrer" id="app-arus-kas" class="app-card relative block bg-white rounded-xl p-3.5 border border-slate-200 group" data-search="ringkasan eksekutif visibilitas arus kas koperasi digital pusat kendali cashflow keuangan uang saldo"> <button class="fav-btn absolute top-2.5 right-2.5 z-10 text-slate-300 hover:text-amber-400 transition-colors" onclick="toggleFavorite(event, 'app-arus-kas')"><i class="ph-fill ph-star text-lg"></i></button>
+         </div></a>
+         
+         <a href="https://kopkarakm.github.io/Pusat-Kendali-Arus-Kas/" target="_blank" rel="noopener noreferrer" id="app-arus-kas" class="app-card relative block bg-white rounded-xl p-3.5 border border-slate-200 group" data-search="ringkasan eksekutif visibilitas arus kas koperasi digital pusat kendali cashflow keuangan uang saldo"> <button class="fav-btn absolute top-2.5 right-2.5 z-10 text-slate-300 hover:text-amber-400 transition-colors" onclick="toggleFavorite(event, 'app-arus-kas')"><i class="ph-fill ph-star text-lg"></i></button>
          <div class="flex items-start gap-3">
-          <div class="emoji-icon shrink-0 mt-0.5">
-           📈
-          </div>
+          <div class="emoji-icon shrink-0 mt-0.5">📈</div>
           <div class="pr-5">
            <h4 data-template-id="app-arus-kas-title" class="canva-text font-bold text-[13px] group-hover:text-indigo-600 transition-colors leading-tight" style="color: rgb(30, 41, 59); font-weight: 700; font-style: normal; font-size: 15px;">Visibilitas Arus Kas</h4>
            <p data-template-id="app-arus-kas-desc" class="canva-text text-[10px] mt-1 line-clamp-2 leading-relaxed" style="color: rgb(100, 116, 139); font-weight: 400; font-style: normal; font-size: 15px;">Ringkasan eksekutif kendali arus kas koperasi.</p>
@@ -422,6 +418,29 @@
     </div>
    </div>
   </div>
+
+  <!-- MODAL IFRAME APLIKASI -->
+  <div id="iframe-modal" class="fixed inset-0 z-[200] bg-slate-50 flex flex-col transition-transform duration-300 translate-y-full hidden">
+   <div class="h-14 lg:h-16 bg-white border-b border-slate-200 flex items-center px-4 justify-between shrink-0 shadow-sm">
+    <div class="flex items-center gap-3">
+     <button onclick="closeAppIframe()" class="w-8 h-8 lg:w-10 lg:h-10 flex items-center justify-center bg-slate-100 text-slate-600 rounded-full hover:bg-slate-200 transition-colors">
+      <i class="ph-bold ph-arrow-left text-lg"></i>
+     </button>
+     <h2 id="iframe-title" class="font-bold text-slate-800 text-sm lg:text-base">Aplikasi</h2>
+    </div>
+    <a id="iframe-external-link" href="#" target="_blank" class="text-[10px] lg:text-xs font-bold text-indigo-600 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-colors">
+     Buka di Tab Baru <i class="ph-bold ph-arrow-square-out text-sm"></i>
+    </a>
+   </div>
+   <div class="flex-1 w-full relative bg-slate-100">
+    <div id="iframe-loader" class="absolute inset-0 flex flex-col items-center justify-center bg-white z-10">
+     <i class="ph ph-spinner animate-spin text-3xl text-indigo-600 mb-2"></i>
+     <p class="text-xs text-slate-500 font-medium mt-2">Memuat aplikasi...</p>
+    </div>
+    <iframe id="app-iframe" class="w-full h-full border-0 absolute inset-0 z-20" src="" onload="document.getElementById('iframe-loader').style.display='none'"></iframe>
+   </div>
+  </div>
+
   <script>
     window.pendingOpnameData = [];
 
@@ -463,7 +482,7 @@
         const matches = apps.filter(app => app.searchTags.includes(searchTerm) || app.title.toLowerCase().includes(searchTerm) || app.desc.toLowerCase().includes(searchTerm));
         if (matches.length === 0) { container.innerHTML = `<div class="p-4 text-center text-sm text-slate-400">Tidak ditemukan</div>`; container.classList.remove('hidden'); return; }
         let html = '<div class="py-1" id="search-suggestions">';
-        matches.forEach(app => { html += `<a href="${app.href}" target="_blank" rel="noopener noreferrer" class="suggestion-item flex items-center gap-3 px-4 py-2.5 border-b border-slate-50 last:border-0 transition-colors"><span class="text-xl shrink-0">${app.emojiHTML.match(/>([^<]+)</)?.[1] || '📱'}</span><div class="flex-1 min-w-0"><h4 class="font-bold text-slate-800 text-xs truncate">${app.title}</h4><p class="text-[10px] text-slate-500 truncate">${app.desc}</p></div><i class="ph-bold ph-arrow-right text-slate-300 text-xs"></i></a>`; });
+        matches.forEach(app => { html += `<a href="${app.href}" onclick="window.openApp(event, '${app.href}', '${app.title}')" rel="noopener noreferrer" class="suggestion-item flex items-center gap-3 px-4 py-2.5 border-b border-slate-50 last:border-0 transition-colors"><span class="text-xl shrink-0">${app.emojiHTML.match(/>([^<]+)</)?.[1] || '📱'}</span><div class="flex-1 min-w-0"><h4 class="font-bold text-slate-800 text-xs truncate">${app.title}</h4><p class="text-[10px] text-slate-500 truncate">${app.desc}</p></div><i class="ph-bold ph-arrow-right text-slate-300 text-xs"></i></a>`; });
         html += '</div>';
         container.innerHTML = html;
         container.classList.remove('hidden');
@@ -660,6 +679,30 @@
         cols.forEach(col => { const columnEl = document.getElementById(`col-${col}`); const tabEl = document.getElementById(`tab-${col}`); if (!columnEl || !tabEl) return; if (col === tabName) { columnEl.classList.remove('hidden'); columnEl.classList.add('flex'); tabEl.className = `flex-1 py-2.5 text-[11px] font-bold border-b-2 transition-colors flex items-center justify-center gap-1.5 ${styles[col].active}`; } else { columnEl.classList.add('hidden'); columnEl.classList.remove('flex'); tabEl.className = `flex-1 py-2.5 text-[11px] font-bold border-b-2 transition-colors flex items-center justify-center gap-1.5 ${styles[col].inactive}`; } });
     };
 
+    window.openApp = function(e, url, title) {
+        if(e) e.preventDefault();
+        const modal = document.getElementById('iframe-modal');
+        const iframe = document.getElementById('app-iframe');
+        const titleEl = document.getElementById('iframe-title');
+        const loader = document.getElementById('iframe-loader');
+        const extLink = document.getElementById('iframe-external-link');
+
+        titleEl.textContent = title;
+        extLink.href = url;
+        loader.style.display = 'flex';
+        iframe.src = url;
+
+        modal.classList.remove('hidden');
+        setTimeout(() => { modal.classList.remove('translate-y-full'); }, 10);
+    };
+
+    window.closeAppIframe = function() {
+        const modal = document.getElementById('iframe-modal');
+        const iframe = document.getElementById('app-iframe');
+        modal.classList.add('translate-y-full');
+        setTimeout(() => { modal.classList.add('hidden'); iframe.src = ''; }, 300);
+    };
+
     window.forceSync = () => fetchDashboardData();
 
     window.addEventListener('DOMContentLoaded', () => {
@@ -667,6 +710,18 @@
         fetchDashboardData();
         fetchPendingTasks();
         fetchAdamartSales();
+        
+        // Pasang event listener ke semua kartu aplikasi agar terbuka di iframe internal
+        document.querySelectorAll('.app-card').forEach(card => {
+            card.addEventListener('click', (e) => {
+                if (e.target.closest('.fav-btn')) return;
+                e.preventDefault();
+                const title = card.querySelector('h4').textContent;
+                const url = card.getAttribute('href');
+                window.openApp(e, url, title);
+            });
+        });
+
         setInterval(() => { fetchDashboardData(); fetchPendingTasks(); fetchAdamartSales(); }, 300000);
     });
 </script>
