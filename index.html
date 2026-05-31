@@ -28,11 +28,12 @@
         #search-suggestions { max-height: 280px; overflow-y: auto; }
         .suggestion-item:hover { background-color: #f1f5f9; }
         .glass-card { background: rgba(255,255,255,0.85); backdrop-filter: blur(12px); border: 1px solid rgba(226,232,240,0.8); }
+        .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
     </style>
   <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js" type="text/javascript"></script>
  </head>
  <body data-template-id="__page-root" class="text-slate-800 antialiased flex flex-col overflow-hidden" style="height: calc(100 * min(var(--vh, 1vh), 1vh)); background: linear-gradient(145deg, rgb(248, 250, 252), rgb(238, 242, 255));">
-  <header class="shrink-0 z-40 w-full bg-white/90 backdrop-blur-xl border-b border-slate-200/80 shadow-sm">
+  <header class="shrink-0 z-40 w-full bg-white/90 backdrop-blur-xl border-b border-slate-200/80 shadow-sm relative">
    <div class="max-w-[1920px] mx-auto px-4 lg:px-10">
     <div class="flex items-center justify-between h-14 lg:h-16">
      <div class="flex items-center gap-3 shrink-0"><img data-template-id="header-logo" class="canva-image h-9 lg:h-11 w-auto object-contain" src="https://i.ibb.co.com/WvTwLMn5/image-1.png" alt="Logo Kopkar AKM">
@@ -67,9 +68,11 @@
     </div>
    </div>
   </header>
-  <main class="flex-1 w-full max-w-[1920px] mx-auto px-4 lg:px-10 py-4 lg:py-5 overflow-hidden flex flex-col">
-   <div class="flex-1 flex flex-col lg:flex-row gap-4 lg:gap-6 overflow-y-auto lg:overflow-hidden custom-scroll pb-6 lg:pb-0">
-    <div class="w-full lg:w-[360px] xl:w-[400px] flex flex-col gap-4 shrink-0 lg:overflow-y-auto custom-scroll lg:pr-2">
+
+  <main class="flex-1 w-full max-w-[1920px] mx-auto px-4 lg:px-10 py-4 lg:py-5 overflow-hidden flex flex-col relative">
+   <div id="scroll-container" class="flex-1 flex flex-col lg:flex-row gap-4 lg:gap-6 overflow-y-auto lg:overflow-hidden custom-scroll pb-24 lg:pb-0 scroll-smooth">
+    
+    <div id="panel-home" class="w-full lg:w-[360px] xl:w-[400px] flex flex-col gap-4 shrink-0 lg:overflow-y-auto custom-scroll lg:pr-2">
      <div data-template-id="welcome-banner" class="canva-banner rounded-2xl p-5 lg:p-6 shadow-md relative overflow-hidden" style="background: linear-gradient(135deg, rgb(79, 70, 229), rgb(124, 58, 237));">
       <div class="absolute top-0 right-0 w-32 h-32 rounded-full bg-white/15 blur-2xl -mt-8 -mr-8 pointer-events-none"></div>
       <div class="absolute bottom-0 left-0 w-24 h-24 rounded-full bg-yellow-300/20 blur-xl -mb-6 -ml-6 pointer-events-none"></div>
@@ -77,8 +80,6 @@
        <div class="inline-flex items-center gap-1.5 bg-white/20 backdrop-blur-sm px-3 py-1 rounded-lg text-[11px] tracking-wider uppercase mb-3 font-bold border border-white/25"><span class="text-lg">🏢</span> <span data-template-id="welcome-badge" class="canva-text" style="color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 15px;">Sentra Kopkar AKM</span>
        </div>
        <h2 data-template-id="welcome-title" class="canva-text text-2xl lg:text-3xl font-black mb-1.5 tracking-tight leading-tight" style="color: rgb(255, 255, 255); font-weight: 900; font-style: normal; font-size: 28px;">Pusat Kendali Layanan</h2>
-       
-       <!-- PENAMBAHAN INFO SINGKATAN SENTRA -->
        <div class="inline-block bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-lg text-[9px] sm:text-[10px] tracking-wider uppercase mb-2 mt-1 shadow-sm border border-indigo-100">
            <span class="font-black text-rose-500">S</span>ISTEM 
            <span class="font-black text-rose-500">E</span>-PORTAL & 
@@ -86,7 +87,6 @@
            <span class="font-black text-rose-500">T</span>ERPADU KOPKA<span class="font-black text-rose-500">R</span> 
            <span class="font-black text-rose-500">A</span>KM
        </div>
-       
        <p data-template-id="welcome-desc" class="canva-text text-sm leading-relaxed opacity-90 mt-1" style="color: rgb(224, 231, 255); font-weight: 400; font-style: normal; font-size: 14px;">Sistem informasi terpadu anggota dan pengelola Koperasi Karyawan.</p>
       </div>
      </div>
@@ -152,11 +152,12 @@
      <div class="text-center lg:text-left text-[10px] text-slate-400 font-medium px-2 mt-auto pt-3 pb-2"><span data-template-id="footer-copyright" class="canva-text" style="color: rgb(148, 163, 184); font-weight: 400; font-style: normal; font-size: 15px;">© 2025 Kopkar Adaro Karya Mandiri. Sistem internal terenkripsi.</span>
      </div>
     </div>
+    
     <div class="flex-1 flex flex-col bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden shrink-0 lg:shrink lg:h-full">
      <div class="px-5 lg:px-7 py-3.5 border-b border-slate-100 bg-gradient-to-r from-indigo-50/50 to-white shrink-0 flex justify-between items-center">
       <h2 class="font-bold text-slate-800 text-sm lg:text-base uppercase tracking-wider flex items-center gap-2"><span class="text-lg">📱</span> <span data-template-id="directory-title" class="canva-text" style="color: rgb(30, 41, 59); font-weight: 700; font-style: normal; font-size: 15px;">Direktori Aplikasi</span></h2>
      </div>
-     <div class="flex-1 overflow-y-auto custom-scroll p-4 lg:p-6" id="app-sections">
+     <div class="flex-1 overflow-y-auto custom-scroll p-4 lg:p-6 scroll-smooth" id="app-sections">
       <div id="no-results-msg" class="hidden py-12 text-center">
        <div class="text-4xl mb-3">
         🔍
@@ -170,11 +171,13 @@
        </div>
        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-3" id="favorites-container"></div>
       </section>
-      <section class="app-category mb-8" data-category="admin">
+      
+      <section id="section-admin" class="app-category mb-8" data-category="admin">
        <div class="flex items-center gap-2 mb-3 border-b border-slate-100 pb-2.5"><span class="text-lg">💼</span>
         <h3 data-template-id="cat-admin-title" class="canva-text text-sm font-bold text-slate-700" style="color: rgb(30, 41, 59); font-weight: 700; font-style: normal; font-size: 18px;">Admin &amp; Karyawan</h3>
        </div>
-       <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-3"><a href="https://www.appsheet.com/start/147f850b-a296-4326-a409-dc463c9c4b52#table=Presensi%20Masuk&amp;page=form" target="_blank" rel="noopener noreferrer" id="app-absen" class="app-card relative block bg-white rounded-xl p-3.5 border border-slate-200 group" data-search="absensi kehadiran presensi masuk pulang scan barcode harian"> <button class="fav-btn absolute top-2.5 right-2.5 z-10 text-slate-300 hover:text-amber-400 transition-colors" onclick="toggleFavorite(event, 'app-absen')"><i class="ph-fill ph-star text-lg"></i></button>
+       <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-3">
+         <a href="https://www.appsheet.com/start/147f850b-a296-4326-a409-dc463c9c4b52#table=Presensi%20Masuk&amp;page=form" target="_blank" rel="noopener noreferrer" id="app-absen" class="app-card relative block bg-white rounded-xl p-3.5 border border-slate-200 group" data-search="absensi kehadiran presensi masuk pulang scan barcode harian"> <button class="fav-btn absolute top-2.5 right-2.5 z-10 text-slate-300 hover:text-amber-400 transition-colors" onclick="toggleFavorite(event, 'app-absen')"><i class="ph-fill ph-star text-lg"></i></button>
          <div class="flex items-start gap-3">
           <div class="emoji-icon shrink-0 mt-0.5">
            📷
@@ -249,7 +252,8 @@
          </div></a>
        </div>
       </section>
-      <section class="app-category" data-category="bisnis">
+      
+      <section id="section-bisnis" class="app-category" data-category="bisnis">
        <div class="flex items-center gap-2 mb-3 border-b border-slate-100 pb-2.5"><span class="text-lg">💰</span>
         <h3 data-template-id="cat-bisnis-title" class="canva-text text-sm font-bold text-slate-700" style="color: rgb(30, 41, 59); font-weight: 700; font-style: normal; font-size: 18px;">Keuangan &amp; Bisnis</h3>
        </div>
@@ -341,6 +345,28 @@
     </div>
    </div>
   </main>
+
+  <nav class="lg:hidden fixed bottom-0 left-0 w-full bg-white/95 backdrop-blur-xl border-t border-slate-200 z-50 pb-safe shadow-[0_-4px_20px_-10px_rgba(0,0,0,0.1)]">
+      <div class="flex justify-around items-center h-16 px-2">
+          <a href="#panel-home" onclick="scrollToSection(event, 'panel-home')" class="mobile-tab-btn flex flex-col items-center justify-center w-full h-full text-indigo-600 transition-colors">
+              <i class="ph-fill ph-house text-2xl mb-0.5"></i>
+              <span class="text-[10px] font-bold">Beranda</span>
+          </a>
+          <a href="#favorites-section" onclick="scrollToSection(event, 'favorites-section')" class="mobile-tab-btn flex flex-col items-center justify-center w-full h-full text-slate-400 hover:text-indigo-500 transition-colors">
+              <i class="ph-fill ph-star text-2xl mb-0.5"></i>
+              <span class="text-[10px] font-bold">Favorit</span>
+          </a>
+          <a href="#section-admin" onclick="scrollToSection(event, 'section-admin')" class="mobile-tab-btn flex flex-col items-center justify-center w-full h-full text-slate-400 hover:text-indigo-500 transition-colors">
+              <i class="ph-fill ph-briefcase text-2xl mb-0.5"></i>
+              <span class="text-[10px] font-bold">Admin</span>
+          </a>
+          <a href="#section-bisnis" onclick="scrollToSection(event, 'section-bisnis')" class="mobile-tab-btn flex flex-col items-center justify-center w-full h-full text-slate-400 hover:text-indigo-500 transition-colors">
+              <i class="ph-fill ph-storefront text-2xl mb-0.5"></i>
+              <span class="text-[10px] font-bold">Bisnis</span>
+          </a>
+      </div>
+  </nav>
+
   <div id="modal-kehadiran" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[100] hidden flex flex-col items-center justify-center p-4 opacity-0 transition-opacity duration-300">
    <div class="bg-white w-full max-w-5xl h-[85vh] rounded-2xl shadow-2xl flex flex-col overflow-hidden scale-95 transition-transform duration-300 border border-slate-200" id="modal-content">
     <div class="px-5 py-3.5 border-b border-slate-200 bg-gradient-to-r from-indigo-50 to-white flex flex-wrap gap-3 justify-between items-center shrink-0">
@@ -499,6 +525,22 @@
         if(favSection) favSection.style.display = 'block';
         favs.forEach(id => { const originalCard = document.getElementById(id); if (originalCard && favContainer) { const clone = originalCard.cloneNode(true); clone.id = id + '-clone'; favContainer.appendChild(clone); } });
     }
+
+    window.scrollToSection = function(e, sectionId) {
+        e.preventDefault();
+        const section = document.getElementById(sectionId);
+        
+        document.querySelectorAll('.mobile-tab-btn').forEach(btn => {
+            btn.classList.remove('text-indigo-600');
+            btn.classList.add('text-slate-400');
+        });
+        e.currentTarget.classList.remove('text-slate-400');
+        e.currentTarget.classList.add('text-indigo-600');
+
+        if(section) {
+            section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    };
 
     const API_CUTI = 'https://script.google.com/macros/s/AKfycbzDZQPf1U3Nfdccrc2ckxIrKe3A0NXQ9Xkxj0lFBYcDvf7Npy-8qfJkXHY9VFvoNjUj/exec';
     const API_KAS_KECIL = 'https://script.google.com/macros/s/AKfycbwfP26-S4E0R4IsvKhx4CfFcHBvNFevVsTR0pwbuoey2IluMStp97MioxFawwdzxJueNw/exec';
