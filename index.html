@@ -220,7 +220,7 @@
           <div class="emoji-icon shrink-0 mt-0.5">📷</div>
           <div class="pr-5">
            <h4 data-template-id="app-absen-title" class="canva-text font-bold text-[13px] group-hover:text-indigo-600 transition-colors leading-tight" style="color: rgb(30, 41, 59); font-weight: 700; font-style: normal; font-size: 15px;">Absensi Karyawan</h4>
-           <p data-template-id="app-absen-desc" class="canva-text text-[10px] mt-1 line-clamp-2 leading-relaxed" style="color: rgb(100, 116, 139); font-weight: 400; font-style: normal; font-size: 15px;">Presensi digital harian dengan verifikasi lokasi/foto.</p>
+           <p data-template-id="app-absen-title" class="canva-text text-[10px] mt-1 line-clamp-2 leading-relaxed" style="color: rgb(100, 116, 139); font-weight: 400; font-style: normal; font-size: 15px;">Presensi digital harian dengan verifikasi lokasi/foto.</p>
           </div>
          </div></a>
          
@@ -614,7 +614,11 @@
         const elAmount = document.getElementById('adamart-sales-amount');
         const elDetail = document.getElementById('adamart-sales-detail');
         if(!elAmount || !elDetail) return;
-        const GAS_URL = 'https://script.google.com/macros/s/AKfycbwoW8zffXN_A1Z3y5SiVknDSO62s5ZBnYu7WQpu00ak-kDeH5PPsZZAg_-vXHGlknjR/exec';
+        
+        // Tambahkan parameter waktu (cache-buster) agar browser selalu menarik data asli detik ini
+        const timestamp = new Date().getTime();
+        const GAS_URL = 'https://script.google.com/macros/s/AKfycbwoW8zffXN_A1Z3y5SiVknDSO62s5ZBnYu7WQpu00ak-kDeH5PPsZZAg_-vXHGlknjR/exec?nocache=' + timestamp;
+        
         try {
             const res = await fetch(GAS_URL).then(r => r.json());
             if(res.result === 'success' && res.data && res.data.length > 1) {
@@ -622,7 +626,37 @@
                 const tzOffset = (new Date()).getTimezoneOffset() * 60000;
                 const hariIni = (new Date(Date.now() - tzOffset)).toISOString().split('T')[0];
                 let locBreakdown = {};
-                for(let i = 1; i < res.data.length; i++) { const row = res.data[i]; let tglRow = String(row[0]); if (tglRow.includes('T')) tglRow = tglRow.split('T')[0]; const nominal = Number(row[3]) || 0; const lokasi = String(row[4] || 'Kasir Pusat').trim(); if(tglRow.includes(hariIni) || new Date(row[0]).toDateString() === new Date().toDateString()) { totalHariIni += nominal; if(!locBreakdown[lokasi]) locBreakdown[lokasi] = 0; locBreakdown[lokasi] += nominal; } }
+                for(let i = 1; i < res.data.length; i++) { 
+                    const row = res.data[i]; 
+                    const nominal = Number(row[3]) || 0; 
+                    const lokasi = String(row[4] || 'Kasir Pusat').trim(); 
+                    
+                    let isToday = false;
+                    
+                    // PERBAIKAN: Gunakan Timestamp di ID Transaksi (row[2]) untuk menghindari bug UTC tanggal
+                    if (row[2] && String(row[2]).startsWith('TRX-')) {
+                        const ts = parseInt(String(row[2]).replace('TRX-', ''));
+                        if (!isNaN(ts)) {
+                            const txDate = new Date(ts);
+                            if (txDate.toDateString() === new Date().toDateString()) isToday = true;
+                        }
+                    }
+                    
+                    // Fallback ke string jika format ID berubah
+                    if (!isToday) {
+                        let tglRow = String(row[0]); 
+                        if (tglRow.includes('T')) tglRow = tglRow.split('T')[0]; 
+                        if(tglRow.includes(hariIni) || new Date(row[0]).toDateString() === new Date().toDateString()) {
+                            isToday = true;
+                        }
+                    }
+
+                    if(isToday) { 
+                        totalHariIni += nominal; 
+                        if(!locBreakdown[lokasi]) locBreakdown[lokasi] = 0; 
+                        locBreakdown[lokasi] += nominal; 
+                    } 
+                }
                 elAmount.innerText = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(totalHariIni);
                 elAmount.classList.replace('text-slate-400', 'text-emerald-600');
                 if(Object.keys(locBreakdown).length > 0) { let detailHTML = ''; Object.entries(locBreakdown).forEach(([loc, val]) => { const valFormatted = new Intl.NumberFormat('id-ID', { notation: "compact", compactDisplay: "short" }).format(val); detailHTML += `<span class="inline-block bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-lg border border-emerald-100 text-[10px] font-semibold">${loc}: ${valFormatted}</span>`; }); elDetail.innerHTML = detailHTML; } else { elDetail.innerHTML = '<span class="text-slate-400">Belum ada penjualan hari ini</span>'; }
